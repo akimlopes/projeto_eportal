@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="assets/css/csslogin.css">
+  </head>
+  <body>
+    <main>
+      <div class="box">
+        <div class="inner-box">
+          <div class="forms-wrap">
+            <form action="" id="loginForm" autocomplete="off" class="sign-in-form">
+              <div class="logo">
+                <img src="assets/imgs/eportal.png" alt="easyclass" />
+                <h4> Portal</h4>
+              </div>
+
+              <div class="heading">
+                <h2>Bem Vindo a Etec de Poá</h2>
+                <h6>Não está registrado?</h6>
+                <a href="#" class="toggle">Registre-se</a>
+              </div>
+
+              <!-- Formulario de Login -->
+
+              <div class="actual-form">
+                <div class="input-wrap">
+                  <input type="text" maxlength="5" class="input-field" id="RM" autocomplete="off" required />
+                  <label>RM</label>
+                </div>
+
+                <div class="input-wrap">
+                  <input  type="password" minlength="8"  class="input-field" id="senha"  autocomplete="off" required />
+                  <label>Senha</label>
+                </div>
+
+                <input type="submit" value="Logar" class="sign-btn" />
+
+                <p class="text">
+                  Esqueceu seu dados de Login?
+                  <a href="#">Clique Aqui</a> 
+                </p>
+              </div>
+            </form>
+
+            <!-- Formulario de Registro -->
+
+            <form action="index.html" autocomplete="off" class="sign-up-form">
+              <div class="logo">
+                <img src="assets/imgs/eportal.png" alt="easyclass" />
+                <h4>Portal</h4>
+              </div>
+
+              <div class="heading">
+                <h2>É bem Rapido!</h2>
+                <h6>Já está registrado?</h6>
+                <a href="#" class="toggle">Conecte-se</a>
+              </div>
+
+              <div class="actual-form">
+                <div class="input-wrap">
+                  <input
+                    type="text"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>RN</label>
+                </div>
+
+                <div class="input-wrap">
+                  <input
+                    type="email"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Email</label>
+                </div>
+
+                <div class="input-wrap">
+                  <input
+                    type="password"
+                    minlength="4"
+                    class="input-field"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Senha</label>
+                </div>
+
+                <input type="submit" value="Logar" class="sign-btn" />
+
+                
+              </div>
+            </form>
+          </div>
+
+          <div class="carousel">
+            <div class="images-wrapper">
+              <img src="assets/imgs/imagem_tempo.png" class="image img-1 show" alt="" />
+              <img src="assets/imgs/imagem_comunicacao.png" class="image img-2" alt="" />
+              <img src="assets/imgs/organizacao.png" class="image img-3" alt="" />
+            </div>
+
+            <div class="text-slider">
+              <div class="text-wrap">
+                <div class="text-group">
+                  <h2>Para agilizar seu dia</h2>
+                  <h2>Melhorar a comunicação</h2>
+                  <h2>E Organizar sua rotina!</h2>
+                </div>
+              </div>
+
+              <div class="bullets">
+                <span class="active" data-value="1"></span>
+                <span data-value="2"></span>
+                <span data-value="3"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Arquivo Javascript -->
+
+    <script src="assets/javascript/app.js"></script>
+  </body>
+</html>
