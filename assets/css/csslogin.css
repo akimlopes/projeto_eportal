@@ -138,7 +138,7 @@ form.sign-up-form {
 label {
   position: absolute;
   left: 0;
-  top: 50%;
+  top: 70%;
   transform: translateY(-50%);
   font-size: 0.95rem;
   color: #bbb;
@@ -152,7 +152,7 @@ label {
 
 .input-field.active + label {
   font-size: 0.75rem;
-  top: -2px;
+  top: -8px;
 }
 
 .sign-btn {

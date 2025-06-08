@@ -20,9 +20,7 @@ toggle_btn.forEach((btn) => {
   });
 });
 
-function moveSlider() {
-  let index = this.dataset.value;
-
+function moveSlider(index) {
   let currentImage = document.querySelector(`.img-${index}`);
   images.forEach((img) => img.classList.remove("show"));
   currentImage.classList.add("show");
@@ -31,13 +29,24 @@ function moveSlider() {
   textSlider.style.transform = `translateY(${-(index - 1) * 2.2}rem)`;
 
   bullets.forEach((bull) => bull.classList.remove("active"));
-  this.classList.add("active");
+  bullets[index - 1].classList.add("active");
 }
 
-bullets.forEach((bullet) => {
-  bullet.addEventListener("click", moveSlider);
+bullets.forEach((bullet, index) => {
+  bullet.addEventListener("click", function () {
+    moveSlider(index + 1);
+  });
 });
 
+// Automatizar o slider
+let currentIndex = 1;
+const maxIndex = bullets.length;
+
+setInterval(() => {
+  currentIndex++;
+  if (currentIndex > maxIndex) currentIndex = 1;
+  moveSlider(currentIndex);
+}, 2500); // Troca a cada 4 segundos
 //Validar login
       document.getElementById('loginForm').addEventListener('submit', function(event) {
       event.preventDefault(); // Impede envio do formulário
