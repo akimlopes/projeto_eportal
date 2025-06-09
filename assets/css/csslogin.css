@@ -17,7 +17,7 @@ main {
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  background-color: rgb(178, 0, 0);
+  background-image: linear-gradient(to bottom right, #e5ebf7, #d3d3e3);
   padding: 2rem;
   display: flex;
   align-items: center;
@@ -159,7 +159,7 @@ label {
   display: inline-block;
   width: 100%;
   height: 43px;
-  background-color: #151111;
+  background-color: rgb(167, 21, 21);
   color: #fff;
   border: none;
   cursor: pointer;
@@ -211,7 +211,7 @@ main.sign-up-mode .carousel {
   width: 55%;
   left: 45%;
   top: 0;
-  background-color: #708090;
+  background-color: rgb(167, 21, 21);
   border-radius: 2rem;
   display: grid;
   grid-template-rows: auto 1fr;
@@ -273,6 +273,7 @@ main.sign-up-mode .carousel {
 }
 
 .text-group h2 {
+  color: #fff;
   line-height: 2.2rem;
   font-weight: 600;
   font-size: 1.6rem;
@@ -297,7 +298,7 @@ main.sign-up-mode .carousel {
 
 .bullets span.active {
   width: 1.1rem;
-  background-color: #151111;
+  background-color: #ffffff;
   border-radius: 1rem;
 }
 
@@ -390,4 +391,9 @@ main.sign-up-mode .carousel {
   form {
     padding: 1rem 2rem 1.5rem;
   }
+}
+
+.heading span {
+margin-left: 30%;
+color: RGB(178, 0, 0);
 }
