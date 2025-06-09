@@ -57,7 +57,7 @@ setInterval(() => {
  // Verificação
       if ((RM === 'admin' && senha === '12345678') || (RM === 'user' && senha === '12345678')) {
 // Redirecionar
-        window.location.href = 'index.html';
+        window.location.href = 'home.html';
       } else {
         alert('Usuário ou senha incorretos!');
       }
