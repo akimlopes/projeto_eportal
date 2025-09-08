@@ -223,7 +223,6 @@ nav {
 
 .location {
   position: absolute;
-  
   bottom: 1rem;
   padding: 1rem 2rem 1rem 1rem;
   border-radius: 1rem;
@@ -367,6 +366,7 @@ nav {
   }
 }
 .etec {
+
   color: rgb(167, 21, 21);
 }
 .universal {
