@@ -3,6 +3,7 @@
       height: 25px;
     }
     .sidebar {
+      margin-right: 20px;
       width: 60px;
       background-color: #B30000;
       display: flex;
