@@ -1,83 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="assets/css/home.css" />
-    <title>E-Portal</title>
-  </head>
-  <body>
-    <nav>
-      <div class="nav__header">
-        <div class="nav__logo">
-          <div class="logo">
-                <img src="assets/imgs/eportal.png" alt="" />
-                <h4> Portal</h4>
-              </div>
-        </div>
-        <div class="nav__menu__btn" id="menu-btn">
-          <i class="ri-menu-line"></i>
-        </div>
-      </div>
-      <ul class="nav__links" id="nav-links">
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Sobre a <span class="etec">  ETEC </span> </a></li>
-        <li><a href="#">Cursos</a></li>
-        <li><a href="#">Avisos</a></li>
-      </ul>
-      <div class="nav__btns">
-        <button class="btn"><i class="ri-search-line"></i></button>
-        jhbsdhjbvgjhdsjhg
-      </div>
-    </nav>
-    <div class="universal">
-    <div class="container">
-      <div class="container__left">
-        <h1>Conheça a <span class="etec"> ETEC </span> </h1>
-        <a href="http://www.cps.sp.gov.br/etecs/etec-de-poa/">
-        <div class="container__btn">
-          <button class="btn">Site CPS</button>
-        </div>
-        </a>
-      </div>
-      <div class="container__right">
-        <div class="images">
-          <img src="assets/imgs/ETEC_POA.jpg" alt="tent-1" class="tent-1" />
-          <img src="assets/imgs/etecpalestra.jpg" alt="tent-2" class="tent-2" />
-        </div>
-        <div class="content">
-          <h4>Poá | SP </h4>
-          <h2> <span class="etec" style= "font-size:35px"> ETEC </span> de Poá</h2>
-          <h3>Escola Técnica </h3>
-          <p>
-           Localizada na Zona Leste de São paulo, a <span class="etec"> ETEC </span> de Poá é exemplo na formação de grandes alunos e profissionais.
-           Contando com diversos Cursos técnicos e projetos extracurriculares
-           
-          </p>
-        </div>
-      </div>
-       <a href="https://maps.app.goo.gl/uNq7Nw7agTtnmQNs7">
-      <div class="location">
-        <span><i class="ri-map-pin-2-fill"></i></span>
-        Nossa Localização 
-      </div>
-      </a>
-      <div class="socials">
-        <span>
-          <a href="https://www.facebook.com/etecdepoa/?locale=pt_BR"><i class="ri-facebook-fill"></i></a>
-        </span>
-        <span>
-          <a href="https://www.instagram.com/etecpoa/"><i class="ri-instagram-line"></i></a>
-        </span>
-      </div>
-    </div>
-    </div>
+<html lang="pt-br">
+<head>
+  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/sidebar.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Portal - Home</title>
+</head>
+<body>
+  
+  <!-- Navbar lateral -->
+  <div class="sidebar" id="sidebar">
+    <div class="icon" id="menu-btn">☰ <span>Menu</span></div>
+    <div class="icon"><img src="assets/imgs/home_icon.png" alt=""><span>Início</span></div>
+    <div class="icon"><img src="assets/imgs/projeto_icon.png" alt=""><span>Projetos</span></div>
+    <div class="icon"><img src="assets/imgs/curso_icon.png" alt=""> <span>Projetos</span></div>
+  </div>
 
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <script src="assets/javascript/home.js"></script>
-  </body>
+  <!-- Feed principal -->
+  <div class="feed">
+    <div class="post">
+      <div class="post-header">
+        <div class="profile-pic"></div>
+        <div class="username">Usuário 1</div>
+      </div>
+      <div class="post-content"></div>
+    </div>
+  </div>
+
+  <!-- Sidebar direita -->
+  <div class="rightbar">
+    <div class="profile-icon" id="profile-btn"></div>
+
+    <!-- Menu de perfil -->
+    <div class="profile-menu" id="profile-menu">
+      <a href="#">Meu Perfil</a>
+      <a href="#">Configurações</a>
+      <a href="#">Sair</a>
+    </div>
+  </div>
+
+  <!-- Botão flutuante -->
+  <div class="fab"></div>
+
+  <script src="assets/javascript/home.js">
+  </script>
+  <script src="assets/javascript/sidebar.js"></script>
+
+</body>
 </html>
