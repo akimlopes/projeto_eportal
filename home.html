@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="assets/css/home.css">
   <link rel="stylesheet" href="assets/css/sidebar.css">
   <meta charset="UTF-8">
@@ -9,14 +10,88 @@
 </head>
 <body>
   
-  <!-- Navbar lateral -->
-  <div class="sidebar" id="sidebar">
-    <div class="icon" id="menu-btn">☰ <span>Menu</span></div>
-    <div class="icon"><img src="assets/imgs/home_icon.png" alt=""><span>Início</span></div>
-    <div class="icon"><img src="assets/imgs/projeto_icon.png" alt=""><span>Projetos</span></div>
-    <div class="icon"><img src="assets/imgs/curso_icon.png" alt=""> <span>Projetos</span></div>
-  </div>
+  <!-- Botão flutuante (mobile) para ABRIR -->
+    <button id="btnOpen" class="btn-open" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <div class="overlay" id="overlay" aria-hidden="true"></div>
 
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar" aria-label="Barra lateral">
+        <div class="sb-header">
+            <div class="logo" aria-hidden="true"><i>E</i></div>
+            <div class="brand">-PORTAL</div>
+
+            <!-- apenas o botão de Colapsar/Expandir -->
+            <div class="sb-actions" aria-hidden="false">
+                <button id="btnCollapse" class="btn" title="Colapsar/Expandir" aria-label="Colapsar/Expandir"
+                    aria-expanded="true"><i class='bx  bx-menu-wider'></i> </button>
+            </div>
+        </div>
+
+        <nav id="nav">
+            <ul class="menu">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="icon"><i class='bx  bx-education'  ></i></span>
+                        <span class="label">Início</span>
+                    </a>
+                </li>
+
+                <li class="nav-item has-sub" tabindex="0">
+                    <a class="nav-link" href="javascript:void(0);">
+                        <span class="icon"><i class='bx  bx-education'  ></i></span>
+                        <span class="label">Projetos</span>
+                        <span class="chev">▶</span>
+                    </a>
+                    <div class="submenu" role="menu" aria-label="Projetos">
+                        <a href="#" role="menuitem">Projeto 1</a>
+                        <a href="#" role="menuitem">Projeto 2</a>
+                        <a href="#" role="menuitem">Projeto 3</a>
+                        <a href="#" role="menuitem">Projeto 4</a>
+                        <a href="#" role="menuitem">Projeto 5</a>
+                    </div>
+                </li>
+
+                <li class="nav-item has-sub" tabindex="0">
+                    <a class="nav-link" href="javascript:void(0);">
+                        <span class="icon"><i class='bx  bx-education'  ></i></span>
+                        <span class="label">Configurações</span>
+                        <span class="chev">▶</span>
+                    </a>
+                    <div class="submenu" role="menu" aria-label="Configurações">
+                        <a href="#" role="menuitem">Perfil</a>
+                        <a href="#" role="menuitem">Segurança</a>
+                        <a href="#" role="menuitem">Notificações</a>
+                    </div>
+                </li>
+
+                <li class="nav-item has-sub" tabindex="0">
+                    <a class="nav-link" href="javascript:void(0);">
+                        <span class="icon"><i class='bx  bx-education'  ></i> </span>
+                        <span class="label">Relatórios</span>
+                        <span class="chev">▶</span>
+                    </a>
+                    <div class="submenu" role="menu" aria-label="Relatórios">
+                        <a href="#" role="menuitem">Mensal</a>
+                        <a href="#" role="menuitem">Trimestral</a>
+                        <a href="#" role="menuitem">Customizado</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="icon"><i class='bx  bx-education'  ></i></span>
+                        <span class="label">Ajuda</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <div class="sb-footer">ETEC de Poá</div>
+    </aside>
+
+
+    
   <!-- Feed principal -->
   <div class="feed">
     <div class="post">
@@ -43,8 +118,7 @@
   <!-- Botão flutuante -->
   <div class="fab"></div>
 
-  <script src="assets/javascript/home.js">
-  </script>
+  <script src="assets/javascript/home.js"></script>
   <script src="assets/javascript/sidebar.js"></script>
 
 </body>
