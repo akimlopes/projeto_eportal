@@ -48,8 +48,7 @@ setInterval(() => {
   moveSlider(currentIndex);
 }, 2500); // Troca a cada 4 segundos
 //Validar login
-      document.getElementById('loginForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // Impede envio do formulário
+      // Impede envio do formulário
 
       const RM = document.getElementById('RM').value;
       const senha = document.getElementById('senha').value;
@@ -57,8 +56,8 @@ setInterval(() => {
  // Verificação
       if ((RM === 'admin' && senha === '12345678') || (RM === 'user' && senha === '12345678')) {
 // Redirecionar
-        window.location.href = 'home.html';
+        window.location.href = '/views/home.ejs';
       } else {
         alert('Usuário ou senha incorretos!');
       }
-    });
+  ;
