@@ -1,39 +1,300 @@
- /* Navbar lateral */
-    .sidebar img {
-      height: 25px;
-    }
-    .sidebar {
-      margin-right: 20px;
-      width: 60px;
-      background-color: #B30000;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 0;
-      transition: width 0.3s;
-      overflow: hidden;
-    }
+:root {
+  --sb-width: 240px;
+  --sb-collapsed: 72px;
+  --bg: #a80000;
+  --bg-2: #a80000;
+  --accent: #6c7cff;
+  --text: #ffffff;
+  --muted: #a8acc7;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
 
-    .sidebar.expanded {
-      width: 120px;
-    }
+* {
+  box-sizing: border-box
+}
 
-    .sidebar .icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 5px;
-      margin: 10px 0;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+html,
+body {
+  height: 100%
+}
 
-    .sidebar span {
-      margin-left: 10px;
-      display: none;
-    }
+.sidebar {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #0b0e18;
+  color: var(--text);
+  display: flex;
+  min-height: 100vh;
+}
 
-    .sidebar.expanded span {
-      display: inline-block;
-    }
+/* SIDEBAR */
+aside.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--sb-width);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  border-right: 1px solid rgba(255, 255, 255, .06);
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  transition: width .25s ease, transform .25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.sb-header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 14px 14px 8px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+
+.logo {
+  color: #000;
+  width: 36px;
+  height: 36px;
+  border-radius: 100px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  font-size: 20px;
+  flex: 0 0 36px;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity .2s ease, width .2s ease;
+}
+
+/* Botões (apenas o de colapsar fica no header) */
+.sb-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-grid;
+  place-items: center;
+  border: none;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .0);
+  color: var(--text);
+  transition: filter .2s ease, transform .08s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.12)
+}
+
+.btn:active {
+  transform: scale(.98)
+}
+
+nav {
+  padding: 8px 8px 16px 8px;
+  overflow: hidden;
+}
+
+ul.menu {
+  margin: 0;
+  padding: 0;
+  list-style: none
+}
+
+.nav-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: visible
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  text-decoration: none;
+  color: var(--text);
+  border-radius: 12px;
+  outline: none;
+}
+
+.nav-link:hover,
+.nav-item:focus-within>.nav-link {
+  background: rgba(255, 255, 255, .06);
+}
+
+.icon {
+  width: 28px;
+  flex: 0 0 28px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 1;
+  transition: opacity .2s ease;
+}
+
+.chev {
+  margin-left: auto;
+  opacity: .5;
+  font-size: 12px;
+}
+
+/* SUBMENU: fixed no desktop (escapa do overflow do nav) */
+.submenu {
+  position: fixed;
+  display: none;
+  min-width: 220px;
+  max-width: 360px;
+  max-height: calc(100vh - 20px);
+  overflow: auto;
+  background: var(--bg-2);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+  z-index: 2000;
+  transition: opacity .12s ease;
+}
+
+.submenu.show {
+  display: block;
+  opacity: 1;
+}
+
+.submenu a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: .95rem;
+}
+
+.submenu a:hover {
+  background: rgba(255, 255, 255, .06)
+}
+
+.sb-footer {
+  margin-top: auto;
+  padding: 10px 12px;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+/* COLAPSE (desktop) */
+body.sidebar-collapsed aside.sidebar {
+  width: var(--sb-collapsed);
+}
+
+body.sidebar-collapsed .label {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.sidebar-collapsed .brand {
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+}
+
+body.sidebar-collapsed .chev {
+  display: none;
+}
+
+main.content {
+  flex: 1;
+  margin-left: var(--sb-width);
+  transition: margin-left .25s ease, filter .2s ease;
+  padding: 24px;
+}
+
+body.sidebar-collapsed main.content {
+  margin-left: var(--sb-collapsed);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  aside.sidebar {
+    transform: translateX(-100%);
+    width: var(--sb-width);
+  }
+
+  body.sidebar-open aside.sidebar {
+    transform: translateX(0);
+  }
+
+  main.content {
+    margin-left: 0;
+  }
+
+  .overlay {
+    display: none;
+  }
+
+  body.sidebar-open .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .45);
+    z-index: 900;
+  }
+
+  /* No mobile, o submenu volta a ser accordion dentro do fluxo (static) */
+  .submenu {
+    position: static;
+    display: none;
+    box-shadow: none;
+    border-radius: 8px;
+    padding-left: 40px;
+    max-height: none;
+  }
+
+  .nav-item.open>.submenu {
+    display: block;
+  }
+}
+
+/* botão abrir mobile */
+.btn-open {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 1200;
+  display: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 768px) {
+  body.sidebar-open .btn-open {
+    display: none;
+  }
+}
+
+.sidebar i {
+  color: #fff;
+  font-size: 25px;
+}

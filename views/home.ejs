@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <link rel="stylesheet" href="css/home.css">
+  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="css/sidebar.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Portal - Home</title>
+  <link rel="stylesheet" href="css/home.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Página Inicial</title>
 </head>
 <body>
-  
-  <!-- Navbar lateral -->
-  <div class="sidebar" id="sidebar">
-    <div class="icon" id="menu-btn">☰ <span>Menu</span></div>
-    <div class="icon"><img src="imgs/home_icon.png" alt=""><span>Início</span></div>
-    <div class="icon"><img src="imgs/projeto_icon.png" alt=""><span>Projetos</span></div>
-    <div class="icon"><img src="imgs/curso_icon.png" alt=""> <span>Projetos</span></div>
-  </div>
-
-  <!-- Feed principal -->
+ 
+  <!-- SIDEBAR (parcial EJS) -->
+  <%- include('partials/navbar') %>
+         
+<!-- Feed principal -->
   <div class="feed">
     <div class="post">
       <div class="post-header">
@@ -43,9 +39,7 @@
   <!-- Botão flutuante -->
   <div class="fab"></div>
 
-  <script src="javascript/home.js">
-  </script>
+<script src="javascript/home.js"></script>
   <script src="javascript/sidebar.js"></script>
-
 </body>
 </html>
