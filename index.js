@@ -33,6 +33,10 @@ app.get("/home", (req, res) => {
   res.render("home.ejs");
 });
 
+app.get("/perfil", (req, res) => {
+  res.render("perfil.ejs");
+});
+
 app.post("/signup", (req, res) => {
   res.send("Formulário foi recebido");
 });

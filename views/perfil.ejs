@@ -1,11 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/perfil.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
 </head>
 <body>
-    
+    <%- include('partials/navbar', { activePage: 'perfil' }) %>
+
+    <main class="content perfil-content" style="padding:32px;">
+        <h1 style="margin-bottom:24px;">Seu perfil</h1>
+        <div class="perfil-grid" style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2, 1fr);gap:32px;">
+            <!-- Card principal com avatar e dados básicos -->
+            <div class="perfil-card" style="background:#e5e5e5;padding:24px;border-radius:16px;display:flex;align-items:center;gap:24px;">
+                <div class="perfil-avatar" style="flex:0 0 90px;">
+                    <img src="/imgs/avatar_padrao.png" alt="Avatar do usuário" style="width:90px;height:90px;border-radius:50%;background:#7a6c6c;" />
+                </div>
+                <div class="perfil-info">
+                    <h2 style="margin-bottom:8px;">Nome do Usuário</h2>
+                    <p>Data de Nascimento: 10/02/2006</p>
+                    <p>RM: 00000</p>
+                </div>
+            </div>
+            <!-- Card de contato -->
+            <div class="perfil-card" style="background:#e5e5e5;padding:24px;border-radius:16px;">
+                <h3>Contato</h3>
+                <p>Email: usuario@email.com</p>
+                <p>Telefone: (11) 99999-9999</p>
+            </div>
+            <!-- Card de curso/projeto -->
+            <div class="perfil-card" style="background:#e5e5e5;padding:24px;border-radius:16px;">
+                <h3>Curso</h3>
+                <p>Informática para Internet</p>
+                <h3 style="margin-top:16px;">Projeto</h3>
+                <p>Portal Acadêmico</p>
+            </div>
+            <!-- Card de status e matrícula -->
+            <div class="perfil-card" style="background:#e5e5e5;padding:24px;border-radius:16px;">
+                <h3>Status</h3>
+                <p>Ativo</p>
+                <h3 style="margin-top:16px;">Data de Matrícula</h3>
+                <p>01/02/2022</p>
+                <h3 style="margin-top:16px;">Idade</h3>
+                <p>19 anos</p>
+            </div>
+        </div>
+    </main>
+  <script src="javascript/sidebar.js"></script>
 </body>
 </html>

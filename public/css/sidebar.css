@@ -10,7 +10,13 @@
   --radius: 14px;
   --shadow: 0 10px 30px rgba(31, 142, 0, 0.35);
 }
+.sidebar {
 
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;  
+}
 * {
   box-sizing: border-box
 }
