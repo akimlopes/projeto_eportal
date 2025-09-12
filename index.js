@@ -48,8 +48,8 @@ app.post("/login", (req, res) => {
   }
 
   const query =
-    "SELECT * FROM dados_pessoais WHERE ID_Coordenadores = ? AND Senha = ?";
-  connection.execute(query, [rm, senha], (err, results) => {
+    "SELECT * FROM dados_pessoais WHERE (ID_Coordenadores = ? OR ID_Professores = ? OR ID_Alunos = ?) AND Senha = ?";
+  connection.execute(query, [rm, rm, rm, senha], (err, results) => {
     if (err) {
       console.error("Erro na query:", err);
       return res.status(500).send("Erro no servidor");
