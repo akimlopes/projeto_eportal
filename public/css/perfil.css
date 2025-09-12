@@ -1,3 +1,52 @@
+.perfil-content {
+  padding: 32px;
+}
+
+.perfil-content h1 {
+  margin-bottom: 24px;
+}
+
+.perfil-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.perfil-card {
+  background: #e5e5e5;
+  padding: 24px;
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.perfil-card:first-child {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.perfil-avatar {
+  flex: 0 0 90px;
+}
+
+.perfil-avatar img {
+  width: 90px;
+  height: 200px;
+  border-radius: 50%;
+  background: #7a6c6c;
+}
+
+.perfil-info h2 {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .perfil-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}
 * {
       margin: 0;
       padding: 0;
@@ -20,4 +69,7 @@
       display: flex;
       background-color: #ffffff;
       height: 100vh;
+    }
+    #btnCollapse i {
+     color: black;/* Certifique-se de que o botão fique acima da sidebar */
     }
