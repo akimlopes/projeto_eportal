@@ -12,11 +12,11 @@
       <div class="box">
         <div class="inner-box">
           <div class="forms-wrap">
-            <form action="/login" id="loginForm" autocomplete="off" class="sign-in-form">
+            <form action="/login" id="loginForm" method="post" autocomplete="off" class="sign-in-form">
               <div class="logo">
                 <img src="imgs/eportal.png" alt="easyclass" />
                 <h4> Portal</h4>
-              </div>
+              </div> 
 
               <div class="heading">
                 <h2>Bem Vindo a <span>ETEC </span></h2>
@@ -28,12 +28,12 @@
 
               <div class="actual-form">
                 <div class="input-wrap">
-                  <input type="text" maxlength="5" class="input-field" id="RM" autocomplete="off" required />
+                  <input type="text" maxlength="5" class="input-field" id="RM" name="rm" autocomplete="off" required />
                   <label>RM</label>
                 </div>
 
                 <div class="input-wrap">
-                  <input  type="password" minlength="8"  class="input-field" id="senha"  autocomplete="off" required />
+                  <input  type="password" minlength="3"  class="input-field" id="senha" name="senha" autocomplete="off" required />
                   <label>Senha</label>
                 </div>
 
@@ -68,6 +68,7 @@
                     class="input-field"
                     autocomplete="off"
                     required
+                    name="rm"
                   />
                   <label>RM</label>
                 </div>
@@ -78,6 +79,7 @@
                     class="input-field"
                     autocomplete="off"
                     required
+                    name="email"
                   />
                   <label>Email</label>
                 </div>
@@ -89,6 +91,7 @@
                     class="input-field"
                     autocomplete="off"
                     required
+                    name="senha"
                   />
                   <label>Senha</label>
                 </div>
@@ -130,6 +133,5 @@
     <!-- Arquivo Javascript -->
 
     <script src="javascript/login.js"></script>
-    <script src="index.js"></script>
   </body>
 </html>
