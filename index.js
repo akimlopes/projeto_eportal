@@ -2,7 +2,6 @@ const express = require("express");
 const mysql = require("mysql2");
 const app = express();
 const handlebars = require("ejs");
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
