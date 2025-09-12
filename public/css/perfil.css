@@ -1,5 +1,5 @@
-.perfil-content {
-  padding: 32px;
+.content {
+  padding: 60px;
 }
 
 .perfil-content h1 {
@@ -31,7 +31,7 @@
 }
 
 .perfil-avatar img {
-  width: 90px;
+  width: 200px;
   height: 200px;
   border-radius: 50%;
   background: #7a6c6c;
@@ -58,18 +58,4 @@
       display: flex;
       background-color: #ffffff;
       height: 100vh;
-    }* {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      display: flex;
-      background-color: #ffffff;
-      height: 100vh;
-    }
-    #btnCollapse i {
-     color: black;/* Certifique-se de que o botão fique acima da sidebar */
     }
