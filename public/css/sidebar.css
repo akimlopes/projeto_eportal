@@ -1,4 +1,5 @@
 :root {
+  --select: #900000e4;
   --sb-width: 240px;
   --sb-collapsed: 72px;
   --bg: #a80000;
@@ -7,7 +8,7 @@
   --text: #ffffff;
   --muted: #a8acc7;
   --radius: 14px;
-  --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  --shadow: 0 10px 30px rgba(31, 142, 0, 0.35);
 }
 
 * {
@@ -75,7 +76,7 @@ aside.sidebar {
 .sb-actions {
   margin-left: auto;
   display: flex;
-  gap: 8px;
+  gap: 5px;
 }
 
 .btn {
@@ -111,6 +112,7 @@ ul.menu {
 }
 
 .nav-item {
+  margin-top: 15px;
   position: relative;
   border-radius: 12px;
   overflow: visible
@@ -129,7 +131,7 @@ ul.menu {
 
 .nav-link:hover,
 .nav-item:focus-within>.nav-link {
-  background: rgba(255, 255, 255, .06);
+  background: var(--select);
 }
 
 .icon {
@@ -186,7 +188,7 @@ ul.menu {
 }
 
 .submenu a:hover {
-  background: rgba(255, 255, 255, .06)
+  background-color: var(--select);
 }
 
 .sb-footer {
@@ -194,7 +196,7 @@ ul.menu {
   padding: 10px 12px;
   border-top: 1px solid rgba(255, 255, 255, .06);
   font-size: .9rem;
-  color: var(--muted);
+  color: #fff;
 }
 
 /* COLAPSE (desktop) */
