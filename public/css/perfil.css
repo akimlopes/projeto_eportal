@@ -1,9 +1,5 @@
-.content {
-  padding: 60px;
-}
-
 .perfil-content h1 {
-  margin-bottom: 24px;
+  margin-bottom: 10px;
 }
 
 .perfil-grid {
@@ -37,10 +33,6 @@
   background: #7a6c6c;
 }
 
-.perfil-info h2 {
-  margin-bottom: 8px;
-}
-
 @media (max-width: 900px) {
   .perfil-grid {
     grid-template-columns: 1fr;
@@ -58,4 +50,33 @@
       display: flex;
       background-color: #ffffff;
       height: 100vh;
+    }
+    .perfil-grid input {
+      
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 50px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    .perfil-grid p{
+        
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 50px;
+      box-sizing: border-box;
+      font-size: 16px;
+    
+    }
+    .perfil-grid h3{
+      margin-left: 5px;
+    margin-bottom: 2px;
+    }
+    .perfil-grid h2{
+      margin-left: 5px;
+      
     }
