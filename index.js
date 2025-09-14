@@ -1,7 +1,6 @@
 const express = require("express");
 const mysql = require("mysql2");
 const app = express();
-const handlebars = require("ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -53,7 +52,7 @@ app.post("/login", (req, res) => {
     console.warn("Campos ausentes ou vazios:", req.body);
     return res.status(400).send("RM e senha são obrigatórios");
   }
-
+//Consulta o SQL
   const query =
     "SELECT * FROM dados_pessoais WHERE (ID_Coordenadores = ? OR ID_Professores = ? OR ID_Alunos = ?) AND Senha = ?";
   connection.execute(query, [rm, rm, rm, senha], (err, results) => {
@@ -65,8 +64,9 @@ app.post("/login", (req, res) => {
     console.log("Resultados da query:", results);
     if (results && results.length > 0) {
       return res.redirect("/home");
+
     } else {
-      return res.send("RM ou senha incorretos");
+      return res.send("<script>alert('RM ou senha incorretos'); window.location.href = '/login';</script>");
     }
   });
 });
