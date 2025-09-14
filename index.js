@@ -36,6 +36,10 @@ app.get("/perfil", (req, res) => {
   res.render("perfil.ejs");
 });
 
+app.get("/projetos", (req, res) => {
+  res.render("projetos.ejs");
+});
+
 app.post("/signup", (req, res) => {
   res.send("Formulário foi recebido");
 });
