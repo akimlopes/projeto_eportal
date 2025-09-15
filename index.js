@@ -6,11 +6,11 @@ app.use(express.json());
 
 // Conecta com o Aiven
 const connection = mysql.createConnection({
-  host: "mysql-eportal210-eportal1.i.aivencloud.com",
-  user: "avnadmin",
-  password: "AVNS_24p5adYt_SWGT3dF4I2",
-  database: "Eportaldb",
-  port: 27813,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  port: process.env.DB_PORT
 });
 
 connection.connect((err) => {
