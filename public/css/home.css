@@ -1,3 +1,8 @@
+  :root {
+      --main-red: #a80000;
+      --main-red-dark: #800000;
+  }
+  
   * {
       margin: 0;
       padding: 0;
@@ -73,7 +78,7 @@
       position: absolute;
       top: 70px;
       right: 20px;
-      background: #a80000;
+      background-color: var(--main-red);
       color: #fff;
       border-radius: 8px;
       width: 180px;
@@ -91,7 +96,7 @@
     }
 
     .profile-menu a:hover {
-      background: #800000;
+      background-color: var(--main-red-dark);
     }
 
     .profile-menu.active {
@@ -105,7 +110,92 @@
       right: 20px;
       width: 50px;
       height: 50px;
-      background-color: #a80000;
+      background-color: var(--main-red);
       border-radius: 10px;
       cursor: pointer;
     }
+
+    .fab {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 30px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background 0.2s;
+    }
+    .fab:hover {
+      background-color: var(--main-red-dark);
+    }
+
+/* Modal de novo post */
+
+    .modal-post {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5);
+  justify-content: center; align-items: center;
+}
+.modal-post.active {
+  display: flex;
+}
+.modal-content {
+  background: #fff;
+  
+  border-radius: 12px;
+  min-width: 320px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+}
+.input-modal {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.btn-modal {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  background: var(--main-red); 
+  color: #fff;
+  cursor: pointer;
+}
+.btn-cancelar {
+  background: #888;
+}
+
+.head-modal {
+  border-radius: 12px 12px 0 0;
+  padding: 28px 24px;
+  color: #fff;
+  font-size: 18px;
+  width: 100%;
+  background-color: var(--main-red);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  user-select: none;
+}
+.head-modal h2{
+  margin: 0 auto;
+}
+
+#form-post {
+  padding: 20px 24px;
+  min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}

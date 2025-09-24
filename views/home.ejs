@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="css/sidebar.css">
@@ -8,37 +9,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Página Inicial</title>
 </head>
+
 <body class="sidebar-collapsed">
- 
+
   <!-- SIDEBAR (parcial EJS) -->
   <%- include('partials/navbar') %>
-         
-<!-- Feed principal -->
-  <div class="feed">
-    <div class="post">
-      <div class="post-header">
-        <div class="profile-pic"></div>
-        <div class="username">Usuário 1</div>
+
+    <!-- Feed principal -->
+    <div class="feed">
+      <div class="post">
+        <div class="post-header">
+          <div class="profile-pic"></div>
+          <div class="username">Usuário 1</div>
+        </div>
+        <div class="post-content"></div>
       </div>
-      <div class="post-content"></div>
     </div>
-  </div>
 
-  <!-- Sidebar direita -->
-  <div class="rightbar">
-    <div class="profile-icon" id="profile-btn"></div>
+    <!-- Sidebar direita -->
+    <div class="rightbar">
+      <div class="profile-icon" id="profile-btn"></div>
 
-    <!-- Menu de perfil -->
-    <div class="profile-menu" id="profile-menu">
-  <a href="/perfil">Meu Perfil</a>
-      <a href="#">Sair</a>
+      <!-- Menu de perfil -->
+      <div class="profile-menu" id="profile-menu">
+        <a href="/perfil">Meu Perfil</a>
+        <a href="#">Sair</a>
+      </div>
     </div>
-  </div>
 
-  <!-- Botão flutuante -->
-  <div class="fab"></div>
+    <!-- Botão flutuante -->
+    <div class="fab"><i class='bx  bx-plus'></i> </div>
 
-<script src="javascript/home.js"></script>
-  <script src="javascript/sidebar.js"></script>
+    <!-- Modal para criar novo post -->
+
+    <div id="modal-post" class="modal-post">
+      <div class="modal-content">
+        <div class="head-modal">
+          <h2>Novo Aviso</h2>
+        </div>
+        <form id="form-post" autocomplete="off" enctype="multipart/form-data">
+          <label for="titulo">Título:</label>
+          <input type="text" id="titulo" name="titulo" required class="input-modal" />
+
+          <label for="conteudo">Conteúdo:</label>
+          <textarea id="conteudo" name="conteudo" required class="input-modal"></textarea>
+
+          <label for="imagem">Imagem:</label>
+          <input type="file" id="imagem" name="imagem" accept="image/*" class="input-modal" />
+
+          <div class="modal-actions">
+            <button type="submit" class="btn-modal">Postar</button>
+            <button type="button" id="btn-cancelar-modal" class="btn-modal btn-cancelar">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="javascript/home.js"></script>
+    <script src="javascript/sidebar.js"></script>
 </body>
+
 </html>

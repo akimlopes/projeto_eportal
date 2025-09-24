@@ -12,3 +12,31 @@
         profileMenu.classList.remove("active");
       }
     });
+
+    //modal de postagem
+
+    document.addEventListener('DOMContentLoaded', function() {
+  const fab = document.querySelector('.fab');
+  const modal = document.getElementById('modal-post');
+  const btnCancelar = document.getElementById('btn-cancelar-modal');
+  const formPost = document.getElementById('form-post');
+
+  fab.addEventListener('click', function() {
+    modal.classList.add('active');
+  });
+
+  btnCancelar.addEventListener('click', function() {
+    modal.classList.remove('active');
+    formPost.reset();
+  });
+
+  // Exemplo de envio (substitua pelo envio real ao backend)
+  formPost.addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Aqui você pode enviar via fetch/AJAX para o backend
+    // Após sucesso, fecha o modal e atualiza a lista de avisos
+    modal.classList.remove('active');
+    formPost.reset();
+    alert('Aviso postado com sucesso!');
+  });
+});
