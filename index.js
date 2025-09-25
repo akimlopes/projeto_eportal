@@ -63,8 +63,10 @@ app.get("/projetos", ensureAuthenticated, (req, res) => {
 
 // Logout
 app.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.send("<script>alert('Desconectado com sucesso'); window.location.href = '/login';</script>");
+  req.session.destroy((err) => {
+    // limpa cookie da sessão no cliente
+    res.clearCookie('connect.sid');
+    return res.send("<script>alert('Desconectado com sucesso'); window.location.href = '/login';</script>");
   });
 });
 
