@@ -1,8 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+:root {
+    --main-red: #a80000;
+}
+body {
+   background-image: linear-gradient(to bottom right, #e5ebf7, #d3d3e3);
+  display: flex;
+  background-color: #ffffff;
+  height: 100vh;
+}
 .perfil-content h1 {
-  margin-bottom: 10px;
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  background-color: var(--main-red);
+  color: #fff;
+  border-top-left-radius: 3.3rem;
+  border-top-right-radius: 3.3rem;
+}
+
+.perfil-content {
+  width: 100vw;
+  margin: 50px;
+  margin-left: 120px;
+background-color: #fff;
+box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
+border-radius: 3.3rem;
 }
 
 .perfil-grid {
+  padding:30px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(2, 1fr);
@@ -39,44 +70,44 @@
     grid-template-rows: auto;
   }
 }
-* {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
 
-    body {
-      display: flex;
-      background-color: #ffffff;
-      height: 100vh;
-    }
-    .perfil-grid input {
-      
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 50px;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
-    .perfil-grid p{
-        
-      width: 100%;
-      padding: 8px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-      border-radius: 50px;
-      box-sizing: border-box;
-      font-size: 16px;
-    
-    }
-    .perfil-grid h3{
-      margin-left: 5px;
-    margin-bottom: 2px;
-    }
-    .perfil-grid h2{
-      margin-left: 5px;
-      
-    }
+.perfil-grid input {
+
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.perfil-grid p {
+
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  box-sizing: border-box;
+  font-size: 16px;
+
+}
+
+.perfil-grid h3 {
+  margin-left: 5px;
+  margin-bottom: 2px;
+}
+
+.perfil-grid h2 {
+  margin-left: 5px;
+}
+
+.btn-editar {
+font-size: 16px;
+  border: none;
+  color: #fff;
+  border-radius: 1rem;
+  padding: 10px;
+  background-color: #a80000;
+}

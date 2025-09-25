@@ -11,10 +11,10 @@
 </head>
 
 <body class="sidebar-collapsed">
-    <%- include('partials/navbar') %>
+    <%- include('navbar') %>
 
-        <main class="content perfil-content" style="padding:10px 30px 30px 50px;">
-            <h1>Seu perfil</h1>
+        <div class="content perfil-content">
+            <h1>Perfil</h1>
             <form class="perfil-grid" method="POST" action="">
                 <!-- Card principal com avatar e dados básicos -->
                 <div class="perfil-card">
@@ -69,9 +69,9 @@
                         alterações</button>
                 </div>
             </form>
-        </main>
-        <script src="javascript/sidebar.js"></script>
-        <script src="javascript/perfil.js"></script>
+            </main>
+            <script src="javascript/sidebar.js"></script>
+            <script src="javascript/perfil.js"></script>
 </body>
 
 </html>
