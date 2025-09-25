@@ -18,6 +18,7 @@ connection.connect((err) => {
   else console.log("Conectado ao banco Aiven MySQL!");
 });
 
+log = "inativo";
 
 app.set("view engine", "ejs");
 
@@ -35,9 +36,13 @@ app.get("/perfil", (req, res) => {
   res.render("perfil.ejs");
 });
 
+if (log != "ativo") {
 app.get("/projetos", (req, res) => {
   res.render("projetos.ejs");
 });
+} else {
+   res.redirect("/login");
+  };
 
 // Verifica o login
 app.post("/login", (req, res) => {

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 15/09/2025 às 14:22
--- Versão do servidor: 8.0.42
--- Versão do PHP: 8.3.14
+-- Tempo de geração: 25/09/2025 às 15:25
+-- Versão do servidor: 8.0.43
+-- Versão do PHP: 8.4.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,16 +30,9 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `alunos`;
 CREATE TABLE IF NOT EXISTS `alunos` (
   `RM_Aluno` int NOT NULL,
-  `Data_Nasc` date DEFAULT NULL,
+  `Data_Nasc` date NOT NULL,
   PRIMARY KEY (`RM_Aluno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Despejando dados para a tabela `alunos`
---
-
-INSERT INTO `alunos` (`RM_Aluno`, `Data_Nasc`) VALUES
-(23045, NULL);
 
 -- --------------------------------------------------------
 
@@ -52,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `avisos` (
   `ID_Aviso` int NOT NULL AUTO_INCREMENT,
   `Titulo` varchar(255) NOT NULL,
   `Conteudo` varchar(500) NOT NULL,
-  `Capa` varchar(255) DEFAULT NULL,
+  `Imagem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `ID_Alunos` int DEFAULT NULL,
   `ID_Professores` int DEFAULT NULL,
   `ID_Coordenadores` int DEFAULT NULL,
@@ -82,24 +75,17 @@ CREATE TABLE IF NOT EXISTS `coordenadores` (
 
 DROP TABLE IF EXISTS `dados_pessoais`;
 CREATE TABLE IF NOT EXISTS `dados_pessoais` (
-  `Nome` varchar(255) DEFAULT NULL,
-  `Telefone` varchar(13) DEFAULT NULL,
+  `Nome` varchar(255) NOT NULL,
+  `Telefone` varchar(13) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Senha` varchar(255) NOT NULL,
-  `ID_Alunos` int DEFAULT NULL,
-  `ID_Professores` int DEFAULT NULL,
-  `ID_Coordenadores` int DEFAULT NULL,
-  PRIMARY KEY (`Senha`),
+  `ID_Alunos` int NOT NULL,
+  `ID_Professores` int NOT NULL,
+  `ID_Coordenadores` int NOT NULL,
+  PRIMARY KEY (`ID_Alunos`,`ID_Professores`,`ID_Coordenadores`,`Senha`),
   KEY `ID_Professores` (`ID_Professores`),
   KEY `ID_Coordenadores` (`ID_Coordenadores`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Despejando dados para a tabela `dados_pessoais`
---
-
-INSERT INTO `dados_pessoais` (`Nome`, `Telefone`, `Email`, `Senha`, `ID_Alunos`, `ID_Professores`, `ID_Coordenadores`) VALUES
-(NULL, NULL, 'joca@gmail.com', '1234', 23045, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -123,6 +109,7 @@ DROP TABLE IF EXISTS `projetos`;
 CREATE TABLE IF NOT EXISTS `projetos` (
   `ID_Projeto` int NOT NULL AUTO_INCREMENT,
   `Nome_Projeto` varchar(100) NOT NULL,
+  `Imagem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `ID_Alunos` int DEFAULT NULL,
   `ID_Professores` int DEFAULT NULL,
   PRIMARY KEY (`ID_Projeto`),
@@ -159,6 +146,14 @@ ALTER TABLE `avisos`
   ADD CONSTRAINT `avisos_ibfk_1` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`),
   ADD CONSTRAINT `avisos_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`),
   ADD CONSTRAINT `avisos_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`);
+
+--
+-- Restrições para tabelas `dados_pessoais`
+--
+ALTER TABLE `dados_pessoais`
+  ADD CONSTRAINT `dados_pessoais_ibfk_1` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`),
+  ADD CONSTRAINT `dados_pessoais_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`),
+  ADD CONSTRAINT `dados_pessoais_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`);
 
 --
 -- Restrições para tabelas `projetos`

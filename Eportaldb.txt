@@ -1,0 +1,61 @@
+CREATE DATABASE Eportaldb;
+USE Eportaldb;
+
+CREATE TABLE alunos(
+RM_Aluno int PRIMARY KEY NOT NULL,
+Data_Nasc DATE NOT NULL
+);
+
+CREATE TABLE professores(
+RM_Professor int PRIMARY KEY NOT NULL
+);
+
+CREATE TABLE coordenadores(
+RM_Coordenador int PRIMARY KEY NOT NULL
+);
+
+CREATE TABLE turmas(
+ID_Turma int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Serie VARCHAR(30),
+Curso VARCHAR(50),
+ID_Alunos int,
+FOREIGN KEY (ID_Alunos) REFERENCES alunos(RM_Aluno),
+ID_Professores int,
+FOREIGN KEY (ID_Professores) REFERENCES professores(RM_Professor)
+);
+
+CREATE TABLE projetos(
+ID_Projeto int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Nome_Projeto VARCHAR(100) NOT NULL,
+ID_Alunos int,
+FOREIGN KEY (ID_Alunos) REFERENCES alunos(RM_Aluno),
+ID_Professores int,
+FOREIGN KEY (ID_Professores) REFERENCES professores(RM_Professor)
+);
+
+CREATE TABLE dados_pessoais(
+Nome VARCHAR(255) NOT NULL,
+Telefone VARCHAR(13) NOT NULL,
+Email VARCHAR(255) NOT NULL,
+Senha VARCHAR(255) NOT NULL,
+ID_Alunos int,
+ID_Professores int,
+ID_Coordenadores int,
+PRIMARY KEY(ID_Alunos, ID_Professores, ID_Coordenadores, Senha),
+FOREIGN KEY (ID_Alunos) REFERENCES alunos(RM_Aluno),
+FOREIGN KEY (ID_Professores) REFERENCES professores(RM_Professor),
+FOREIGN KEY (ID_Coordenadores) REFERENCES coordenadores(RM_Coordenador)
+);
+
+CREATE TABLE avisos(
+ID_Aviso int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Titulo VARCHAR(255) NOT NULL,
+Conteudo VARCHAR(500) NOT NULL,
+Capa VARCHAR(255),
+ID_Alunos int,
+FOREIGN KEY (ID_Alunos) REFERENCES alunos(RM_Aluno),
+ID_Professores int,
+FOREIGN KEY (ID_Professores) REFERENCES professores(RM_Professor),
+ID_Coordenadores int,
+FOREIGN KEY (ID_Coordenadores) REFERENCES coordenadores(RM_Coordenador)
+);
