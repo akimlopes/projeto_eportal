@@ -1,8 +1,16 @@
 const express = require("express");
 const mysql = require("mysql2");
+const session = require("express-session");
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(session({
+  secret: "chave_etecpoa123@#",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60 * 3 } // 3 horas
+}));
 
 // Conecta com o Aiven
 const connection = mysql.createConnection({
@@ -24,25 +32,41 @@ app.set("view engine", "ejs");
 
 app.use(express.static("public"));
 
+// Middleware de proteção
+function ensureAuthenticated(req, res, next) {
+  if (req.session && req.session.user) return next();
+  return res.send("<script>alert('Você precisa estar logado!'); window.location.href = '/login';</script>");
+}
+
+// Rotas públicas
 app.get("/login", (req, res) => {
   res.render("login_page.ejs");
 });
 
-app.get("/home", (req, res) => {
+app.get("/signup", (req, res) => {
+  // se tiver página de signup separada; caso contrário, pode remover
+  res.render("login_page.ejs");
+});
+
+// Rotas protegidas
+app.get("/home", ensureAuthenticated, (req, res) => {
   res.render("home.ejs");
 });
 
-app.get("/perfil", (req, res) => {
+app.get("/perfil", ensureAuthenticated, (req, res) => {
   res.render("perfil.ejs");
 });
 
-if (log != "ativo") {
-app.get("/projetos", (req, res) => {
+app.get("/projetos", ensureAuthenticated, (req, res) => {
   res.render("projetos.ejs");
 });
-} else {
-   res.redirect("/login");
-  };
+
+// Logout
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.send("<script>alert('Desconectado com sucesso'); window.location.href = '/login';</script>");
+  });
+});
 
 // Verifica o login
 app.post("/login", (req, res) => {
@@ -53,7 +77,7 @@ app.post("/login", (req, res) => {
     console.warn("Campos ausentes ou vazios:", req.body);
     return res.status(400).send("RM e senha são obrigatórios");
   }
-//Consulta o SQL
+  // Consulta o SQL
   const query =
     "SELECT * FROM dados_pessoais WHERE (ID_Coordenadores = ? OR ID_Professores = ? OR ID_Alunos = ?) AND Senha = ?";
   connection.execute(query, [rm, rm, rm, senha], (err, results) => {
@@ -64,9 +88,11 @@ app.post("/login", (req, res) => {
 
     console.log("Resultados da query:", results);
     if (results && results.length > 0) {
+      // marca sessão como logada
+      req.session.user = { rm };
       return res.redirect("/home");
-
-    } else {
+    } 
+    else {
       return res.send("<script>alert('RM ou senha incorretos'); window.location.href = '/login';</script>");
     }
   });
@@ -115,10 +141,11 @@ app.post("/signup", (req, res) => {
       };
 
       if (selRes && selRes.length > 0) {
-        // já existe, só insere dados_pessoais
+        //Caso exista, insere em dados_pessoais
         insertDadosPessoais();
-      } else {
-        // insere na tabela Alunos antes (ajuste colunas se necessário)
+      } 
+      else {
+        //insere na tabela Alunos antes de dados_pessoais
         connection.execute("INSERT INTO alunos (RM_Aluno) VALUES (?)", [rm], (insAlErr, insAlRes) => {
           if (insAlErr) {
             console.error("Erro ao inserir em Alunos:", insAlErr);
