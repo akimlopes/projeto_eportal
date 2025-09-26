@@ -11,7 +11,6 @@ body {
    background-image: linear-gradient(to bottom right, #e5ebf7, #d3d3e3);
   display: flex;
   background-color: #ffffff;
-  height: 100vh;
 }
 .perfil-content h1 {
   text-align: center;
