@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 25/09/2025 às 15:25
+-- Tempo de geração: 26/09/2025 às 14:48
 -- Versão do servidor: 8.0.43
 -- Versão do PHP: 8.4.0
 
@@ -30,9 +30,16 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `alunos`;
 CREATE TABLE IF NOT EXISTS `alunos` (
   `RM_Aluno` int NOT NULL,
-  `Data_Nasc` date NOT NULL,
+  `Data_Nasc` date DEFAULT NULL,
   PRIMARY KEY (`RM_Aluno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `alunos`
+--
+
+INSERT INTO `alunos` (`RM_Aluno`, `Data_Nasc`) VALUES
+(23048, NULL);
 
 -- --------------------------------------------------------
 
@@ -45,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `avisos` (
   `ID_Aviso` int NOT NULL AUTO_INCREMENT,
   `Titulo` varchar(255) NOT NULL,
   `Conteudo` varchar(500) NOT NULL,
-  `Imagem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Capa` varchar(255) DEFAULT NULL,
   `ID_Alunos` int DEFAULT NULL,
   `ID_Professores` int DEFAULT NULL,
   `ID_Coordenadores` int DEFAULT NULL,
@@ -75,17 +82,27 @@ CREATE TABLE IF NOT EXISTS `coordenadores` (
 
 DROP TABLE IF EXISTS `dados_pessoais`;
 CREATE TABLE IF NOT EXISTS `dados_pessoais` (
-  `Nome` varchar(255) NOT NULL,
-  `Telefone` varchar(13) NOT NULL,
+  `ID_dados_pessoais` int NOT NULL AUTO_INCREMENT,
+  `Nome` varchar(255) DEFAULT NULL,
+  `Telefone` varchar(13) DEFAULT NULL,
   `Email` varchar(255) NOT NULL,
   `Senha` varchar(255) NOT NULL,
-  `ID_Alunos` int NOT NULL,
-  `ID_Professores` int NOT NULL,
-  `ID_Coordenadores` int NOT NULL,
-  PRIMARY KEY (`ID_Alunos`,`ID_Professores`,`ID_Coordenadores`,`Senha`),
+  `ID_Alunos` int DEFAULT NULL,
+  `ID_Professores` int DEFAULT NULL,
+  `ID_Coordenadores` int DEFAULT NULL,
+  PRIMARY KEY (`ID_dados_pessoais`),
+  KEY `ID_Alunos` (`ID_Alunos`),
   KEY `ID_Professores` (`ID_Professores`),
   KEY `ID_Coordenadores` (`ID_Coordenadores`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `dados_pessoais`
+--
+
+INSERT INTO `dados_pessoais` (`ID_dados_pessoais`, `Nome`, `Telefone`, `Email`, `Senha`, `ID_Alunos`, `ID_Professores`, `ID_Coordenadores`) VALUES
+(1, NULL, NULL, 'johnjohn@gmail.com', '43210', 23048, NULL, NULL),
+(2, NULL, NULL, 'johnjohn@gmail.com', '3210', 23048, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -109,7 +126,6 @@ DROP TABLE IF EXISTS `projetos`;
 CREATE TABLE IF NOT EXISTS `projetos` (
   `ID_Projeto` int NOT NULL AUTO_INCREMENT,
   `Nome_Projeto` varchar(100) NOT NULL,
-  `Imagem` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `ID_Alunos` int DEFAULT NULL,
   `ID_Professores` int DEFAULT NULL,
   PRIMARY KEY (`ID_Projeto`),

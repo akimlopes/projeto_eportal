@@ -3,7 +3,7 @@ USE Eportaldb;
 
 CREATE TABLE alunos(
 RM_Aluno int PRIMARY KEY NOT NULL,
-Data_Nasc DATE NOT NULL
+Data_Nasc DATE
 );
 
 CREATE TABLE professores(
@@ -34,14 +34,14 @@ FOREIGN KEY (ID_Professores) REFERENCES professores(RM_Professor)
 );
 
 CREATE TABLE dados_pessoais(
-Nome VARCHAR(255) NOT NULL,
-Telefone VARCHAR(13) NOT NULL,
+ID_dados_pessoais  int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Nome VARCHAR(255),
+Telefone VARCHAR(13),
 Email VARCHAR(255) NOT NULL,
 Senha VARCHAR(255) NOT NULL,
 ID_Alunos int,
 ID_Professores int,
 ID_Coordenadores int,
-PRIMARY KEY(ID_Alunos, ID_Professores, ID_Coordenadores, Senha),
 FOREIGN KEY (ID_Alunos) REFERENCES alunos(RM_Aluno),
 FOREIGN KEY (ID_Professores) REFERENCES professores(RM_Professor),
 FOREIGN KEY (ID_Coordenadores) REFERENCES coordenadores(RM_Coordenador)
