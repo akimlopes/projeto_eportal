@@ -12,7 +12,7 @@ app.use(session({
   cookie: { maxAge: 1000 * 60 * 60 * 3 } // 3 horas
 }));
 
-// Conecta com o Aiven
+// Conecta com o Aiven ou banco de dados local
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -23,7 +23,7 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) console.error("Erro ao conectar:", err);
-  else console.log("Conectado ao banco Aiven MySQL!");
+  else console.log(`Conectado ao ${process.env.DB_NAME}`);
 });
 
 log = "inativo";
