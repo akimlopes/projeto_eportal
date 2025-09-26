@@ -8,9 +8,8 @@
     --main-red: #a80000;
 }
 body {
-   background-image: linear-gradient(to bottom right, #e5ebf7, #d3d3e3);
-  display: flex;
-  background-color: #ffffff;
+  background-color: #e5ebf7;
+  display: flex;  
 }
 .perfil-content h1 {
   text-align: center;
