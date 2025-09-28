@@ -18,7 +18,8 @@ const connection = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  port: process.env.DB_PORT
+  port: process.env.DB_PORT,
+  dateStrings: true
 });
 
 connection.connect((err) => {
@@ -54,8 +55,50 @@ app.get("/home", ensureAuthenticated, (req, res) => {
 });
 
 app.get("/perfil", ensureAuthenticated, (req, res) => {
-  res.render("perfil.ejs");
+  const rm = req.session.user && req.session.user.rm;
+  const queryperfil = `SELECT * FROM dados_pessoais WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?`;
+  connection.execute(queryperfil, [rm, rm, rm], (err, results) => {
+    if (err) {
+      console.error("Erro na query:", err);
+      return res.status(500).send("Erro no servidor");
+    }
+    console.log("Resultados da query perfil:", results);
+    if (results && results.length > 0) {
+      if (results[0].ID_Alunos === null) {
+        res.render("perfil.ejs", { user: results[0] });
+      } else {
+        const queryaluno = "SELECT * FROM alunos WHERE RM_Aluno = ?";
+        connection.execute(queryaluno, [rm], (err2, results2) => {
+          if (err2) {
+            console.error("Erro na query:", err2);
+            return res.status(500).send("Erro no servidor");
+          }
+          console.log("Resultados da query aluno:", results2);
+          if (results2 && results2.length > 0) {
+            const queryturma = "SELECT * FROM turmas WHERE ID_Turma = ?";
+            connection.execute(queryturma, [results2[0].ID_Turmas], (err3, results3) => {
+              if (err3) {
+                console.error("Erro na query turma:", err3);
+                return res.status(500).send("Erro no servidor");
+              }
+              console.log("Resultados da query turma:", results3);
+              if (results3 && results3.length > 0) {
+                res.render("perfil.ejs", { user: results[0], aluno: results2[0], turma: results3[0] });
+              } else {
+                res.render("perfil.ejs", { user: results[0], aluno: results2[0], turma: null });
+              }
+            });
+          } else {
+            res.render("perfil.ejs", { user: results[0], aluno: null, turma: null });
+          }
+        });
+      }
+    } else {
+      return res.send("<script>alert('Erro ao carregar perfil'); window.location.href = '/home';</script>");
+    }
+  });
 });
+
 
 app.get("/projetos", ensureAuthenticated, (req, res) => {
   res.render("projetos.ejs");
