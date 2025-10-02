@@ -23,7 +23,14 @@
                     </div>
                     <div class="perfil-info">
                         <h2 ><%= user.Nome || 'Nome do usuário' %></h2>
-                        <p>Data de Nascimento: <%= new Date(aluno.Data_Nasc).toLocaleDateString('pt-BR') || 'A definir' %></p>
+                        <p>
+                            Data de Nascimento:
+                            <% if (aluno && aluno.Data_Nasc) { %>
+                                <%= new Date(aluno.Data_Nasc).toLocaleDateString('pt-BR') %>
+                            <% } else { %>
+                                A definir
+                            <% } %>
+                        </p>
                         <p>RM: <%= user.ID_Alunos || user.ID_Professores || user.ID_Coordenadores %></p>
                         <p>Gênero: A definir</p>
                     </div>
@@ -42,8 +49,8 @@
                     <input type="text" id="projeto" name="projeto" class="input-perfil" value="<%= user.Projeto || 'Nenhum' %>"
                         disabled />
                     <h3>Curso</h3>
-                    <input type="text" id="curso" name="curso" class="input-perfil" value="<%= turma.Curso %>"
-                        disabled />
+                    <input type="text" id="curso" name="curso" class="input-perfil" 
+                        value="<%= (turma && turma.Curso) ? turma.Curso : 'A definir' %>" disabled />
                 </div>
                 <!-- Card de status e matrícula -->
                 <div class="perfil-card perfil-card-senha">
