@@ -22,9 +22,14 @@
                         <img src="imgs/ETEC_POA.jpg" alt="Avatar do usuário" />
                     </div>
                     <div class="perfil-info">
-                        <h2 ><%= user.Nome || 'Nome do usuário' %></h2>
-                        <p>Data de Nascimento: <%= new Date(aluno.Data_Nasc).toLocaleDateString('pt-BR') || 'A definir' %></p>
-                        <p>RM: <%= user.ID_Alunos || user.ID_Professores || user.ID_Coordenadores %></p>
+                        <h2>
+                            <%= user.Nome || 'Nome do usuário' %>
+                        </h2>
+                        <p>Data de Nascimento: <%= new Date(aluno.Data_Nasc).toLocaleDateString('pt-BR') || 'A definir'
+                                %>
+                        </p>
+                        <p>RM: <%= user.ID_Alunos || user.ID_Professores || user.ID_Coordenadores %>
+                        </p>
                         <p>Gênero: A definir</p>
                     </div>
                 </div>
@@ -39,17 +44,17 @@
                 <!-- Card de curso/projeto -->
                 <div class="perfil-card">
                     <h3>Projeto</h3>
-                    <input type="text" id="projeto" name="projeto" class="input-perfil" value="<%= user.Projeto || 'Nenhum' %>"
-                        disabled />
+                    <input type="text" id="projeto" name="projeto" class="input-perfil"
+                        value="<%= user.Projeto || 'Nenhum' %>" disabled />
                     <h3>Curso</h3>
-                    <input type="text" id="curso" name="curso" class="input-perfil" value="<%= turma.Curso %>"
-                        disabled />
+                    <input type="text" id="curso" name="curso" class="input-perfil"
+                        value="<%= turmas && turmas.Curso ? turmas.Curso : 'nenhum' %>" disabled />
                 </div>
                 <!-- Card de status e matrícula -->
                 <div class="perfil-card perfil-card-senha">
                     <h3 class="perfil-label">Senha</h3>
-                    <input type="password" id="senha-usuario" name="senha-usuario" class="input-perfil" value="<%= user.Senha %>"
-                        disabled autocomplete="off" />
+                    <input type="password" id="senha-usuario" name="senha-usuario" class="input-perfil"
+                        value="<%= user.Senha %>" disabled autocomplete="off" />
                     <button type="button" id="btn-trocar-senha" class="btn-trocar-senha" style="display: none;">Trocar
                         senha</button>
                     <div id="troca-senha-area" style="display:none;">
