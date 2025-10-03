@@ -22,14 +22,9 @@
                         <img src="imgs/ETEC_POA.jpg" alt="Avatar do usuário" />
                     </div>
                     <div class="perfil-info">
-                        <h2>
-                            <%= user.Nome || 'Nome do usuário' %>
-                        </h2>
-                        <p>Data de Nascimento: <%= new Date(aluno.Data_Nasc).toLocaleDateString('pt-BR') || 'A definir'
-                                %>
-                        </p>
-                        <p>RM: <%= user.ID_Alunos || user.ID_Professores || user.ID_Coordenadores %>
-                        </p>
+                        <h2 ><%= user.Nome || 'Nome do usuário' %></h2>
+                        <p>Data de Nascimento: <%= new Date(aluno.Data_Nasc).toLocaleDateString('pt-BR') || 'A definir' %></p>
+                        <p>RM: <%= user.ID_Alunos || user.ID_Professores || user.ID_Coordenadores %></p>
                         <p>Gênero: A definir</p>
                     </div>
                 </div>
@@ -47,8 +42,8 @@
                     <input type="text" id="projeto" name="projeto" class="input-perfil"
                         value="<%= user.Projeto || 'Nenhum' %>" disabled />
                     <h3>Curso</h3>
-                    <input type="text" id="curso" name="curso" class="input-perfil"
-                        value="<%= turmas && turmas.Curso ? turmas.Curso : 'nenhum' %>" disabled />
+                    <input type="text" id="curso" name="curso" class="input-perfil" value="<%= turma.Curso %>"
+                        disabled />
                 </div>
                 <!-- Card de status e matrícula -->
                 <div class="perfil-card perfil-card-senha">
