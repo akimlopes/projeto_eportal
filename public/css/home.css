@@ -58,6 +58,13 @@
   }
 
   /* Sidebar direita */
+
+  .profile_icons {
+    margin-right: 5px;
+    height: 15px;
+  }
+
+
   .rightbar {
     width: 8%;
     background-color: #ffffff;
@@ -71,18 +78,30 @@
     right: 0px;
     color: #fff;
     border-radius: 0 0 0 10px;
-    width: 180px;
+    width: 200px;
     padding: 10px;
     flex-direction: column;
   }
-
   .profile-icon {
-    width: 40px;
-    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .profile-icon img{
+    width: 60px;
+    height: 60px;
     background-color: #ccc;
     border-radius: 50%;
     margin-left: auto;
     cursor: pointer;
+  }
+  .profile-name {
+    user-select: none;
+    opacity: 0;
+    color: #fff;
+    margin-right: 5px;
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: bold;
   }
 
   /* Dropdown do perfil */
@@ -225,4 +244,7 @@
 
   #profile {
     transition: background-color 0.3s;
+  }
+  .profile-name {
+    transition: opacity 0.3s;
   }

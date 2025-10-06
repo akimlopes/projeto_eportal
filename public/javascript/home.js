@@ -2,12 +2,16 @@
     const profileBtn = document.getElementById("profile-btn");
     const profileMenu = document.getElementById("profile-menu");
     const bgmenu = document.getElementById("profile");
+    const profileExpand = document.getElementById("profileExpand");
+    const profileName = document.getElementById("profile-name");
 
-    profileBtn.addEventListener("click", () => {
+    profileExpand.addEventListener("click", () => {
   profileMenu.classList.toggle("active");
   if (profileMenu.classList.contains("active")) {
     bgmenu.style.backgroundColor = 'var(--main-red)';
+    profileName.style.opacity = '1';
   } else {
+    profileName.style.opacity = '0';
     bgmenu.style.backgroundColor = 'transparent';
   }
 });
