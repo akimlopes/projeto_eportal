@@ -303,9 +303,3 @@ body.sidebar-collapsed main.content {
   color: #fff;
   font-size: 25px;
 }
-.sidebar-collapsed #btnCollapse i {
-     color: black;/* Certifique-se de que o botão fique acima da sidebar */
-    }
-    .sidebar i {
-      font-size: 25px;
-    }

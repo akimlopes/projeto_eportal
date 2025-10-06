@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="css/sidebar.css">
   <link rel="stylesheet" href="css/projetos.css">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Notificações dos Projetos</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projetos</title>
 </head>
-<body class="sidebar-collapsed">
- 
-  <!-- SIDEBAR (parcial EJS) -->
+<body>
   <%- include('navbar') %>
-         
-<!-- Conteúdo principal -->
-  <div class="feed">
+  <section class="container">
+    <!-- Card 1 -->
     <div class="card">
-      <img src="imgs/bolavolei_icon.png" alt="Projeto 1">
+      <img src="https://via.placeholder.com/400x300" alt="Projeto 1">
       <div class="card-content">
         <h3>Projeto 1</h3>
-        <button class="btnp">Saiba mais</button>
+        <p>Resumo rápido do projeto.</p>
+        <span class="btn_vermais" onclick="toggleCard(this)">Ver mais</span>
+        <div class="extra-content">
+          <p>
+            Aqui está a versão expandida do projeto 1.  
+            Você pode descrever em detalhes, adicionar prints, links e tudo o que quiser.  
+            O card agora se transforma para mostrar o conteúdo completo.
+          </p>
+        </div>
       </div>
     </div>
 
-     <div class="feed">
+    <!-- Card 2 -->
     <div class="card">
-      <img src="imgs/bolavolei_icon.png" alt="Projeto 1">
+      <img src="https://via.placeholder.com/400x300" alt="Projeto 2">
       <div class="card-content">
         <h3>Projeto 2</h3>
-        <button class="btnp">Saiba mais</button>
+        <p>Pequena descrição inicial.</p>
+        <span class="btn_vermais" onclick="toggleCard(this)">Ver mais</span>
+        <div class="extra-content">
+          <p>
+            Detalhes expandidos do projeto 2.  
+            Explicação técnica, história de criação e resultados.
+          </p>
+        </div>
       </div>
     </div>
-
-     <div class="feed">
-    <div class="card">
-      <img src="imgs/bolavolei_icon.png" alt="Projeto 1">
-      <div class="card-content">
-        <h3>Projeto 3</h3>
-        <button class="btnp">Saiba mais</button>
-      </div>
-    </div>
-    <script src="javascript/sidebar.js"></script>
+  </section>
+  <script src="javascript/projetos.js"></script>
+<script src="javascript/sidebar.js"></script>
 </body>
 </html>
