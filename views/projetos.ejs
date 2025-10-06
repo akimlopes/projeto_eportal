@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <link rel="stylesheet" href="css/rightbar.css">
   <link rel="stylesheet" href="css/sidebar.css">
   <link rel="stylesheet" href="css/projetos.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projetos</title>
 </head>
-<body>
+<body class="sidebar-collapsed">
   <%- include('navbar') %>
-  <section class="container">
+  <div class="container">
     <!-- Card 1 -->
     <div class="card">
       <img src="https://via.placeholder.com/400x300" alt="Projeto 1">
@@ -42,7 +43,11 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
+
+<%- include('rightbar') %>
+
+<script src="javascript/rightbar.js"></script>
   <script src="javascript/projetos.js"></script>
 <script src="javascript/sidebar.js"></script>
 </body>

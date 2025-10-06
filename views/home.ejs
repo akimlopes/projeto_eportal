@@ -2,9 +2,9 @@
 <html lang="pt-BR">
 
 <head>
-  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="css/sidebar.css">
   <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/rightbar.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Página Inicial</title>
@@ -26,53 +26,11 @@
       </div>
     </div>
 
-    <!-- Sidebar direita -->
-    <div class="rightbar">
-
-      <!-- Menu de perfil -->
-      <div class="profile" id="profile">
-      <div class="profile-icon" id="profile-btn">
-      <span class="profile-name" id="profile-name">  Joaquim Lopes </span>
-        <img id="profileExpand" class="profileExpand" src="imgs/profile_icons/rickelme.jfif" alt="">
-      </div>
-      
-      <div class="profile-menu" id="profile-menu">
-        <a href="/perfil"> <img src="imgs/profile_icons/usuario.png" alt="" class="profile_icons"> Meu Perfil </a>
-        <a href="/logout"><img src="imgs/profile_icons/logout.png" class="profile_icons" alt=""> Sair </a>
-      </div>
-      </div>
-    </div>
-
-    <!-- Botão flutuante -->
-    <div class="fab"><img src="imgs/adicionar.png" alt=""> </div>
-
-    <!-- Modal para criar novo post -->
-
-    <div id="modal-post" class="modal-post">
-      <div class="modal-content">
-        <div class="head-modal">
-          <h2>Novo Aviso</h2>
-        </div>
-        <form id="form-post" autocomplete="off" enctype="multipart/form-data">
-          <label for="titulo">Título:</label>
-          <input type="text" id="titulo" name="titulo" required class="input-modal" />
-
-          <label for="conteudo">Conteúdo:</label>
-          <textarea id="conteudo" name="conteudo" required class="input-modal"></textarea>
-
-          <label for="imagem">Imagem:</label>
-          <input type="file" id="imagem" name="imagem" accept="image/*" class="input-modal" />
-
-          <div class="modal-actions">
-            <button type="submit" class="btn-modal">Postar</button>
-            <button type="button" id="btn-cancelar-modal" class="btn-modal btn-cancelar">Cancelar</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <%- include('rightbar') %>
 
     <script src="javascript/home.js"></script>
     <script src="javascript/sidebar.js"></script>
+    <script src="javascript/rightbar.js"></script>
 </body>
 
 </html>
