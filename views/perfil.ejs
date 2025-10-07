@@ -25,8 +25,8 @@
                         <h2 ><%= user.Nome || 'Nome do usuário' %></h2>
                         <p>
                             Data de Nascimento:
-                            <% if (aluno && aluno.Data_Nasc) { %>
-                                <%= new Date(aluno.Data_Nasc).toLocaleDateString('pt-BR') %>
+                            <% if (user && user.Data_Nasc) { %>
+                                <%= new Date(user.Data_Nasc).toLocaleDateString('pt-BR') %>
                             <% } else { %>
                                 A definir
                             <% } %>

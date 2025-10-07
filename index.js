@@ -65,7 +65,7 @@ app.get("/perfil", ensureAuthenticated, (req, res) => {
     console.log("Resultados da query perfil:", results);
     if (results && results.length > 0) {
       if (results[0].ID_Alunos === null) {
-        res.render("perfil.ejs", { user: results[0] });
+        res.render("perfil.ejs", { user: results[0], aluno: null, turma: null });
       } else {
         const queryaluno = "SELECT * FROM alunos WHERE RM_Aluno = ?";
         connection.execute(queryaluno, [rm], (err2, results2) => {
