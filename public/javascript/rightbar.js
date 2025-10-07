@@ -21,6 +21,7 @@ document.addEventListener("click", (e) => {
   if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
     profileMenu.classList.remove("active");
     bgmenu.style.backgroundColor = 'transparent';
+    profileName.style.opacity = '0';
   }
 });
 
