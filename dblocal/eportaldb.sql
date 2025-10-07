@@ -21,7 +21,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '571a30a5-8f78-11f0-821d-3ad1a0fc3928:1-58,
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '571a30a5-8f78-11f0-821d-3ad1a0fc3928:1-87,
 a3b10948-8f62-11f0-89d9-22b709d99316:1-29,
 a6956ce3-8ea4-11f0-9092-5ef681d2cd51:1-23,
 e82dcbfa-8d73-11f0-935e-bec46436e6e5:1-27';
@@ -35,7 +35,6 @@ DROP TABLE IF EXISTS `alunos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `alunos` (
   `RM_Aluno` int NOT NULL,
-  `Data_Nasc` date DEFAULT NULL,
   `ID_Turmas` int DEFAULT NULL,
   PRIMARY KEY (`RM_Aluno`),
   KEY `ID_Turmas` (`ID_Turmas`),
@@ -49,7 +48,7 @@ CREATE TABLE `alunos` (
 
 LOCK TABLES `alunos` WRITE;
 /*!40000 ALTER TABLE `alunos` DISABLE KEYS */;
-INSERT INTO `alunos` VALUES (23042,NULL,NULL),(23045,'2007-04-11',6),(23143,NULL,NULL);
+INSERT INTO `alunos` VALUES (11111,NULL),(23042,NULL),(23143,NULL),(23045,6),(23063,10);
 /*!40000 ALTER TABLE `alunos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,6 +126,8 @@ CREATE TABLE `dados_pessoais` (
   `ID_Professores` int DEFAULT NULL,
   `ID_Coordenadores` int DEFAULT NULL,
   `ID_Projetos` int DEFAULT NULL,
+  `Data_Nasc` date DEFAULT NULL,
+  `Sexo` enum('Masculino','Feminino','Prefiro não dizer') DEFAULT NULL,
   PRIMARY KEY (`ID_dados_pessoais`),
   KEY `ID_Alunos` (`ID_Alunos`),
   KEY `ID_Professores` (`ID_Professores`),
@@ -136,7 +137,7 @@ CREATE TABLE `dados_pessoais` (
   CONSTRAINT `dados_pessoais_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`),
   CONSTRAINT `dados_pessoais_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`),
   CONSTRAINT `dados_pessoais_ibfk_4` FOREIGN KEY (`ID_Projetos`) REFERENCES `projetos` (`ID_Projeto`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +146,7 @@ CREATE TABLE `dados_pessoais` (
 
 LOCK TABLES `dados_pessoais` WRITE;
 /*!40000 ALTER TABLE `dados_pessoais` DISABLE KEYS */;
-INSERT INTO `dados_pessoais` VALUES (1,NULL,NULL,'mazoxdafvl@gmail.com','123456',23045,NULL,NULL,NULL),(2,NULL,NULL,'slamano@gmail.com','12345',23042,NULL,NULL,NULL),(3,NULL,NULL,'jonathan.oliveira@etec.sp.gov.br','cogumelo123',23143,NULL,NULL,NULL),(4,NULL,NULL,'jonathan.oliveira@etec.sp.gov.br','cogumelo123',23143,NULL,NULL,NULL),(5,NULL,NULL,'jonathan.oliveira@etec.sp.gov.br','cogumelo123',23143,NULL,NULL,NULL);
+INSERT INTO `dados_pessoais` VALUES (1,'Joaquim Lopes','11 98765-4321','mazoxdafvl@gmail.com','123456',23045,NULL,NULL,NULL,'2007-11-04','Masculino'),(2,NULL,NULL,'slamano@gmail.com','12345',23042,NULL,NULL,NULL,NULL,NULL),(6,'Alexandre Siqueira','11 91234-5678','alexandre@gmail.com','6789',NULL,23031,NULL,NULL,'1995-06-25','Masculino'),(7,NULL,NULL,'rick@gmail.com','teste',23063,NULL,NULL,NULL,NULL,NULL),(8,NULL,NULL,'jhojhon@gmail.com','1234',11111,NULL,NULL,NULL,NULL,NULL),(9,NULL,NULL,'oakge@gmail.com','cogumelo123',23143,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `dados_pessoais` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,7 +169,7 @@ CREATE TABLE `professores` (
 
 LOCK TABLES `professores` WRITE;
 /*!40000 ALTER TABLE `professores` DISABLE KEYS */;
-INSERT INTO `professores` VALUES (12345);
+INSERT INTO `professores` VALUES (12345),(23031);
 /*!40000 ALTER TABLE `professores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,6 +202,35 @@ LOCK TABLES `professores_turmas` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `projeto_participantes`
+--
+
+DROP TABLE IF EXISTS `projeto_participantes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `projeto_participantes` (
+  `ID_Participacao` int NOT NULL AUTO_INCREMENT,
+  `ID_Projeto` int NOT NULL,
+  `Tipo_Participante` enum('aluno','professor','coordenador') NOT NULL,
+  `RM_Participante` int NOT NULL,
+  `Data_Ingresso` date DEFAULT NULL,
+  `Funcao` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ID_Participacao`),
+  UNIQUE KEY `uk_projeto_participante` (`ID_Projeto`,`Tipo_Participante`,`RM_Participante`),
+  CONSTRAINT `projeto_participantes_ibfk_1` FOREIGN KEY (`ID_Projeto`) REFERENCES `projetos` (`ID_Projeto`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `projeto_participantes`
+--
+
+LOCK TABLES `projeto_participantes` WRITE;
+/*!40000 ALTER TABLE `projeto_participantes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `projeto_participantes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `projetos`
 --
 
@@ -210,13 +240,7 @@ DROP TABLE IF EXISTS `projetos`;
 CREATE TABLE `projetos` (
   `ID_Projeto` int NOT NULL AUTO_INCREMENT,
   `Nome_Projeto` varchar(100) NOT NULL,
-  `ID_Alunos` int DEFAULT NULL,
-  `ID_Professores` int DEFAULT NULL,
-  PRIMARY KEY (`ID_Projeto`),
-  KEY `ID_Alunos` (`ID_Alunos`),
-  KEY `ID_Professores` (`ID_Professores`),
-  CONSTRAINT `projetos_ibfk_1` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`),
-  CONSTRAINT `projetos_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`)
+  PRIMARY KEY (`ID_Projeto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -238,9 +262,9 @@ DROP TABLE IF EXISTS `turmas`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `turmas` (
   `ID_Turma` int NOT NULL AUTO_INCREMENT,
-  `Serie` varchar(30) NOT NULL,
-  `Curso` varchar(50) NOT NULL,
-  `Turno` varchar(50) NOT NULL,
+  `Serie` varchar(30) DEFAULT NULL,
+  `Curso` varchar(50) DEFAULT NULL,
+  `Turno` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID_Turma`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -265,4 +289,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-02  8:10:07
+-- Dump completed on 2025-10-07  9:15:54
