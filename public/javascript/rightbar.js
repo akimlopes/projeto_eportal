@@ -8,9 +8,11 @@
     profileExpand.addEventListener("click", () => {
   profileMenu.classList.toggle("active");
   if (profileMenu.classList.contains("active")) {
+    bgmenu.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
     bgmenu.style.backgroundColor = 'var(--main-red)';
     profileName.style.opacity = '1';
   } else {
+    bgmenu.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.0)';
     profileName.style.opacity = '0';
     bgmenu.style.backgroundColor = 'transparent';
   }
