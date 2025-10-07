@@ -1,16 +1,31 @@
- document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
       const body = document.body;
       const btnCollapse = document.getElementById('btnCollapse');
       const btnOpen = document.getElementById('btnOpen');
       const overlay = document.getElementById('overlay');
+      const iconExpandir = document.getElementById('expand_icon');
 
       /* --------- Colapsar/Expandir (desktop) --------- */
       function toggleCollapse(){
         const collapsed = body.classList.toggle('sidebar-collapsed');
         btnCollapse.setAttribute('aria-expanded', String(!collapsed));
         hideAllSubmenus();
+
+        // Troca o ícone conforme o estado da sidebar
+        if (collapsed) {
+          iconExpandir.src = 'imgs/nav_icons/expandir_preto.png';
+        } else {
+          iconExpandir.src = 'imgs/nav_icons/expandir_branco.png';
+        }
       }
       btnCollapse.addEventListener('click', toggleCollapse);
+
+      // Garante o ícone correto ao carregar a página
+      if (body.classList.contains('sidebar-collapsed')) {
+        iconExpandir.src = 'imgs/nav_icons/expandir_preto.png';
+      } else {
+        iconExpandir.src = 'imgs/nav_icons/expandir_branco.png';
+      }
 
       /* --------- Abrir/Fechar (mobile) --------- */
       function openSidebar(){
@@ -134,4 +149,4 @@
         });
       }, { passive: true });
 
-    })
+    });
