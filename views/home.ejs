@@ -17,12 +17,40 @@
 
     <!-- Feed principal -->
     <div class="feed">
-      <div class="post">
-        <div class="post-header">
-          <div class="profile-pic"></div>
-          <div class="username">Usuário 1</div>
+      <div class="feed-inner">
+        <% if (avisos && avisos.length > 0) { %>
+        <% avisos.forEach(function(aviso) { %>
+        <div class="post">
+          <div class="post-header">
+            <div class="profile-pic">
+              <% if (aviso.AutorFoto) { %>
+              <img src="<%= aviso.AutorFoto %>" alt="Avatar" class="profile-pic-img" />
+              <% } %>
+            </div>
+            <div class="username"><%= aviso.AutorNome || aviso.Autor_RM || 'Autor' %></div>
+            <div style="margin-left:auto; font-size:0.85rem; color:#666;">
+              <%= aviso.ID_Aviso ? ('#' + aviso.ID_Aviso) : '' %>
+            </div>
+          </div>
+
+          <% if (aviso.Capa) { %>
+          <div class="post-image">
+            <img src="<%= aviso.Capa %>" alt="Capa do aviso" class="post-image-img" />
+          </div>
+          <% } %>
+
+          <% if (aviso.Titulo) { %>
+          <h3 class="post-title"><%= aviso.Titulo %></h3>
+          <% } %>
+
+          <div class="post-content">
+            <%= aviso.Conteudo || '' %>
+          </div>
         </div>
-        <div class="post-content"></div>
+        <% }); %>
+        <% } else { %>
+        <div class="post">Nenhum aviso encontrado.</div>
+        <% } %>
       </div>
     </div>
 

@@ -24,15 +24,15 @@
         <div class="head-modal">
           <h2>Novo Aviso</h2>
         </div>
-        <form id="form-post" autocomplete="off" enctype="multipart/form-data">
+        <form id="form-post" autocomplete="off" enctype="multipart/form-data" action="/upload" method="post">
           <label for="titulo">Título:</label>
-          <input type="text" id="titulo" name="titulo" required class="input-modal" />
+          <input type="text" id="titulo" name="title" required class="input-modal" />
 
           <label for="conteudo">Conteúdo:</label>
-          <textarea id="conteudo" name="conteudo" required class="input-modal"></textarea>
+          <textarea id="conteudo" name="text" required class="input-modal"></textarea>
 
           <label for="imagem">Imagem:</label>
-          <input type="file" id="imagem" name="imagem" accept="image/*" class="input-modal" />
+          <input type="file" id="imagem" name="arquivo" accept="image/*" class="input-modal" />
 
           <div class="modal-actions">
             <button type="submit" class="btn-modal">Postar</button>

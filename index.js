@@ -1,4 +1,7 @@
 const express = require("express");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const mysql = require("mysql2");
 const session = require("express-session");
 const app = express();
@@ -51,7 +54,16 @@ app.get("/signup", (req, res) => {
 
 // Rotas protegidas
 app.get("/home", ensureAuthenticated, (req, res) => {
-  res.render("home.ejs");
+  // Busca os avisos mais recentes e passa para o template
+  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50"; // corrigido: usa PK em vez de CreatedAt inexistente
+  connection.execute(q, [], (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar avisos:", err);
+      return res.status(500).send("Erro no servidor");
+    }
+    // passa também req.session.user se precisar na view
+    res.render("home.ejs", { avisos: results, user: req.session.user });
+  });
 });
 
 app.get("/perfil", ensureAuthenticated, (req, res) => {
@@ -202,6 +214,60 @@ app.post("/signup", (req, res) => {
     });
   });
 });
+
+// Configuração do multer para upload de arquivos (corrigida)
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const baseDir = path.join(__dirname, 'public', 'uploads');
+    const ext = path.extname(file.originalname).toLowerCase();
+    let subFolder = 'otherFiles';
+    if (ext === '.png') {
+      subFolder = 'pngFiles';
+    } else if (ext === '.jpg' || ext === '.jpeg') {
+      subFolder = 'jpgFiles';
+    }
+
+    const uploadDir = path.join(baseDir, subFolder);
+    fs.mkdirSync(uploadDir, { recursive: true });
+
+    req.uploadDir = uploadDir; // Salva o diretório na requisição para uso posterior
+    cb(null, uploadDir);
+  },
+
+  filename: (req, file, cb) => {
+    const filename = Date.now() + '-' + file.originalname;
+    cb(null, filename);
+  }
+});
+
+const upload = multer({ storage });
+
+app.post("/upload", ensureAuthenticated, upload.single('arquivo'), (req, res) => {
+  if (!req.file) return res.status(400).json({ message: 'Arquivo inválido.' });
+
+  const publicPath = '/' + path.relative(path.join(__dirname, 'public'), req.file.path).replace(/\\/g, '/');
+
+  const title = req.body.title || null;
+  const text = req.body.text || null;
+  const rm = req.session.user && req.session.user.rm ? req.session.user.rm : null;
+
+  // Não insere CreatedAt aqui para evitar erro se a coluna não existir; deixe o banco preencher automaticamente se precisar
+  const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa) VALUES (?, ?, ?)`;
+  connection.execute(insertQuery, [title, text, publicPath], (err, result) => {
+    if (err) {
+      console.error('Erro ao inserir aviso:', err);
+      try { fs.unlinkSync(req.file.path); } catch (e) {}
+      return res.status(500).send('Erro ao salvar aviso no servidor.');
+    }
+
+    if (req.headers.accept && req.headers.accept.indexOf('application/json') !== -1) {
+      return res.json({ message: 'Upload realizado e aviso salvo com sucesso!', path: publicPath, avisoId: result.insertId });
+    }
+    return res.redirect('/home');
+  });
+});
+
+
 
 // Inicia o servidor
 app.listen(8080, () => {

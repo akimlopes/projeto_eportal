@@ -1,4 +1,4 @@
-    // Profile dropdown toggle
+// Profile dropdown toggle
     const profileBtn = document.getElementById("profile-btn");
     const profileMenu = document.getElementById("profile-menu");
     const bgmenu = document.getElementById("profile");
@@ -44,7 +44,7 @@ document.addEventListener("click", (e) => {
     formPost.reset();
   });
 
-  // Exemplo de envio (substitua pelo envio real ao backend)
+  /*// Exemplo de envio (substitua pelo envio real ao backend)
   formPost.addEventListener('submit', function(e) {
     e.preventDefault();
     // Aqui você pode enviar via fetch/AJAX para o backend
@@ -53,4 +53,46 @@ document.addEventListener("click", (e) => {
     formPost.reset();
     alert('Aviso postado com sucesso!');
   });
-});
+});*/
+
+document.addEventListener('DOMContentLoaded', () => {
+  const formPost = document.getElementById('form-post');
+  const modal = document.querySelector('.modal'); // ajuste se sua classe/selector for diferente
+
+  if (!formPost) return;
+
+  formPost.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(formPost);
+
+    try {
+      const res = await fetch('/upload', {
+        method: 'POST',
+        body: fd,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (!res.ok) {
+        const text = await res.text().catch(() => null);
+        throw new Error(text || 'Erro no upload');
+      }
+
+      const data = await res.json();
+      alert('Aviso publicado com sucesso!');
+      formPost.reset();
+      if (modal) modal.classList.remove('active');
+      // recarrega para mostrar o novo aviso (ou atualize dinamicamente o DOM)
+      window.location.reload();
+    } catch (err) {
+      console.error('Erro ao postar aviso:', err);
+      alert('Erro ao postar aviso. Veja console para detalhes.');
+    }
+  });
+
+  // botão cancelar (se existir)
+  const btnCancelar = document.getElementById('btn-cancelar-modal');
+  if (btnCancelar) btnCancelar.addEventListener('click', () => {
+    formPost.reset();
+    if (modal) modal.classList.remove('active');
+  });
+});})
