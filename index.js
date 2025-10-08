@@ -132,7 +132,7 @@ app.post("/login", (req, res) => {
 
   if (!rm || !senha) {
     console.warn("Campos ausentes ou vazios:", req.body);
-    return res.status(400).send("RM e senha são obrigatórios");
+    return res.status(200).render("/login", { error: "RM e senha são obrigatórios"});
   }
   // Consulta o SQL
   const query =
