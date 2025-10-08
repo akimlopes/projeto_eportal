@@ -21,7 +21,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '571a30a5-8f78-11f0-821d-3ad1a0fc3928:1-87,
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '571a30a5-8f78-11f0-821d-3ad1a0fc3928:1-97,
 a3b10948-8f62-11f0-89d9-22b709d99316:1-29,
 a6956ce3-8ea4-11f0-9092-5ef681d2cd51:1-23,
 e82dcbfa-8d73-11f0-935e-bec46436e6e5:1-27';
@@ -67,6 +67,7 @@ CREATE TABLE `avisos` (
   `ID_Alunos` int DEFAULT NULL,
   `ID_Professores` int DEFAULT NULL,
   `ID_Coordenadores` int DEFAULT NULL,
+  `Data_Aviso` date DEFAULT NULL,
   PRIMARY KEY (`ID_Aviso`),
   KEY `ID_Alunos` (`ID_Alunos`),
   KEY `ID_Professores` (`ID_Professores`),
@@ -74,7 +75,7 @@ CREATE TABLE `avisos` (
   CONSTRAINT `avisos_ibfk_1` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`),
   CONSTRAINT `avisos_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`),
   CONSTRAINT `avisos_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,6 +84,7 @@ CREATE TABLE `avisos` (
 
 LOCK TABLES `avisos` WRITE;
 /*!40000 ALTER TABLE `avisos` DISABLE KEYS */;
+INSERT INTO `avisos` VALUES (5,'EXCURSÃO PARA O ZOOLÓGICO DE SÃO PAULO!','? Data da excursão: 24/10 (quinta-feira)\r\n? Prazo para pagamento: até o dia 15/10\r\n? VAGAS LIMITADAS: apenas 43!\r\n\r\n⚠ Atenção: a vaga só será reservada mediante pagamento. Não deixe para a última hora!\r\n\r\nGaranta já seu lugar nessa aventura incrível com a turma! ??\r\nPagamentos e reserva na coordenação!!','/uploads/jpgFiles/1759873035049-Imagem do WhatsApp de 2025-10-07 Ã (s) 18.28.14_94a61765.jpg',NULL,NULL,NULL,NULL),(6,'CASA ABERTA NA ETEC POÁ','Na semana do dia 16/10, na ETEC de Poá teremos o Casa Aberta, evento onde os alunos apresentam seus projetos para o público!\r\n\r\nVenham conferir a criatividade e trabalho em equipe dos alunos da 210!','/uploads/jpgFiles/1759873687324-ETEC_POA.jpg',NULL,NULL,NULL,NULL),(7,'mochileiro das galaxias','um livro muito legal sobre coisas legais','/uploads/jpgFiles/1759884577126-rpg.jpg',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `avisos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,4 +291,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-07  9:15:54
+-- Dump completed on 2025-10-08  7:57:45
