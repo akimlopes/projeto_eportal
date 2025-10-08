@@ -47,32 +47,6 @@ app.get("/login", (req, res) => {
   res.render("login_page.ejs");
 });
 
-app.get("/cursos", ensureAuthenticated, (req, res) => {
-  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
-  connection.execute(q, [], (err, results) => {
-    if (err) {
-      console.error("Erro ao buscar avisos:", err);
-      return res.status(500).send("Erro no servidor");
-    }
-    res.render("cursos.ejs", { avisos: results, user: req.session.user });
-  });
-});
-
-app.get("/estagios", ensureAuthenticated, (req, res) => {
-  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
-  connection.execute(q, [], (err, results) => {
-    if (err) {
-      console.error("Erro ao buscar avisos:", err);
-      return res.status(500).send("Erro no servidor");
-    }
-    res.render("estagio.ejs", { avisos: results, user: req.session.user });
-  });
-});
-
-app.get("/signup", (req, res) => {
-  // se tiver página de signup separada; caso contrário, pode remover
-  res.render("login_page.ejs");
-});
 
 // Rotas protegidas
 app.get("/home", ensureAuthenticated, (req, res) => {
@@ -87,8 +61,6 @@ app.get("/home", ensureAuthenticated, (req, res) => {
     res.render("home.ejs", { avisos: results, user: req.session.user });
   });
 });
-
-
 
 app.get("/perfil", ensureAuthenticated, (req, res) => {
   const rm = req.session.user && req.session.user.rm;
@@ -156,7 +128,7 @@ app.post("/login", (req, res) => {
 
   if (!rm || !senha) {
     console.warn("Campos ausentes ou vazios:", req.body);
-    return res.status(200).render("/login", { error: "RM e senha são obrigatórios"});
+    return res.status(400).send("RM e senha são obrigatórios");
   }
   // Consulta o SQL
   const query =
@@ -180,63 +152,142 @@ app.post("/login", (req, res) => {
 });
 
 // Rota /signup real (mantê-la)
-app.post("/signup", (req, res) => {
-  console.log("POST /signup body:", req.body);
-  const { rm, email, senha } = req.body;
+app.get("/signup", async (req, res) => {
+  res.render("cadastro.ejs");
+});
 
-  if (!rm || !email || !senha) {
-    console.warn("Campos ausentes ou vazios:", req.body);
-    return res.status(400).send("Todos os campos são obrigatórios");
+function processTableData(tableData, hasHeader = true, delimiter = ',') {
+  // Detecta delimitador especial (caso venha como '\t' para tabulação)
+  if (delimiter === '\\t') delimiter = '\t';
+
+  const lines = tableData.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length === 0) return [];
+
+  let headers = [];
+  let startIdx = 0;
+
+  if (hasHeader) {
+    headers = lines[0].split(delimiter).map(h => h.trim());
+    startIdx = 1;
+  } else {
+    // Se não tem cabeçalho, cria nomes genéricos
+    headers = lines[0].split(delimiter).map((_, i) => `col${i + 1}`);
   }
 
-  connection.beginTransaction((txErr) => {
-    if (txErr) {
-      console.error("Erro ao iniciar transação:", txErr);
-      return res.status(500).send("Erro no servidor");
+  const data = [];
+  for (let i = startIdx; i < lines.length; i++) {
+    const values = lines[i].split(delimiter).map(v => v.trim());
+    const obj = {};
+    headers.forEach((h, idx) => {
+      obj[h] = values[idx] || '';
+    });
+    data.push(obj);
+  }
+  return data;
+}
+
+app.post("/signup", async (req, res) => {
+  const { tableName, tableData, hasHeader = true, delimiter = ',' } = req.body;
+
+  console.log('Recebendo solicitação de importação...');
+  console.log('Tabela:', tableName);
+  console.log('Tamanho dos dados:', tableData.length);
+
+  if (!tableName || !tableData) {
+    console.warn("Campos ausentes ou vazios:", req.body);
+    return res.status(400).send("Nome da tabela e dados são obrigatórios");
+  }
+
+  try {
+    // Aqui você precisa implementar ou importar a função processTableData
+    const data = processTableData(tableData, hasHeader, delimiter);
+
+    // Verificar se a tabela existe
+    try {
+      const exists = await checkTableExists(tableName);
+      if (!exists) {
+        console.error(`Tabela ${tableName} não existe no database ${dbName}.`);
+        return res.status(400).send(`Tabela ${tableName} não existe no banco ${dbName}.`);
+      }
+
+      console.log(`Tabela ${tableName} existe. Iniciando importação...`);
+
+      try {
+        const firstRow = data[0];
+        const headers = Object.keys(firstRow);
+
+        // Inserir dados em lote
+        const columns = headers.map(h => `\`${h}\``).join(', ');
+        const placeholders = headers.map(() => '?').join(', ');
+        const insertSQL = `INSERT INTO \`${tableName}\` (${columns}) VALUES (${placeholders})`;
+
+        let affectedRows = 0;
+        const batchSize = 100;
+        let firstRecord = null;
+
+        for (let i = 0; i < data.length; i += batchSize) {
+          const batch = data.slice(i, i + batchSize);
+
+          for (const row of batch) {
+            const values = headers.map(header => row[header] !== null ? row[header] : '');
+
+            const queryAsync = () => {
+              return new Promise((resolve, reject) => {
+                connection.execute(insertSQL, values, (err, result) => {
+                  if (err) reject(err);
+                  else resolve(result);
+                });
+              });
+            };
+
+            try {
+              const result = await queryAsync();
+              affectedRows += result.affectedRows;
+
+              if (!firstRecord) {
+                firstRecord = row;
+              }
+            } catch (insertError) {
+              console.error('Erro ao inserir linha:', row, insertError);
+              throw new Error(`Erro na linha ${i + 1}: ${insertError.message}`);
+            }
+          }
+
+          console.log(`Lote ${Math.floor(i / batchSize) + 1} processado`);
+        }
+
+        console.log(`Importação concluída: ${affectedRows} registros inseridos`);
+
+        res.json({
+          success: true,
+          affectedRows,
+          tableName,
+          firstRecord,
+          totalRecords: data.length,
+          columns: headers
+        });
+
+      } catch (error) {
+        console.error('Erro na importação:', error);
+        res.status(500).json({
+          success: false,
+          error: error.message,
+          details: 'Verifique o formato dos dados e tente novamente'
+        });
+      }
+    } catch (err) {
+      console.error('Erro ao verificar existência da tabela:', err);
+      return res.status(500).json({ success: false, error: err.message });
     }
 
-    // Verifica se já existe o aluno
-    connection.execute("SELECT RM_Aluno FROM alunos WHERE RM_Aluno = ?", [rm], (selErr, selRes) => {
-      if (selErr) {
-        console.error("Erro ao verificar Alunos:", selErr);
-        return connection.rollback(() => res.status(500).send("Erro no servidor"));
-      }
-
-      const insertDadosPessoais = () => {
-        const q = "INSERT INTO dados_pessoais (ID_Alunos, Email, Senha) VALUES (?, ?, ?)";
-        connection.execute(q, [rm, email, senha], (insErr, insRes) => {
-          if (insErr) {
-            console.error("Erro ao inserir em dados_pessoais:", insErr);
-            return connection.rollback(() => res.status(500).send("Erro no servidor: " + (insErr.sqlMessage || insErr.message)));
-          }
-
-          connection.commit((commitErr) => {
-            if (commitErr) {
-              console.error("Erro no commit:", commitErr);
-              return connection.rollback(() => res.status(500).send("Erro no servidor"));
-            }
-            console.log("Cadastro concluído:", insRes);
-            return res.redirect("/login");
-          });
-        });
-      };
-
-      if (selRes && selRes.length > 0) {
-        //Caso exista, insere em dados_pessoais
-        insertDadosPessoais();
-      } 
-      else {
-        //insere na tabela Alunos antes de dados_pessoais
-        connection.execute("INSERT INTO alunos (RM_Aluno) VALUES (?)", [rm], (insAlErr, insAlRes) => {
-          if (insAlErr) {
-            console.error("Erro ao inserir em Alunos:", insAlErr);
-            return connection.rollback(() => res.status(500).send("Erro ao criar registro de aluno: " + (insAlErr.sqlMessage || insAlErr.message)));
-          }
-          insertDadosPessoais();
-        });
-      }
+  } catch (error) {
+    console.error('Erro no processamento dos dados:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      details: 'Verifique o formato dos dados e tente novamente'
     });
-  });
+  }
 });
 
 // Configuração do multer para upload de arquivos (corrigida)
@@ -291,7 +342,31 @@ app.post("/upload", ensureAuthenticated, upload.single('arquivo'), (req, res) =>
   });
 });
 
+app.get("/tables", (req, res) => {
+  connection.query("SHOW TABLES", (err, results) => {
+    if (err) {
+      return res.json({ success: false, error: err.message });
+    }
+    return res.json({ success: true, tables: results });
+  });
+});
 
+const dbName = (connection.config && (connection.config.database || connection.config.db)) || process.env.DB_DATABASE || process.env.DB_NAME || null;
+
+function checkTableExists(tableName) {
+  return new Promise((resolve, reject) => {
+    if (!dbName) return reject(new Error('Nome do database não definido (dbName vazio)'));
+    const q = `
+      SELECT COUNT(*) AS cnt
+      FROM information_schema.tables
+      WHERE table_schema = ? AND table_name = ?
+    `;
+    connection.execute(q, [dbName, tableName], (err, results) => {
+      if (err) return reject(err);
+      resolve(results && results[0] && results[0].cnt > 0);
+    });
+  });
+}
 
 // Inicia o servidor
 app.listen(8080, () => {
