@@ -62,6 +62,19 @@ app.get("/home", ensureAuthenticated, (req, res) => {
   });
 });
 
+app.get("/cursos", ensureAuthenticated, (req, res) => {
+  // Busca os avisos mais recentes e passa para o template
+  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50"; // corrigido: usa PK em vez de CreatedAt inexistente
+  connection.execute(q, [], (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar avisos:", err);
+      return res.status(500).send("Erro no servidor");
+    }
+    // passa também req.session.user se precisar na view
+    res.render("cursos.ejs", { avisos: results, user: req.session.user });
+  });
+});
+
 app.get("/perfil", ensureAuthenticated, (req, res) => {
   const rm = req.session.user && req.session.user.rm;
   const queryperfil = `SELECT * FROM dados_pessoais WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?`;
