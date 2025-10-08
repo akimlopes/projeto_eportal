@@ -20,30 +20,26 @@
       <div class="feed-inner">
         <% if (avisos && avisos.length > 0) { %>
         <% avisos.forEach(function(aviso) { %>
-        <div class="post">
-          <div class="post-header">
-            <div class="profile-pic">
-              <% if (aviso.AutorFoto) { %>
-              <img src="<%= aviso.AutorFoto %>" alt="Avatar" class="profile-pic-img" />
-              <% } %>
-            </div>
-            <div class="username"><%= aviso.AutorNome || aviso.Autor_RM || 'Autor' %></div>
-            <div style="margin-left:auto; font-size:0.85rem; color:#666;">
-              <%= aviso.ID_Aviso ? ('#' + aviso.ID_Aviso) : '' %>
-            </div>
+        <div class="aviso-card">
+          <div class="aviso-header">
+            <div class="aviso-avatar"></div>
+            <span class="aviso-nome"><%= aviso.AutorNome || aviso.Autor_RM || 'Autor' %></span>
+            <span class="aviso-data"><%= aviso.Data || '00/00/0000' %></span>
           </div>
-
-          <% if (aviso.Capa) { %>
-          <div class="post-image">
-            <img src="<%= aviso.Capa %>" alt="Capa do aviso" class="post-image-img" />
+          <div class="aviso-capa-area">
+            <% if (aviso.Capa) { %>
+            <img src="<%= aviso.Capa %>" alt="Capa do aviso" class="aviso-capa-img" />
+            <% } else { %>
+            <div class="aviso-capa-placeholder"></div>
+            <% } %>
+            <button class="aviso-editar-btn" title="Editar aviso">
+              <img src="imgs/adicionar.png" alt="Editar" />
+            </button>
           </div>
-          <% } %>
-
-          <% if (aviso.Titulo) { %>
-          <h3 class="post-title"><%= aviso.Titulo %></h3>
-          <% } %>
-
-          <div class="post-content">
+          <div class="aviso-titulo">
+            <%= aviso.Titulo || 'Título do aviso' %>
+          </div>
+          <div class="aviso-conteudo">
             <%= aviso.Conteudo || '' %>
           </div>
         </div>
