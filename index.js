@@ -47,6 +47,17 @@ app.get("/login", (req, res) => {
   res.render("login_page.ejs");
 });
 
+app.get("/cursos", ensureAuthenticated, (req, res) => {
+  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
+  connection.execute(q, [], (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar avisos:", err);
+      return res.status(500).send("Erro no servidor");
+    }
+    res.render("cursos.ejs", { avisos: results, user: req.session.user });
+  });
+});
+
 app.get("/estagios", ensureAuthenticated, (req, res) => {
   const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
   connection.execute(q, [], (err, results) => {
