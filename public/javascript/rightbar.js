@@ -11,10 +11,14 @@
     bgmenu.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
     bgmenu.style.backgroundColor = 'var(--main-red)';
     profileName.style.opacity = '1';
+    profileName.style.display = 'flex';
+    bgmenu.style.width = '200px';
   } else {
     bgmenu.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.0)';
     profileName.style.opacity = '0';
     bgmenu.style.backgroundColor = 'transparent';
+    profileName.style.display = 'none';
+    bgmenu.style.width = '70px';
   }
 });
 
@@ -24,6 +28,9 @@ document.addEventListener("click", (e) => {
     profileMenu.classList.remove("active");
     bgmenu.style.backgroundColor = 'transparent';
     profileName.style.opacity = '0';
+    bgmenu.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.0)';
+    profileName.style.display = 'none';
+    bgmenu.style.width = '70px';
   }
 });
 

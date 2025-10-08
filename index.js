@@ -47,6 +47,10 @@ app.get("/login", (req, res) => {
   res.render("login_page.ejs");
 });
 
+app.get("/estagios", (req, res) => {
+  res.render("estagio.ejs");
+});
+
 app.get("/signup", (req, res) => {
   // se tiver página de signup separada; caso contrário, pode remover
   res.render("login_page.ejs");

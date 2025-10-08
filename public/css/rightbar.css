@@ -28,7 +28,7 @@
     right: 0px;
     color: #fff;
     border-radius: 0 0 0 10px;
-    width: 200px;
+    width: 70px;
     padding: 10px;
     flex-direction: column;
   }
@@ -49,6 +49,7 @@
   }
 
   .profile-name {
+    display: none;
     user-select: none;
     opacity: 0;
     color: #fff;
@@ -66,8 +67,7 @@
     pointer-events: none;
     transition: opacity 0.3s, transform 0.3s;
     flex-direction: column;
-    display: flex;
-    /* sempre flex, o controle será por opacity/pointer-events */
+    display: none;
   }
 
   .profile-menu a {

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/rightbar.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Página Inicial</title>
+</head>
+
+<body class="sidebar-collapsed">
+
+  <!-- SIDEBAR (parcial EJS) -->
+  <%- include('navbar') %>
+
+    <!-- Feed principal -->
+    <div class="feed">
+      <div class="feed-inner">
+        <% if (avisos && avisos.length > 0) { %>
+        <% avisos.forEach(function(aviso) { %>
+        <div class="post">
+          <div class="post-header">
+            <div class="profile-pic">
+              <% if (aviso.AutorFoto) { %>
+              <img src="<%= aviso.AutorFoto %>" alt="Avatar" class="profile-pic-img" />
+              <% } %>
+            </div>
+            <div class="username"><%= aviso.AutorNome || aviso.Autor_RM || 'Autor' %></div>
+            <div style="margin-left:auto; font-size:0.85rem; color:#666;">
+              <%= aviso.ID_Aviso ? ('#' + aviso.ID_Aviso) : '' %>
+            </div>
+          </div>
+
+          <% if (aviso.Capa) { %>
+          <div class="post-image">
+            <img src="<%= aviso.Capa %>" alt="Capa do aviso" class="post-image-img" />
+          </div>
+          <% } %>
+
+          <% if (aviso.Titulo) { %>
+          <h3 class="post-title"><%= aviso.Titulo %></h3>
+          <% } %>
+
+          <div class="post-content">
+            <%= aviso.Conteudo || '' %>
+          </div>
+        </div>
+        <% }); %>
+        <% } else { %>
+        <div class="post">Nenhum aviso encontrado.</div>
+        <% } %>
+      </div>
+    </div>
+
+    <%- include('rightbar') %>
+
+    <script src="javascript/home.js"></script>
+    <script src="javascript/sidebar.js"></script>
+    <script src="javascript/rightbar.js"></script>
+</body>
+
+</html>
