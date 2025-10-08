@@ -47,6 +47,17 @@ app.get("/login", (req, res) => {
   res.render("login_page.ejs");
 });
 
+app.get("/estagios", ensureAuthenticated, (req, res) => {
+  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
+  connection.execute(q, [], (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar avisos:", err);
+      return res.status(500).send("Erro no servidor");
+    }
+    res.render("estagio.ejs", { avisos: results, user: req.session.user });
+  });
+});
+
 app.get("/signup", (req, res) => {
   // se tiver página de signup separada; caso contrário, pode remover
   res.render("login_page.ejs");
@@ -65,6 +76,8 @@ app.get("/home", ensureAuthenticated, (req, res) => {
     res.render("home.ejs", { avisos: results, user: req.session.user });
   });
 });
+
+
 
 app.get("/perfil", ensureAuthenticated, (req, res) => {
   const rm = req.session.user && req.session.user.rm;
