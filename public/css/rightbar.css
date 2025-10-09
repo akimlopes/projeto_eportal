@@ -112,7 +112,9 @@
   }
 
   /* Modal de novo post */
-
+  textarea {
+    resize:none
+  }
   .modal-post {
     display: none;
     position: fixed;
@@ -134,7 +136,7 @@
     background: #fff;
 
     border-radius: 12px;
-    min-width: 320px;
+    min-width: 520px;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
   }
 

@@ -16,28 +16,3 @@
 
     <!-- Botão flutuante -->
     <div class="fab"><img src="imgs/adicionar.png" alt=""> </div>
-
-    <!-- Modal para criar novo post -->
-
-    <div id="modal-post" class="modal-post">
-      <div class="modal-content">
-        <div class="head-modal">
-          <h2>Novo Aviso</h2>
-        </div>
-        <form id="form-post" autocomplete="off" enctype="multipart/form-data" action="/upload" method="post">
-          <label for="titulo">Título:</label>
-          <input type="text" id="titulo" name="title" required class="input-modal" />
-
-          <label for="conteudo">Conteúdo:</label>
-          <textarea id="conteudo" name="text" required class="input-modal"></textarea>
-
-          <label for="imagem">Imagem:</label>
-          <input type="file" id="imagem" name="arquivo" accept="image/*" class="input-modal" />
-
-          <div class="modal-actions">
-            <button type="submit" class="btn-modal">Postar</button>
-            <button type="button" id="btn-cancelar-modal" class="btn-modal btn-cancelar">Cancelar</button>
-          </div>
-        </form>
-      </div>
-    </div>
