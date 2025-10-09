@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/cadastro.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Importador MySQL - Sistema de Importação de Tabelas</title>
 </head>
 <body>
+
+    <%- include('navbar') %>
+
     <div class="container">
         <div class="header">
             <h1>📊 Importador MySQL</h1>
@@ -218,5 +222,7 @@ Laura Mendes,11 98765-5678,laura.mendes@email.com,laura123,10025,2010-11-11,Femi
             }
         });
     </script>
+
+    <script src="javascript/cadastro.js"></script>
 </body>
 </html>
