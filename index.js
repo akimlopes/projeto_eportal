@@ -62,6 +62,19 @@ app.get("/home", ensureAuthenticated, (req, res) => {
   });
 });
 
+app.get("/estagios", ensureAuthenticated, (req, res) => {
+  // Busca os avisos mais recentes e passa para o template
+  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50"; // corrigido: usa PK em vez de CreatedAt inexistente
+  connection.execute(q, [], (err, results) => {
+    if (err) {
+      console.error("Erro ao buscar avisos:", err);
+      return res.status(500).send("Erro no servidor");
+    }
+    // passa também req.session.user se precisar na view
+    res.render("estagio.ejs", { avisos: results, user: req.session.user });
+  });
+});
+
 app.get("/cursos", ensureAuthenticated, (req, res) => {
   // Busca os avisos mais recentes e passa para o template
   const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50"; // corrigido: usa PK em vez de CreatedAt inexistente
@@ -161,7 +174,7 @@ app.post("/login", (req, res) => {
       // marca sessão como logada
       req.session.user = { rm };
       return res.redirect("/home");
-    } 
+    }
     else {
       return res.send("<script>alert('RM ou senha incorretos'); window.location.href = '/login';</script>");
     }
@@ -204,7 +217,7 @@ function processTableData(tableData, hasHeader = true, delimiter = ',') {
 }
 
 app.post("/signup", async (req, res) => {
-  const { tableData, hasHeader = true} = req.body;
+  const { tableData, hasHeader = true } = req.body;
   tableName = 'dados_pessoais'; // Força o nome da tabela para dados_pessoais
   delimiter = ',' // Força o delimitador para vírgula
   console.log('Recebendo solicitação de importação...');
@@ -349,7 +362,7 @@ app.post("/upload", ensureAuthenticated, upload.single('arquivo'), (req, res) =>
   connection.execute(insertQuery, [title, text, publicPath], (err, result) => {
     if (err) {
       console.error('Erro ao inserir aviso:', err);
-      try { fs.unlinkSync(req.file.path); } catch (e) {}
+      try { fs.unlinkSync(req.file.path); } catch (e) { }
       return res.status(500).send('Erro ao salvar aviso no servidor.');
     }
 

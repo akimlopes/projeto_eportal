@@ -1,213 +1,257 @@
+:root {
+  /* Usa as variáveis do projeto se existirem, com fallback */
+  --main-red: var(--cor-principal, #a80000);
+  --main-red-dark: var(--cor-principal-escura, #800000);
+  --bg-page: #e5e5e5;
+  --card-bg: #ffffff;
+  --muted-border: #e6e6e9;
+  --text: #1f1f1f;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(24, 23, 31, 0.08);
+}
+
+/* Reset básico */
 * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            line-height: 1.6;
-        }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+/* Container centralizado, alinhado com o padrão das páginas */
+.container {
+  max-width: 1100px;
+  margin: 24px auto 48px auto;
+  padding: 0 24px;
+}
 
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-        }
+/* Cabeçalho no padrão com faixa vermelha */
+.header {
+    text-align: center;
+  background: var(--main-red);
+  color: #fff;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 20px 24px 16px 24px;
+  box-shadow: var(--shadow);
+}
 
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+.header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
 
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
+.header p {
+  margin-top: 6px;
+  opacity: .9;
+  font-size: 1rem;
+}
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
+/* Cartões brancos com sombra leve */
+.card {
+  background: var(--card-bg);
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+}
 
-        .form-group {
-            margin-bottom: 25px;
-        }
+/* Grids de formulário */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-            font-size: 1.1em;
-        }
+@media (max-width: 900px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
 
-        input[type="text"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
+/* Grupos e labels */
+.form-group {
+  margin-bottom: 18px;
+}
 
-        input[type="text"]:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
 
-        textarea {
-            font-family: 'Courier New', monospace;
-            resize: vertical;
-            min-height: 200px;
-        }
+/* Campos */
+input[type="text"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--muted-border);
+  border-radius: 10px;
+  font-size: 15px;
+  background: #fff;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+  outline: none;
+}
 
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--main-red);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--main-red) 20%, transparent);
+}
 
-        .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-        }
+/* Textarea no padrão */
+textarea {
+  resize: vertical;
+  min-height: 180px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+}
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+/* Checkboxes em linha */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
 
-        button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 18px 40px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 600;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
+/* Botões */
+#submitBtn{
+  background: var(--main-red);
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: transform .15s, box-shadow .15s, background .15s;
+}
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
+#submitBtn:hover{
+  background: var(--main-red-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0,0,0,.15);
+}
+#submitBtn:disabled {
+  background: #c7c7c7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
 
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
+/* Status/feedback */
+.result {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 10px;
+  display: none;
+  animation: slideDown .25s ease;
+  font-size: 0.95rem;
+}
 
-        .result {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 10px;
-            display: none;
-            animation: slideDown 0.3s ease;
-        }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+.result.success {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
 
-        .result.success {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
+.result.error {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
 
-        .result.error {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
+/* Bloco de exemplos */
+.examples {
+  background: #f7f7f8;
+  border-radius: 12px;
+  padding: 18px;
+  margin-top: 16px;
+  border: 1px solid #eee;
+}
 
-        .examples {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
+.examples h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
 
-        .examples h3 {
-            color: #333;
-            margin-bottom: 15px;
-        }
+/* Código de exemplo */
+.example-code {
+  background: #1f2937;
+  color: #e5e7eb;
+  padding: 14px;
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
+  font-size: 14px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
 
-        .example-code {
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            margin: 10px 0;
-            overflow-x: auto;
-        }
+/* Indicadores de conexão */
+.status {
+  text-align: center;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: .95rem;
+}
 
-        .status {
-            text-align: center;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            font-weight: 500;
-        }
+.status.connected {
+  background: #e6f6ea;
+  color: #1d6b33;
+  border: 1px solid #bfe7cc;
+}
 
-        .status.connected {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
+.status.disconnected {
+  background: #fde8e8;
+  color: #7a1e1e;
+  border: 1px solid #f5c2c2;
+}
 
-        .status.disconnected {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .loading {
-            text-align: center;
-            color: #667eea;
-            font-size: 16px;
-        }
-
-        .loading::after {
-            content: '...';
-            animation: dots 1.5s steps(4, end) infinite;
-        }
-
-        @keyframes dots {
-            0%, 20% { color: rgba(102, 126, 234, 0); }
-            40% { color: rgba(102, 126, 234, 1); }
-            60%, 100% { color: rgba(102, 126, 234, 0); }
-        }
+/* Loading */
+.loading {
+  text-align: center;
+  color: var(--main-red);
+  font-size: 15px;
+}
+.loading::after {
+  content: '...';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+@keyframes dots {
+  0%, 20% { color: rgba(168, 0, 0, 0); }
+  40%     { color: rgba(168, 0, 0, 1); }
+  60%,100%{ color: rgba(168, 0, 0, 0); }
+}
+.examples p {
+    color: #1f2937;
+}
+.card h3 {
+    color: #333;
+}
+.text-icons {
+    margin-right: 5px;
+    width: 18px;
+    height: 18px;
+}
