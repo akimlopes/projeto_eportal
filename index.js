@@ -8,14 +8,12 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(
-  session({
-    secret: "chave_etecpoa123@#",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 3 }, // 3 horas
-  })
-);
+app.use(session({
+  secret: "chave_etecpoa123@#",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60 * 3 } // 3 horas
+}));
 
 // Conecta com o Aiven ou banco de dados local
 const connection = mysql.createConnection({
@@ -24,7 +22,7 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT,
-  dateStrings: true,
+  dateStrings: true
 });
 
 connection.connect((err) => {
@@ -41,15 +39,14 @@ app.use(express.static("public"));
 // Middleware de proteção
 function ensureAuthenticated(req, res, next) {
   if (req.session && req.session.user) return next();
-  return res.send(
-    "<script>alert('Você precisa estar logado!'); window.location.href = '/login';</script>"
-  );
+  return res.send("<script>alert('Você precisa estar logado!'); window.location.href = '/login';</script>");
 }
 
 // Rotas públicas
 app.get("/login", (req, res) => {
   res.render("login_page.ejs");
 });
+
 
 // Rotas protegidas
 app.get("/home", ensureAuthenticated, (req, res) => {
@@ -62,19 +59,6 @@ app.get("/home", ensureAuthenticated, (req, res) => {
     }
     // passa também req.session.user se precisar na view
     res.render("home.ejs", { avisos: results, user: req.session.user });
-  });
-});
-
-app.get("/estagios", ensureAuthenticated, (req, res) => {
-  // Busca os avisos mais recentes e passa para o template
-  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50"; // corrigido: usa PK em vez de CreatedAt inexistente
-  connection.execute(q, [], (err, results) => {
-    if (err) {
-      console.error("Erro ao buscar avisos:", err);
-      return res.status(500).send("Erro no servidor");
-    }
-    // passa também req.session.user se precisar na view
-    res.render("estagio.ejs", { avisos: results, user: req.session.user });
   });
 });
 
@@ -102,11 +86,7 @@ app.get("/perfil", ensureAuthenticated, (req, res) => {
     console.log("Resultados da query perfil:", results);
     if (results && results.length > 0) {
       if (results[0].ID_Alunos === null) {
-        res.render("perfil.ejs", {
-          user: results[0],
-          aluno: null,
-          turma: null,
-        });
+        res.render("perfil.ejs", { user: results[0], aluno: null, turma: null });
       } else {
         const queryaluno = "SELECT * FROM alunos WHERE RM_Aluno = ?";
         connection.execute(queryaluno, [rm], (err2, results2) => {
@@ -117,46 +97,29 @@ app.get("/perfil", ensureAuthenticated, (req, res) => {
           console.log("Resultados da query aluno:", results2);
           if (results2 && results2.length > 0) {
             const queryturma = "SELECT * FROM turmas WHERE ID_Turma = ?";
-            connection.execute(
-              queryturma,
-              [results2[0].ID_Turmas],
-              (err3, results3) => {
-                if (err3) {
-                  console.error("Erro na query turma:", err3);
-                  return res.status(500).send("Erro no servidor");
-                }
-                console.log("Resultados da query turma:", results3);
-                if (results3 && results3.length > 0) {
-                  res.render("perfil.ejs", {
-                    user: results[0],
-                    aluno: results2[0],
-                    turma: results3[0],
-                  });
-                } else {
-                  res.render("perfil.ejs", {
-                    user: results[0],
-                    aluno: results2[0],
-                    turma: null,
-                  });
-                }
+            connection.execute(queryturma, [results2[0].ID_Turmas], (err3, results3) => {
+              if (err3) {
+                console.error("Erro na query turma:", err3);
+                return res.status(500).send("Erro no servidor");
               }
-            );
-          } else {
-            res.render("perfil.ejs", {
-              user: results[0],
-              aluno: null,
-              turma: null,
+              console.log("Resultados da query turma:", results3);
+              if (results3 && results3.length > 0) {
+                res.render("perfil.ejs", { user: results[0], aluno: results2[0], turma: results3[0] });
+              } else {
+                res.render("perfil.ejs", { user: results[0], aluno: results2[0], turma: null });
+              }
             });
+          } else {
+            res.render("perfil.ejs", { user: results[0], aluno: null, turma: null });
           }
         });
       }
     } else {
-      return res.send(
-        "<script>alert('Erro ao carregar perfil'); window.location.href = '/home';</script>"
-      );
+      return res.send("<script>alert('Erro ao carregar perfil'); window.location.href = '/home';</script>");
     }
   });
 });
+
 
 app.get("/projetos", ensureAuthenticated, (req, res) => {
   res.render("projetos.ejs");
@@ -166,10 +129,8 @@ app.get("/projetos", ensureAuthenticated, (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     // limpa cookie da sessão no cliente
-    res.clearCookie("connect.sid");
-    return res.send(
-      "<script>alert('Desconectado com sucesso'); window.location.href = '/login';</script>"
-    );
+    res.clearCookie('connect.sid');
+    return res.send("<script>alert('Desconectado com sucesso'); window.location.href = '/login';</script>");
   });
 });
 
@@ -196,10 +157,9 @@ app.post("/login", (req, res) => {
       // marca sessão como logada
       req.session.user = { rm };
       return res.redirect("/home");
-    } else {
-      return res.send(
-        "<script>alert('RM ou senha incorretos'); window.location.href = '/login';</script>"
-      );
+    } 
+    else {
+      return res.send("<script>alert('RM ou senha incorretos'); window.location.href = '/login';</script>");
     }
   });
 });
@@ -209,21 +169,18 @@ app.get("/signup", async (req, res) => {
   res.render("cadastro.ejs");
 });
 
-function processTableData(tableData, hasHeader = true, delimiter = ",") {
+function processTableData(tableData, hasHeader = true, delimiter = ',') {
   // Detecta delimitador especial (caso venha como '\t' para tabulação)
-  if (delimiter === "\\t") delimiter = "\t";
+  if (delimiter === '\\t') delimiter = '\t';
 
-  const lines = tableData
-    .split("\n")
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0);
+  const lines = tableData.split('\n').map(l => l.trim()).filter(l => l.length > 0);
   if (lines.length === 0) return [];
 
   let headers = [];
   let startIdx = 0;
 
   if (hasHeader) {
-    headers = lines[0].split(delimiter).map((h) => h.trim());
+    headers = lines[0].split(delimiter).map(h => h.trim());
     startIdx = 1;
   } else {
     // Se não tem cabeçalho, cria nomes genéricos
@@ -232,10 +189,10 @@ function processTableData(tableData, hasHeader = true, delimiter = ",") {
 
   const data = [];
   for (let i = startIdx; i < lines.length; i++) {
-    const values = lines[i].split(delimiter).map((v) => v.trim());
+    const values = lines[i].split(delimiter).map(v => v.trim());
     const obj = {};
     headers.forEach((h, idx) => {
-      obj[h] = values[idx] || "";
+      obj[h] = values[idx] || '';
     });
     data.push(obj);
   }
@@ -243,11 +200,12 @@ function processTableData(tableData, hasHeader = true, delimiter = ",") {
 }
 
 app.post("/signup", async (req, res) => {
-  const { tableName, tableData, hasHeader = true, delimiter = "," } = req.body;
-
-  console.log("Recebendo solicitação de importação...");
-  console.log("Tabela:", tableName);
-  console.log("Tamanho dos dados:", tableData.length);
+  const { tableData, hasHeader = true} = req.body;
+  tableName = 'dados_pessoais'; // Força o nome da tabela para dados_pessoais
+  delimiter = ',' // Força o delimitador para vírgula
+  console.log('Recebendo solicitação de importação...');
+  console.log('Tabela:', tableName);
+  console.log('Tamanho dos dados:', tableData.length);
 
   if (!tableName || !tableData) {
     console.warn("Campos ausentes ou vazios:", req.body);
@@ -263,9 +221,7 @@ app.post("/signup", async (req, res) => {
       const exists = await checkTableExists(tableName);
       if (!exists) {
         console.error(`Tabela ${tableName} não existe no database ${dbName}.`);
-        return res
-          .status(400)
-          .send(`Tabela ${tableName} não existe no banco ${dbName}.`);
+        return res.status(400).send(`Tabela ${tableName} não existe no banco ${dbName}.`);
       }
 
       console.log(`Tabela ${tableName} existe. Iniciando importação...`);
@@ -275,8 +231,8 @@ app.post("/signup", async (req, res) => {
         const headers = Object.keys(firstRow);
 
         // Inserir dados em lote
-        const columns = headers.map((h) => `\`${h}\``).join(", ");
-        const placeholders = headers.map(() => "?").join(", ");
+        const columns = headers.map(h => `\`${h}\``).join(', ');
+        const placeholders = headers.map(() => '?').join(', ');
         const insertSQL = `INSERT INTO \`${tableName}\` (${columns}) VALUES (${placeholders})`;
 
         let affectedRows = 0;
@@ -287,9 +243,7 @@ app.post("/signup", async (req, res) => {
           const batch = data.slice(i, i + batchSize);
 
           for (const row of batch) {
-            const values = headers.map((header) =>
-              row[header] !== null ? row[header] : ""
-            );
+            const values = headers.map(header => row[header] !== null ? row[header] : '');
 
             const queryAsync = () => {
               return new Promise((resolve, reject) => {
@@ -308,7 +262,7 @@ app.post("/signup", async (req, res) => {
                 firstRecord = row;
               }
             } catch (insertError) {
-              console.error("Erro ao inserir linha:", row, insertError);
+              console.error('Erro ao inserir linha:', row, insertError);
               throw new Error(`Erro na linha ${i + 1}: ${insertError.message}`);
             }
           }
@@ -316,9 +270,7 @@ app.post("/signup", async (req, res) => {
           console.log(`Lote ${Math.floor(i / batchSize) + 1} processado`);
         }
 
-        console.log(
-          `Importação concluída: ${affectedRows} registros inseridos`
-        );
+        console.log(`Importação concluída: ${affectedRows} registros inseridos`);
 
         res.json({
           success: true,
@@ -326,26 +278,28 @@ app.post("/signup", async (req, res) => {
           tableName,
           firstRecord,
           totalRecords: data.length,
-          columns: headers,
+          columns: headers
         });
+
       } catch (error) {
-        console.error("Erro na importação:", error);
+        console.error('Erro na importação:', error);
         res.status(500).json({
           success: false,
           error: error.message,
-          details: "Verifique o formato dos dados e tente novamente",
+          details: 'Verifique o formato dos dados e tente novamente'
         });
       }
     } catch (err) {
-      console.error("Erro ao verificar existência da tabela:", err);
+      console.error('Erro ao verificar existência da tabela:', err);
       return res.status(500).json({ success: false, error: err.message });
     }
+
   } catch (error) {
-    console.error("Erro no processamento dos dados:", error);
+    console.error('Erro no processamento dos dados:', error);
     res.status(500).json({
       success: false,
       error: error.message,
-      details: "Verifique o formato dos dados e tente novamente",
+      details: 'Verifique o formato dos dados e tente novamente'
     });
   }
 });
@@ -353,13 +307,13 @@ app.post("/signup", async (req, res) => {
 // Configuração do multer para upload de arquivos (corrigida)
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const baseDir = path.join(__dirname, "public", "uploads");
+    const baseDir = path.join(__dirname, 'public', 'uploads');
     const ext = path.extname(file.originalname).toLowerCase();
-    let subFolder = "otherFiles";
-    if (ext === ".png") {
-      subFolder = "pngFiles";
-    } else if (ext === ".jpg" || ext === ".jpeg") {
-      subFolder = "jpgFiles";
+    let subFolder = 'otherFiles';
+    if (ext === '.png') {
+      subFolder = 'pngFiles';
+    } else if (ext === '.jpg' || ext === '.jpeg') {
+      subFolder = 'jpgFiles';
     }
 
     const uploadDir = path.join(baseDir, subFolder);
@@ -370,61 +324,37 @@ const storage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-    const filename = Date.now() + "-" + file.originalname;
+    const filename = Date.now() + '-' + file.originalname;
     cb(null, filename);
-  },
+  }
 });
 
 const upload = multer({ storage });
 
-app.post(
-  "/upload",
-  ensureAuthenticated,
-  upload.single("arquivo"),
-  (req, res) => {
-    if (!req.file)
-      return res.status(400).json({ message: "Arquivo inválido." });
+app.post("/upload", ensureAuthenticated, upload.single('arquivo'), (req, res) => {
+  if (!req.file) return res.status(400).json({ message: 'Arquivo inválido.' });
 
-    const publicPath =
-      "/" +
-      path
-        .relative(path.join(__dirname, "public"), req.file.path)
-        .replace(/\\/g, "/");
+  const publicPath = '/' + path.relative(path.join(__dirname, 'public'), req.file.path).replace(/\\/g, '/');
 
-    const title = req.body.title || null;
-    const text = req.body.text || null;
-    const rm =
-      req.session.user && req.session.user.rm ? req.session.user.rm : null;
+  const title = req.body.title || null;
+  const text = req.body.text || null;
+  const rm = req.session.user && req.session.user.rm ? req.session.user.rm : null;
 
-    // Não insere CreatedAt aqui para evitar erro se a coluna não existir; deixe o banco preencher automaticamente se precisar
-    const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa) VALUES (?, ?, ?)`;
-    connection.execute(
-      insertQuery,
-      [title, text, publicPath],
-      (err, result) => {
-        if (err) {
-          console.error("Erro ao inserir aviso:", err);
-          try {
-            fs.unlinkSync(req.file.path);
-          } catch (e) {}
-          return res.status(500).send("Erro ao salvar aviso no servidor.");
-        }
+  // Não insere CreatedAt aqui para evitar erro se a coluna não existir; deixe o banco preencher automaticamente se precisar
+  const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa) VALUES (?, ?, ?)`;
+  connection.execute(insertQuery, [title, text, publicPath], (err, result) => {
+    if (err) {
+      console.error('Erro ao inserir aviso:', err);
+      try { fs.unlinkSync(req.file.path); } catch (e) {}
+      return res.status(500).send('Erro ao salvar aviso no servidor.');
+    }
 
-        if (
-          req.headers.accept &&
-          req.headers.accept.indexOf("application/json") !== -1
-        ) {
-          return res.json({
-            message: "Upload realizado e aviso salvo com sucesso!",
-            path: publicPath,
-            avisoId: result.insertId,
-          });
-        }
-        return res.redirect("/home");
-      }
-    );
-  }
-);
+    if (req.headers.accept && req.headers.accept.indexOf('application/json') !== -1) {
+      return res.json({ message: 'Upload realizado e aviso salvo com sucesso!', path: publicPath, avisoId: result.insertId });
+    }
+    return res.redirect('/home');
+  });
+});
 
 app.get("/tables", (req, res) => {
   connection.query("SHOW TABLES", (err, results) => {
@@ -435,16 +365,11 @@ app.get("/tables", (req, res) => {
   });
 });
 
-const dbName =
-  (connection.config && (connection.config.database || connection.config.db)) ||
-  process.env.DB_DATABASE ||
-  process.env.DB_NAME ||
-  null;
+const dbName = (connection.config && (connection.config.database || connection.config.db)) || process.env.DB_DATABASE || process.env.DB_NAME || null;
 
 function checkTableExists(tableName) {
   return new Promise((resolve, reject) => {
-    if (!dbName)
-      return reject(new Error("Nome do database não definido (dbName vazio)"));
+    if (!dbName) return reject(new Error('Nome do database não definido (dbName vazio)'));
     const q = `
       SELECT COUNT(*) AS cnt
       FROM information_schema.tables
