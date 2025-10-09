@@ -33,7 +33,7 @@
             <div class="aviso-capa-placeholder"></div>
             <% } %>
             <button class="aviso-editar-btn" title="Editar aviso">
-              <img src="imgs/adicionar.png" alt="Editar" />
+              <img src="imgs/avisos/edit.png" alt="Editar" />
             </button>
           </div>
           <div class="aviso-titulo">
@@ -52,9 +52,37 @@
 
     <%- include('rightbar') %>
 
+    <!-- Modal Edição/Exclusão de Aviso -->
+    <div id="modal-editar-aviso" class="modal-edit" aria-hidden="true">
+      <div class="modal-edit-content">
+        <div class="modal-edit-header">
+          <h2>Gerenciar aviso</h2>
+        </div>
+        <div class="modal-edit-body">
+          <form id="form-editar-aviso" method="POST" action="/avisos/editar">
+            <input type="hidden" name="id" id="edit-id">
+            <label for="edit-titulo">Título</label>
+            <input type="text" id="edit-titulo" name="titulo" class="input-modal" required>
+            <label for="edit-conteudo">Conteúdo</label>
+            <textarea id="edit-conteudo" name="conteudo" class="input-modal" rows="5" required></textarea>
+            <div class="modal-edit-actions">
+              <button type="submit" class="btn-modal">Salvar</button>
+              <button type="button" id="btn-cancelar-edicao" class="btn-modal btn-cancelar">Cancelar</button>
+            </div>
+          </form>
+
+          <form id="form-excluir-aviso" method="POST" action="/avisos/excluir" class="modal-delete-inline">
+            <input type="hidden" name="id" id="delete-id">
+            <button type="submit" id="btn-excluir-aviso" class="btn-modal btn-danger">Excluir aviso</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <script src="javascript/home.js"></script>
     <script src="javascript/sidebar.js"></script>
     <script src="javascript/rightbar.js"></script>
+    <script src="javascript/avisos.js"></script>
 </body>
 
 </html>
