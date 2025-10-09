@@ -5,6 +5,38 @@ const fs = require("fs");
 const mysql = require("mysql2");
 const session = require("express-session");
 const app = express();
+const { parse, format } = require('date-fns');
+
+// formata YYYY-MM-DD (ou YYYY-MM-DD HH:MM:SS) sem causar shift de fuso
+function formatDateValue(raw) {
+  if (!raw) return null;
+  const s = String(raw).trim();
+
+  // se já vier no formato YYYY-MM-DD
+  const isoDateOnly = /^(\d{4})-(\d{2})-(\d{2})$/;
+  const isoWithTime = /^(\d{4})-(\d{2})-(\d{2})[T\s]/;
+
+  try {
+    if (isoDateOnly.test(s)) {
+      // parse usando formato local (evita interpretação UTC)
+      const d = parse(s, 'yyyy-MM-dd', new Date());
+      return format(d, 'dd/MM/yyyy');
+    }
+    if (isoWithTime.test(s)) {
+      const d = parse(s.substring(0, 10), 'yyyy-MM-dd', new Date());
+      return format(d, 'dd/MM/yyyy');
+    }
+    // fallback: tentar Date normal
+    const parsed = new Date(s);
+    if (!isNaN(parsed)) return format(parsed, 'dd/MM/yyyy');
+  } catch (e) {
+    console.error('formatDateValue erro:', e);
+  }
+  return null;
+}
+
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -50,41 +82,50 @@ app.get("/login", (req, res) => {
 
 // Rotas protegidas
 app.get("/home", ensureAuthenticated, (req, res) => {
-  // Busca os avisos mais recentes e passa para o template
-  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50"; // corrigido: usa PK em vez de CreatedAt inexistente
+  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
   connection.execute(q, [], (err, results) => {
     if (err) {
       console.error("Erro ao buscar avisos:", err);
       return res.status(500).send("Erro no servidor");
     }
-    // passa também req.session.user se precisar na view
-    res.render("home.ejs", { avisos: results, user: req.session.user });
+    const mapped = (results || []).map(r => {
+      const raw = r.Data_Aviso || r.CreatedAt || r.created_at || r.Data || r.data || null;
+      r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
+      return r;
+    });
+    res.render("home.ejs", { avisos: mapped, user: req.session.user });
   });
 });
 
 app.get("/estagios", ensureAuthenticated, (req, res) => {
-  // Busca os avisos mais recentes e passa para o template
-  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50"; // corrigido: usa PK em vez de CreatedAt inexistente
+  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
   connection.execute(q, [], (err, results) => {
     if (err) {
       console.error("Erro ao buscar avisos:", err);
       return res.status(500).send("Erro no servidor");
     }
-    // passa também req.session.user se precisar na view
-    res.render("estagio.ejs", { avisos: results, user: req.session.user });
+    const mapped = (results || []).map(r => {
+      const raw = r.Data_Aviso || r.CreatedAt || r.created_at || r.Data || r.data || null;
+      r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
+      return r;
+    });
+    res.render("estagio.ejs", { avisos: mapped, user: req.session.user });
   });
 });
 
 app.get("/cursos", ensureAuthenticated, (req, res) => {
-  // Busca os avisos mais recentes e passa para o template
-  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50"; // corrigido: usa PK em vez de CreatedAt inexistente
+  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
   connection.execute(q, [], (err, results) => {
     if (err) {
       console.error("Erro ao buscar avisos:", err);
       return res.status(500).send("Erro no servidor");
     }
-    // passa também req.session.user se precisar na view
-    res.render("cursos.ejs", { avisos: results, user: req.session.user });
+    const mapped = (results || []).map(r => {
+      const raw = r.Data_Aviso || r.CreatedAt || r.created_at || r.Data || r.data || null;
+      r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
+      return r;
+    });
+    res.render("cursos.ejs", { avisos: mapped, user: req.session.user });
   });
 });
 
