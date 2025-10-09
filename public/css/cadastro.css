@@ -93,6 +93,7 @@ label {
 input[type="text"],
 select,
 textarea {
+    resize: none;
   width: 100%;
   padding: 12px 14px;
   border: 1.5px solid var(--muted-border);
@@ -107,12 +108,12 @@ input[type="text"]:focus,
 select:focus,
 textarea:focus {
   border-color: var(--main-red);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--main-red) 20%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--main-red) 60%, transparent);
 }
 
 /* Textarea no padrão */
 textarea {
-  resize: vertical;
+  resize: none;
   min-height: 180px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
 }

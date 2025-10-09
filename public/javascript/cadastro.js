@@ -87,35 +87,4 @@
         // Verificar status ao carregar a página
         document.addEventListener('DOMContentLoaded', function() {
             checkDatabaseStatus();
-            
-            // Exemplo de dados no textarea
-            const tableData = document.getElementById('tableData');
-            if (!tableData.value.trim()) {
-                tableData.value = `Nome,Telefone,Email,Senha,ID_Alunos,Data_Nasc,Sexo
-Ana Silva,11 98765-4321,ana.silva@email.com,ana123,10001,2010-03-15,Feminino
-João Santos,11 99876-5432,joao.santos@email.com,joao123,10002,2009-07-22,Masculino
-Maria Oliveira,11 99123-4567,maria.oliveira@email.com,maria123,10003,2011-11-08,Feminino
-Pedro Costa,11 99234-5678,pedro.costa@email.com,pedro123,10004,2008-09-30,Masculino
-Carla Rodrigues,11 99345-6789,carla.rodrigues@email.com,carla123,10005,2010-05-18,Feminino
-Lucas Almeida,11 99456-7890,lucas.almeida@email.com,lucas123,10006,2008-12-03,Masculino
-Fernanda Lima,11 99567-8901,fernanda.lima@email.com,fernanda123,10007,2009-08-25,Feminino
-Rafael Souza,11 99678-9012,rafael.souza@email.com,rafael123,10008,2008-04-12,Masculino
-Juliana Pereira,11 99789-0123,juliana.pereira@email.com,juliana123,10009,2010-01-29,Feminino
-Diego Martins,11 99890-1234,diego.martins@email.com,diego123,10010,2009-06-17,Masculino
-Amanda Barbosa,11 99901-2345,amanda.barbosa@email.com,amanda123,10011,2011-10-05,Feminino
-Bruno Carvalho,11 99112-3456,bruno.carvalho@email.com,bruno123,10012,2008-02-14,Masculino
-Patrícia Rocha,11 99223-4567,patricia.rocha@email.com,patricia123,10013,2010-07-21,Feminino
-Thiago Nascimento,11 99334-5678,thiago.nascimento@email.com,thiago123,10014,2008-11-11,Masculino
-Letícia Fernandes,11 99445-6789,leticia.fernandes@email.com,leticia123,10015,2011-09-03,Feminino
-Marcos Silva,11 99556-7890,marcos.silva@email.com,marcos123,10016,2009-08-19,Masculino
-Vanessa Costa,11 99667-8901,vanessa.costa@email.com,vanessa123,10017,2010-04-27,Feminino
-Ricardo Oliveira,11 99778-9012,ricardo.oliveira@email.com,ricardo123,10018,2008-01-15,Masculino
-Tatiane Santos,11 99889-0123,tatiane.santos@email.com,tatiane123,10019,2011-12-08,Feminino
-Felipe Rodrigues,11 99990-1234,felipe.rodrigues@email.com,felipe123,10020,2009-03-24,Masculino
-Camila Alves,11 98765-1234,camila.alves@email.com,camila123,10021,2010-06-14,Feminino
-Gabriel Monteiro,11 98765-2345,gabriel.monteiro@email.com,gabriel123,10022,2009-10-30,Masculino
-Isabela Castro,11 98765-3456,isabela.castro@email.com,isabela123,10023,2011-02-18,Feminino
-Vinícius Rocha,11 98765-4567,vinicius.rocha@email.com,vinicius123,10024,2008-05-22,Masculino
-Laura Mendes,11 98765-5678,laura.mendes@email.com,laura123,10025,2010-11-11,Feminino`;
-            }
         });
