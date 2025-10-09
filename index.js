@@ -162,6 +162,10 @@ app.get("/projetos", ensureAuthenticated, (req, res) => {
   res.render("projetos.ejs");
 });
 
+app.get("/cadastro", ensureAuthenticated, (req, res) => {
+  res.render("cadastro.ejs");
+});
+
 // Logout
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
