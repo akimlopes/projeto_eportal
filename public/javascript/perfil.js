@@ -73,3 +73,78 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+document.addEventListener('DOMContentLoaded', () => {
+  // Chips e seções
+  const chipContato = document.getElementById('chip-contato');
+  const chipCurso   = document.getElementById('chip-curso');
+  const secContato  = document.getElementById('sec-contato');
+  const secCurso    = document.getElementById('sec-curso');
+
+  function openSection(which) {
+    const contato = which === 'contato';
+    secContato?.setAttribute('aria-hidden', contato ? 'false' : 'true');
+    secCurso?.setAttribute('aria-hidden', contato ? 'true' : 'false');
+    chipContato?.classList.toggle('active', contato);
+    chipCurso?.classList.toggle('active', !contato);
+  }
+
+  chipContato?.addEventListener('click', () => openSection('contato'));
+  chipCurso?.addEventListener('click',   () => openSection('curso'));
+  openSection('contato'); // seção inicial
+
+  // Senha (editar/cancelar/salvar)
+  const btnEditar   = document.getElementById('btn-editar');
+  const btnCancelar = document.getElementById('btn-cancelar');
+  const btnSalvar   = document.getElementById('btn-salvar');
+
+  const trocaArea   = document.getElementById('troca-senha-area');
+  const senhaAtual  = document.getElementById('senha-atual-input');
+  const novaSenha   = document.getElementById('nova-senha');
+  const confSenha   = document.getElementById('confirma-senha');
+  const msgErro     = document.getElementById('senha-erro');
+
+  function enterEdit() {
+    if (!trocaArea) return;
+    trocaArea.style.display = 'block';
+    btnEditar && (btnEditar.style.display = 'none');
+    btnCancelar && (btnCancelar.style.display = 'inline-block');
+    btnSalvar && (btnSalvar.style.display = 'inline-block');
+    senhaAtual?.focus();
+  }
+
+  function leaveEdit() {
+    if (!trocaArea) return;
+    trocaArea.style.display = 'none';
+    [senhaAtual, novaSenha, confSenha].forEach(i => i && (i.value = ''));
+    msgErro && (msgErro.style.display = 'none');
+    btnEditar && (btnEditar.style.display = 'inline-block');
+    btnCancelar && (btnCancelar.style.display = 'none');
+    btnSalvar && (btnSalvar.style.display = 'none');
+  }
+
+  btnEditar?.addEventListener('click', enterEdit);
+  btnCancelar?.addEventListener('click', leaveEdit);
+
+  btnSalvar?.addEventListener('click', () => {
+    const a = senhaAtual?.value || '';
+    const n = novaSenha?.value || '';
+    const c = confSenha?.value || '';
+
+    if (!a || !n || !c) {
+      if (msgErro) { msgErro.textContent = 'Preencha todos os campos.'; msgErro.style.display = 'block'; }
+      return;
+    }
+    if (n !== c) {
+      if (msgErro) { msgErro.textContent = 'As senhas não coincidem.'; msgErro.style.display = 'block'; }
+      return;
+    }
+    if (msgErro) msgErro.style.display = 'none';
+
+    // Exemplo de integração:
+    // fetch('/perfil/senha', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ atual: a, nova: n }) })
+    //   .then(r => r.ok ? leaveEdit() : alert('Erro ao atualizar senha'));
+
+    alert('Senha validada (mock). Integre com o backend.');
+    leaveEdit();
+  });
+});

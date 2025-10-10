@@ -2,81 +2,124 @@
 <html lang="pt-br">
 
 <head>
-    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="css/sidebar.css">
-    <link rel="stylesheet" href="css/perfil.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil</title>
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/perfil.css">
 </head>
 
 <body class="sidebar-collapsed">
-    <%- include('navbar') %>
+  <%- include('navbar') %>
 
-        <div class="content perfil-content">
-            <h1>Perfil</h1>
-            <form class="perfil-grid" method="POST" action="/perfil/atualizar">
-                <!-- Card principal com avatar e dados básicos -->
-                <div class="perfil-card">
-                    <div class="perfil-avatar">
-                        <img src="imgs/ETEC_POA.jpg" alt="Avatar do usuário" />
-                    </div>
-                    <div class="perfil-info">
-                        <h2 ><%= user.Nome || 'Nome do usuário' %></h2>
-                        <p>
-                            Data de Nascimento:
-                            <% if (user && user.Data_Nasc) { %>
-                                <%= new Date(user.Data_Nasc).toLocaleDateString('pt-BR') %>
-                            <% } else { %>
-                                A definir
-                            <% } %>
-                        </p>
-                        <p>RM: <%= user.ID_Alunos || user.ID_Professores || user.ID_Coordenadores %></p>
-                        <p>Sexo: <%= user.Sexo %></p>
-                    </div>
-                </div>
-                <!-- Card de contato -->
-                <div class="perfil-card">
-                    <h3>Contato</h3>
-                    <input type="email" id="email" name="email" class="input-perfil" value="<%= user.Email %>"
-                        disabled />
-                    <input type="text" id="telefone" name="telefone" class="input-perfil" value="<%= user.Telefone || '' %>"
-                        disabled />
-                </div>
-                <!-- Card de curso/projeto -->
-                <div class="perfil-card">
-                    <h3>Projeto</h3>
-                    <p><%= user.Projeto || 'Nenhum' %></p>
-                    <h3>Curso</h3>
-                    <p><%= (turma && turma.Curso) ? turma.Curso : 'A definir' %></p>
-                </div>
-                <!-- Card de status e matrícula -->
-                <div class="perfil-card perfil-card-senha">
-                    <h3 class="perfil-label">Senha</h3>
-                    <input type="password" id="senha-usuario" name="senha-usuario" class="input-perfil" value="<%= user.Senha %>"
-                        disabled autocomplete="off" />
-                    <button type="button" id="btn-trocar-senha" class="btn-trocar-senha" style="display: none;">Trocar
-                        senha</button>
-                    <div id="troca-senha-area" style="display:none;">
-                        <input type="password" id="senha-atual-input" name="senha-atual-input" class="input-perfil"
-                            placeholder="Digite sua senha atual" autocomplete="current-password" />
-                        <input type="password" id="nova-senha" name="nova-senha" class="input-perfil"
-                            placeholder="Nova senha" autocomplete="new-password" />
-                        <input type="password" id="confirma-senha" name="confirma-senha" class="input-perfil"
-                            placeholder="Confirmar nova senha" autocomplete="new-password" />
-                        <span id="senha-erro" class="senha-erro"></span>
-                    </div>
-                </div>
-                <div style="grid-column:1/3;text-align:right;padding-top:16px;">
-                    <button type="button" id="btn-editar" class="btn-editar">Editar</button>
-                    <button type="button" id="btn-cancelar" class="btn-cancelar" style="display:none;">Cancelar</button>
-                    <button type="submit" id="btn-salvar" class="btn-salvar" style="display:none;">Salvar
-                        alterações</button>
-                </div>
-            </form>
-            </main>
-            <script src="javascript/sidebar.js"></script>
-            <script src="javascript/perfil.js"></script>
+  <main class="perfil-container">
+    <!-- Card principal -->
+    <section class="perfil-card">
+      <div class="perfil-topbar"></div>
+
+      <div class="perfil-header">
+        <div class="perfil-user">
+          <img class="perfil-avatar" src="/imgs/profile_icons/usuario.png" alt="Avatar do usuário" />
+          <div class="perfil-id">
+            <h2 class="perfil-nome"><%= (user && (user.Nome || user.nome)) || 'Usuário' %></h2>
+            <div class="perfil-meta">
+              <span>
+                Nasc.:
+                <% if (user && user.Data_Nasc) { %>
+                  <%= new Date(user.Data_Nasc).toLocaleDateString('pt-BR') %>
+                <% } else { %>—<% } %>
+              </span>
+              <span>•</span>
+              <span>RM: <%= (aluno && aluno.RM_Aluno) || (user && (user.ID_Alunos || user.ID_Professores || user.ID_Coordenadores)) || '—' %></span>
+              <span>•</span>
+              <span><%= (user && (user.Sexo || user.sexo)) || '—' %></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="perfil-chips">
+          <button type="button" id="chip-contato" class="chip active">Contato</button>
+          <button type="button" id="chip-curso" class="chip">Curso e Projeto</button>
+        </div>
+      </div>
+
+      <!-- Seção expansível: Contato -->
+      <section id="sec-contato" class="perfil-section" aria-hidden="false">
+        <div class="perfil-section-inner">
+          <div class="grid-2">
+            <div class="field">
+              <label>E-mail</label>
+              <input type="email" class="input" value="<%= (user && (user.Email || user.email)) || '' %>" disabled>
+            </div>
+            <div class="field">
+              <label>Telefone</label>
+              <input type="text" class="input" value="<%= (user && (user.Telefone || user.telefone)) || '' %>" disabled>
+            </div>
+          </div>
+          <div class="field">
+            <label>Endereço</label>
+            <input type="text" class="input" value="<%= (user && (user.Endereco || user.endereco)) || '' %>" disabled>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção expansível: Curso e Projeto -->
+      <section id="sec-curso" class="perfil-section" aria-hidden="true">
+        <div class="perfil-section-inner">
+          <div class="grid-2">
+            <div class="field">
+              <label>Projeto</label>
+              <input type="text" class="input" value="<%= (aluno && (aluno.Projeto || aluno.Nome_Projeto)) || 'Nenhum' %>" disabled>
+            </div>
+            <div class="field">
+              <label>Curso</label>
+              <input type="text" class="input" value="<%= (turma && (turma.Curso || turma.Nome_Curso)) || 'A definir' %>" disabled>
+            </div>
+          </div>
+          <div class="field">
+            <label>Turma</label>
+            <input type="text" class="input" value="<%= (turma && (turma.Nome || turma.Sigla || turma.Cod_Turma)) || '—' %>" disabled>
+          </div>
+        </div>
+      </section>
+
+      <!-- Senha (fora das expansões) -->
+      <section class="perfil-section senha-wrapper" aria-hidden="false">
+        <div class="perfil-section-inner">
+          <div class="senha-row">
+            <div class="field" style="flex:1;">
+              <label>Senha</label>
+              <input type="password" class="input" value="********" disabled>
+            </div>
+            <button type="button" id="btn-editar" class="btn btn-danger">Editar</button>
+            <button type="button" id="btn-cancelar" class="btn btn-ghost" style="display:none;">Cancelar</button>
+            <button type="button" id="btn-salvar" class="btn" style="display:none;">Salvar</button>
+          </div>
+
+          <div id="troca-senha-area" class="troca-senha" style="display:none;">
+            <div class="grid-3">
+              <div class="field">
+                <label>Senha atual</label>
+                <input type="password" id="senha-atual-input" class="input" autocomplete="current-password">
+              </div>
+              <div class="field">
+                <label>Nova senha</label>
+                <input type="password" id="nova-senha" class="input" autocomplete="new-password">
+              </div>
+              <div class="field">
+                <label>Confirmar nova senha</label>
+                <input type="password" id="confirma-senha" class="input" autocomplete="new-password">
+              </div>
+            </div>
+            <p id="senha-erro" class="senha-erro" style="display:none;"></p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="javascript/perfil.js"></script>
+  <script src="javascript/sidebar.js"></script>
 </body>
 
 </html>
