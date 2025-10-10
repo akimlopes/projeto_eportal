@@ -174,6 +174,25 @@ app.get("/perfil", ensureAuthenticated, (req, res) => {
   });
 });
 
+app.post("/perfil/atualizar", ensureAuthenticated, (req, res) => {
+  const rm = req.session.user && req.session.user.rm;
+  const { email, telefone } = req.body;
+  if (!rm) return res.status(400).send("RM não encontrado.");
+
+  const query = `
+    UPDATE dados_pessoais
+    SET Email = ?, Telefone = ?
+    WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?
+  `;
+  connection.execute(query, [email, telefone, rm, rm, rm], (err, result) => {
+    if (err) {
+      console.error("Erro ao atualizar perfil:", err);
+      return res.status(500).send("Erro no servidor");
+    }
+    console.log("Perfil atualizado com sucesso:", result);
+    res.redirect("/perfil");
+  });
+});
 
 app.get("/projetos", ensureAuthenticated, (req, res) => {
   res.render("projetos.ejs");
