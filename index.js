@@ -390,9 +390,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.post("/upload", ensureAuthenticated, upload.single('arquivo'), (req, res) => {
-  if (!req.file) return res.status(400).json({ message: 'Arquivo inválido.' });
-
-  const publicPath = '/' + path.relative(path.join(__dirname, 'public'), req.file.path).replace(/\\/g, '/');
+  // Permitir upload sem imagem
+  let publicPath = null;
+  if (req.file) {
+    publicPath = '/' + path.relative(path.join(__dirname, 'public'), req.file.path).replace(/\\/g, '/');
+  }
 
   const title = req.body.title || null;
   const text = req.body.text || null;
@@ -403,7 +405,10 @@ app.post("/upload", ensureAuthenticated, upload.single('arquivo'), (req, res) =>
   connection.execute(insertQuery, [title, text, publicPath], (err, result) => {
     if (err) {
       console.error('Erro ao inserir aviso:', err);
-      try { fs.unlinkSync(req.file.path); } catch (e) { }
+      // Só tenta remover arquivo se existir
+      if (req.file) {
+        try { fs.unlinkSync(req.file.path); } catch (e) { }
+      }
       return res.status(500).send('Erro ao salvar aviso no servidor.');
     }
 
