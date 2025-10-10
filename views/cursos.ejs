@@ -23,8 +23,9 @@
         <div class="aviso-card">
           <div class="aviso-header">
             <div class="aviso-avatar"></div>
-            <span class="aviso-nome"><%= aviso.AutorNome || aviso.Autor_RM || 'Autor' %></span>
-            <span class="aviso-data"><%= aviso.Data || '00/00/0000' %></span>
+            <span class="aviso-nome"><%= aviso.Nome || aviso.ID_Coordenadores || 'Autor' %></span>
+            <span class="aviso-data"><%= aviso.Data_Aviso_formatada || '00/00/0000' %></span>
+          
           </div>
           <div class="aviso-capa-area">
             <% if (aviso.Capa) { %>
@@ -52,7 +53,7 @@
 
     <%- include('rightbar') %>
 
- <!-- Modal para criar novo post -->
+     <!-- Modal para criar novo post -->
 
     <div id="modal-post" class="modal-post">
       <div class="modal-content">
@@ -64,7 +65,8 @@
           <input type="text" id="titulo" name="title" required class="input-modal" />
 
           <label for="conteudo">Conteúdo:</label>
-          <textarea id="conteudo" name="text" required class="input-modal"></textarea>
+          <textarea id="conteudo" name="text" maxlength="500" required class="input-modal"></textarea>
+          <div class="text-limit-hint"><span id="conteudo-count">0</span>/500</div>
 
           <label for="imagem">Imagem:</label>
           <input type="file" id="imagem" name="arquivo" accept="image/*" class="input-modal" />

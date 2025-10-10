@@ -65,7 +65,8 @@
           <input type="text" id="titulo" name="title" required class="input-modal" />
 
           <label for="conteudo">Conteúdo:</label>
-          <textarea id="conteudo" name="text" required class="input-modal"></textarea>
+          <textarea id="conteudo" name="text" maxlength="500" required class="input-modal"></textarea>
+          <div class="text-limit-hint"><span id="conteudo-count">0</span>/500</div>
 
           <label for="imagem">Imagem:</label>
           <input type="file" id="imagem" name="arquivo" accept="image/*" class="input-modal" />
@@ -90,7 +91,7 @@
             <label for="edit-titulo">Título</label>
             <input type="text" id="edit-titulo" name="titulo" class="input-modal" required>
             <label for="edit-conteudo">Conteúdo</label>
-            <textarea id="edit-conteudo" name="conteudo" class="input-modal" maxlength="500" cols="100" rows="5" required></textarea>
+            <textarea id="edit-conteudo" name="conteudo" class="input-modal" rows="5" required></textarea>
             <div class="modal-edit-actions">
               <button type="submit" class="btn-modal">Salvar</button>
               <button type="button" id="btn-cancelar-edicao" class="btn-modal btn-cancelar">Cancelar</button>

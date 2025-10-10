@@ -66,11 +66,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Opcional: após salvar, você pode fechar o modal (se o envio for ajax)
-  // formEdit.addEventListener('submit', async (e) => {
-  //   e.preventDefault();
-  //   const data = new FormData(formEdit);
-  //   const res = await fetch(formEdit.action, { method: 'POST', body: data });
-  //   if (res.ok) closeModal();
-  // });
+});
+//#
+document.addEventListener('DOMContentLoaded', function() {
+  const MAX = 500;
+  const conteudo = document.getElementById('conteudo');
+  const counter = document.getElementById('conteudo-count');
+  const formPost = document.getElementById('form-post');
+
+  if (conteudo && counter) {
+    const update = () => {
+      const len = conteudo.value.length;
+      counter.textContent = len;
+      counter.parentElement.classList.toggle('warn', len >= MAX);
+    };
+    conteudo.addEventListener('input', update);
+    update();
+  }
+
+  if (formPost) {
+    formPost.addEventListener('submit', function(e) {
+      const len = (conteudo?.value || '').length;
+      if (len > MAX) {
+        e.preventDefault();
+        alert(`O conteúdo pode ter no máximo ${MAX} caracteres.`);
+      }
+    });
+  }
 });
