@@ -40,17 +40,15 @@
                     <h3>Contato</h3>
                     <input type="email" id="email" name="email" class="input-perfil" value="<%= user.Email %>"
                         disabled />
-                    <input type="text" id="telefone" name="telefone" class="input-perfil" value="(11) 99999-9999"
+                    <input type="text" id="telefone" name="telefone" class="input-perfil" value="<%= user.Telefone || '' %>"
                         disabled />
                 </div>
                 <!-- Card de curso/projeto -->
                 <div class="perfil-card">
                     <h3>Projeto</h3>
-                    <input type="text" id="projeto" name="projeto" class="input-perfil" value="<%= user.Projeto || 'Nenhum' %>"
-                        disabled />
+                    <p><%= user.Projeto || 'Nenhum' %></p>
                     <h3>Curso</h3>
-                    <input type="text" id="curso" name="curso" class="input-perfil" 
-                        value="<%= (turma && turma.Curso) ? turma.Curso : 'A definir' %>" disabled />
+                    <p><%= (turma && turma.Curso) ? turma.Curso : 'A definir' %></p>
                 </div>
                 <!-- Card de status e matrícula -->
                 <div class="perfil-card perfil-card-senha">

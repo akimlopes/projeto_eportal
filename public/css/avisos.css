@@ -7,7 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
   }
 
   html, body {
@@ -95,9 +95,9 @@
 
 .aviso-card {
   background: #fff;
-  border-radius: 30px 30px 0 0;
+  border-radius: 30px 30px 30px 30px;
   overflow: visible;               /* permite o botão ficar “fora” do card sem ser cortado */
-  margin: 32px auto 0 auto;
+  margin: 32px auto 120px auto;
   max-width: 100%;                 /* ocupa toda a largura disponível do feed-inner */
   box-shadow: none;
   border: none;

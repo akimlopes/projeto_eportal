@@ -51,16 +51,6 @@ document.addEventListener("click", (e) => {
     formPost.reset();
   });
 
-  /*// Exemplo de envio (substitua pelo envio real ao backend)
-  formPost.addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Aqui você pode enviar via fetch/AJAX para o backend
-    // Após sucesso, fecha o modal e atualiza a lista de avisos
-    modal.classList.remove('active');
-    formPost.reset();
-    alert('Aviso postado com sucesso!');
-  });
-});*/
 
 document.addEventListener('DOMContentLoaded', () => {
   const formPost = document.getElementById('form-post');
