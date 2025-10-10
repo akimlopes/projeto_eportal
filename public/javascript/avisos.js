@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openModal(card) {
     currentCard = card;
-    const id = card?.dataset?.avisoId || card?.getAttribute('data-aviso-id') || '';
+    const id = card?.dataset?.avisoId || card?.getAttribute('aviso-id') || '';
     inputIdEdit.value = id;
     inputIdDel.value = id;
 
@@ -59,15 +59,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Confirmação de exclusão
-  formDelete?.addEventListener('submit', (e) => {
-    if (!confirm('Tem certeza que deseja excluir este aviso?')) {
-      e.preventDefault();
+  // Exclusão de aviso
+  formDelete?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!confirm('Tem certeza que deseja excluir este aviso?')) return;
+
+    const id = inputIdDel.value;
+    if (!id) {
+      alert("Erro: ID do aviso não encontrado.");
+      return;
+    }
+
+    try {
+      const res = await fetch('/avisos/excluir', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+
+      if (res.ok) {
+        alert('Aviso excluído com sucesso!');
+        currentCard?.remove();  // Remove o card da tela
+        closeModal();
+      } else {
+        const msg = await res.text();
+        alert(`Erro: ${msg}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao tentar excluir o aviso.');
     }
   });
-
 });
-//#
+
+// Conteúdo limite do post (mantido)
 document.addEventListener('DOMContentLoaded', function() {
   const MAX = 500;
   const conteudo = document.getElementById('conteudo');

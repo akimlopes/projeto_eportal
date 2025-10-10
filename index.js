@@ -97,6 +97,20 @@ app.get("/home", ensureAuthenticated, (req, res) => {
   });
 });
 
+
+app.post("/avisos/excluir", ensureAuthenticated, (req, res) => {
+  const { id } = req.body;
+  if (!id) return res.status(400).send("ID do aviso é obrigatório");
+  const q = "DELETE FROM avisos WHERE ID_Aviso = ?";
+  connection.execute(q, [id], (err, results) => {
+    if (err) {
+      console.error("Erro ao deletar aviso:", err);
+      return res.status(500).send("Erro no servidor");
+    }
+    res.send("Aviso deletado com sucesso");
+  });
+});
+
 app.get("/estagios", ensureAuthenticated, (req, res) => {
   const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
   connection.execute(q, [], (err, results) => {
