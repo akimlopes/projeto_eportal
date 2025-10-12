@@ -20,7 +20,7 @@
       <div class="feed-inner">
         <% if (avisos && avisos.length > 0) { %>
         <% avisos.forEach(function(aviso) { %>
-        <div class="aviso-card">
+        <div class="aviso-card" aviso-id="<%= aviso.ID_Aviso %>">
           <div class="aviso-header">
             <div class="aviso-avatar"></div>
             <span class="aviso-nome"><%= aviso.Nome || aviso.ID_Coordenadores || 'Autor' %></span>
@@ -33,9 +33,11 @@
             <% } else { %>
             <div class="aviso-capa-placeholder"></div>
             <% } %>
+            <% if (nivel === 'coordenador') { %>
             <button class="aviso-editar-btn" title="Editar aviso">
               <img src="imgs/avisos/edit.png" alt="Editar" />
             </button>
+            <% } %>
           </div>
           <div class="aviso-titulo">
             <%= aviso.Titulo || 'Título do aviso' %>

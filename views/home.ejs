@@ -33,9 +33,11 @@
             <% } else { %>
             <div class="aviso-capa-placeholder"></div>
             <% } %>
+            <% if (nivel === 'coordenador') { %>
             <button class="aviso-editar-btn" title="Editar aviso">
               <img src="imgs/avisos/edit.png" alt="Editar" />
             </button>
+            <% } %>
           </div>
           <div class="aviso-titulo">
             <%= aviso.Titulo || 'Título do aviso' %>

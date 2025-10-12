@@ -68,6 +68,16 @@ app.set("view engine", "ejs");
 
 app.use(express.static("public"));
 
+function ensureCoordenador(req, res, next) {
+  if (req.session && req.session.nivel === "coordenador") {
+    // Se for coordenador, pode continuar normalmente
+    return next();
+  } else {
+    // Se não for, bloqueia o acesso
+    return res.status(403).send("<script>alert('Acesso negado.'); window.location.href='/home';</script>");
+  }
+}
+
 // Middleware de proteção
 function ensureAuthenticated(req, res, next) {
   if (req.session && req.session.user) return next();
@@ -93,12 +103,12 @@ app.get("/home", ensureAuthenticated, (req, res) => {
       r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
       return r;
     });
-    res.render("home.ejs", { avisos: mapped, user: req.session.user });
+    res.render("home.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel });
   });
 });
 
 
-app.post("/avisos/excluir", ensureAuthenticated, (req, res) => {
+app.post("/avisos/excluir", ensureAuthenticated, ensureCoordenador, (req, res) => {
   const { id } = req.body;
   if (!id) return res.status(400).send("ID do aviso é obrigatório");
   const q = "DELETE FROM avisos WHERE ID_Aviso = ?";
@@ -123,7 +133,7 @@ app.get("/estagios", ensureAuthenticated, (req, res) => {
       r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
       return r;
     });
-    res.render("estagio.ejs", { avisos: mapped, user: req.session.user });
+    res.render("estagio.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel });
   });
 });
 
@@ -139,7 +149,7 @@ app.get("/cursos", ensureAuthenticated, (req, res) => {
       r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
       return r;
     });
-    res.render("cursos.ejs", { avisos: mapped, user: req.session.user });
+    res.render("cursos.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel });
   });
 });
 
@@ -209,11 +219,11 @@ app.post("/perfil/atualizar", ensureAuthenticated, (req, res) => {
 });
 
 app.get("/projetos", ensureAuthenticated, (req, res) => {
-  res.render("projetos.ejs");
+  res.render("projetos.ejs", { user: req.session.user, nivel: req.session.nivel });
 });
 
 app.get("/cadastro", ensureAuthenticated, (req, res) => {
-  res.render("cadastro.ejs");
+  res.render("cadastro.ejs", { user: req.session.user, nivel: req.session.nivel });
 });
 
 // Logout
@@ -246,7 +256,22 @@ app.post("/login", (req, res) => {
     console.log("Resultados da query:", results);
     if (results && results.length > 0) {
       // marca sessão como logada
+      const usuario = results[0];
       req.session.user = { rm };
+
+      //Define o nível de usuário
+      if (usuario.ID_Coordenadores) {
+        req.session.nivel = "coordenador";
+      } else if (usuario.ID_Professores) {
+        req.session.nivel = "professor";
+      } else if (usuario.ID_Alunos) {
+        req.session.nivel = "aluno";
+      } else {
+        req.session.nivel = "desconhecido";
+      }
+
+      console.log("Usuário logado:", req.session.nivel);
+
       return res.redirect("/home");
     }
     else {
@@ -422,7 +447,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/upload", ensureAuthenticated, upload.single('arquivo'), (req, res) => {
+app.post("/upload", ensureAuthenticated, ensureCoordenador, upload.single('arquivo'), (req, res) => {
   // Permitir upload sem imagem
   let publicPath = null;
   if (req.file) {
