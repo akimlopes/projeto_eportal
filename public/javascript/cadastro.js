@@ -34,9 +34,7 @@
             submitBtn.innerHTML = '⏳ Processando...';
             
             const formData = {
-                tableName: document.getElementById('tableName').value,
                 tableData: document.getElementById('tableData').value,
-                delimiter: document.getElementById('delimiter').value,
                 hasHeader: document.getElementById('hasHeader').checked
             };
             

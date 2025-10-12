@@ -293,7 +293,7 @@ function processTableData(tableData, hasHeader = true, delimiter = ',') {
 app.post("/signup", async (req, res) => {
   const { tableData, hasHeader = true } = req.body;
   tableName = 'dados_pessoais'; // Força o nome da tabela para dados_pessoais
-  delimiter = ',' // Força o delimitador para vírgula
+  delimiter = ',' ;// Força o delimitador para vírgula
   console.log('Recebendo solicitação de importação...');
   console.log('Tabela:', tableName);
   console.log('Tamanho dos dados:', tableData.length);
