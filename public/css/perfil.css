@@ -18,7 +18,7 @@
 
 /* Container alinhado com a sidebar (ajuste se necessário) */
 .perfil-container{
-  padding: 24px;
+  padding: 140px 24px;
   margin-left: 110px; /* alinha com a sidebar */
   min-height: 100vh;
 }
@@ -75,7 +75,7 @@
   display:grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows .25s ease, padding .2s ease;
-  padding: 0 16px;
+  padding: 15px 16px;
   background:#f6f6f6;
   border-top:1px solid var(--muted);
 }

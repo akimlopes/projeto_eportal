@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openSection(which) {
     const contato = which === 'contato';
-    secContato?.setAttribute('aria-hidden', contato ? 'false' : 'true');
-    secCurso?.setAttribute('aria-hidden', contato ? 'true' : 'false');
+    if (secContato) secContato.style.display = contato ? 'block' : 'none';
+    if (secCurso) secCurso.style.display = contato ? 'none' : 'block';
     chipContato?.classList.toggle('active', contato);
     chipCurso?.classList.toggle('active', !contato);
   }
