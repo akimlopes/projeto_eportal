@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     formEdit.reset();
   }
 
-  // Delegação: clicar no botão de editar do aviso
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('.aviso-editar-btn');
     if (btn) {
@@ -44,22 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Cancelar
   btnCancelar?.addEventListener('click', closeModal);
 
-  // Fechar ao clicar fora
   modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
   });
 
-  // ESC fecha
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
       closeModal();
     }
   });
 
-  // Exclusão de aviso
+  //Excluir aviso
   formDelete?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -80,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (res.ok) {
         alert('Aviso excluído com sucesso!');
-        currentCard?.remove();  // Remove o card da tela
+        currentCard?.remove();
         closeModal();
       } else {
         const msg = await res.text();
@@ -91,32 +87,42 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Erro ao tentar excluir o aviso.');
     }
   });
-});
 
-// Conteúdo limite do post (mantido)
-document.addEventListener('DOMContentLoaded', function() {
-  const MAX = 500;
-  const conteudo = document.getElementById('conteudo');
-  const counter = document.getElementById('conteudo-count');
-  const formPost = document.getElementById('form-post');
+//Editar Aviso
+  formEdit?.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  if (conteudo && counter) {
-    const update = () => {
-      const len = conteudo.value.length;
-      counter.textContent = len;
-      counter.parentElement.classList.toggle('warn', len >= MAX);
-    };
-    conteudo.addEventListener('input', update);
-    update();
-  }
+    const id = inputIdEdit.value;
+    const titulo = inputTitulo.value.trim();
+    const conteudo = inputConteudo.value.trim();
 
-  if (formPost) {
-    formPost.addEventListener('submit', function(e) {
-      const len = (conteudo?.value || '').length;
-      if (len > MAX) {
-        e.preventDefault();
-        alert(`O conteúdo pode ter no máximo ${MAX} caracteres.`);
+    if (!id || !titulo || !conteudo) {
+      alert('Preencha todos os campos antes de salvar.');
+      return;
+    }
+
+    try {
+      // Envia para o backend atualizar
+      const res = await fetch('/avisos/editar', {
+        method: 'POST', // use PUT se o backend estiver configurado assim
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, titulo, conteudo })
+      });
+
+      if (res.ok) {
+        // Atualiza diretamente no DOM
+        currentCard.querySelector('.aviso-titulo').textContent = titulo;
+        currentCard.querySelector('.aviso-conteudo').textContent = conteudo;
+
+        alert('Aviso atualizado com sucesso!');
+        closeModal();
+      } else {
+        const msg = await res.text();
+        alert(`Erro: ${msg}`);
       }
-    });
-  }
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao atualizar o aviso.');
+    }
+  });
 });

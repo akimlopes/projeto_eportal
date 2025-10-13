@@ -121,6 +121,28 @@ app.post("/avisos/excluir", ensureAuthenticated, ensureCoordenador, (req, res) =
   });
 });
 
+app.post("/avisos/editar", ensureAuthenticated, ensureCoordenador, (req, res) => {
+  const avisoId = req.body.id;
+  const { titulo, conteudo } = req.body;
+
+  if (!avisoId || !titulo || !conteudo) {
+    return res.status(400).send("Dados incompletos para editar aviso.");
+  }
+
+  const query = "UPDATE avisos SET Titulo = ?, Conteudo = ? WHERE ID_Aviso = ?";
+
+  connection.execute(query, [titulo, conteudo, avisoId], (err, result) => {
+    if (err) {
+      console.error("Erro ao editar aviso:", err);
+      return res.status(500).send("Erro ao editar aviso.");
+    }
+
+    console.log(`Aviso ID ${avisoId} atualizado com sucesso.`);
+    res.redirect("/home"); // volta pra página principal
+  });
+});
+
+
 app.get("/estagios", ensureAuthenticated, (req, res) => {
   const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
   connection.execute(q, [], (err, results) => {
@@ -164,23 +186,37 @@ app.get("/perfil", ensureAuthenticated, (req, res) => {
     console.log("Resultados da query perfil:", results);
     if (results && results.length > 0) {
       if (results[0].ID_Alunos === null) {
-        res.render("perfil.ejs", { user: results[0], turma: null });
+        res.render("perfil.ejs", { user: results[0], aluno: null, turma: null });
       } else {
+        const queryaluno = "SELECT * FROM alunos WHERE RM_Aluno = ?";
+        connection.execute(queryaluno, [rm], (err2, results2) => {
+          if (err2) {
+            console.error("Erro na query:", err2);
+            return res.status(500).send("Erro no servidor");
+          }
+          console.log("Resultados da query aluno:", results2);
+          if (results2 && results2.length > 0) {
             const queryturma = "SELECT * FROM turmas WHERE ID_Turma = ?";
-            connection.execute(queryturma, [results[0].ID_Turmas], (err2, results2) => {
-              if (err2) {
+            connection.execute(queryturma, [results2[0].ID_Turmas], (err3, results3) => {
+              if (err3) {
                 console.error("Erro na query turma:", err3);
                 return res.status(500).send("Erro no servidor");
               }
-              console.log("Resultados da query turma:", results2);
-              if (results2 && results2.length > 0) {
-                res.render("perfil.ejs", { user: results[0], turma: results2[0] });
+              console.log("Resultados da query turma:", results3);
+              if (results3 && results3.length > 0) {
+                res.render("perfil.ejs", { user: results[0], aluno: results2[0], turma: results3[0] });
               } else {
-                res.render("perfil.ejs", { user: results[0], turma: results2[0]});
+                res.render("perfil.ejs", { user: results[0], aluno: results2[0], turma: null });
               }
             });
+          } else {
+            res.render("perfil.ejs", { user: results[0], aluno: null, turma: null });
           }
-        }
+        });
+      }
+    } else {
+      return res.send("<script>alert('Erro ao carregar perfil'); window.location.href = '/home';</script>");
+    }
   });
 });
 
