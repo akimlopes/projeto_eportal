@@ -23,7 +23,7 @@
         <div class="aviso-card" aviso-id="<%= aviso.ID_Aviso %>">
           <div class="aviso-header">
             <div class="aviso-avatar"></div>
-            <span class="aviso-nome"><%= aviso.Nome || aviso.ID_Coordenadores || 'Autor' %></span>
+            <span class="aviso-nome"><%= aviso.Autor || aviso.ID_Coordenadores || 'Autor' %></span>
             <span class="aviso-data"><%= aviso.Data_Aviso_formatada || '00/00/0000' %></span>
           
           </div>

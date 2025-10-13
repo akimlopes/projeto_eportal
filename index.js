@@ -6,6 +6,7 @@ const mysql = require("mysql2");
 const session = require("express-session");
 const app = express();
 const { parse, format } = require('date-fns');
+const { type } = require("os");
 
 // formata YYYY-MM-DD (ou YYYY-MM-DD HH:MM:SS) sem causar shift de fuso
 function formatDateValue(raw) {
@@ -84,6 +85,17 @@ function ensureAuthenticated(req, res, next) {
   return res.send("<script>alert('Você precisa estar logado!'); window.location.href = '/login';</script>");
 }
 
+function saveURL(req, res, next){
+  // Salva a URL atual antes de processar a requisição
+   if (req.originalUrl != '/upload') {
+    req.session.returnTo = req.originalUrl;
+    //type = req.session.returnTo.slice(1);
+  }
+  next();
+  console.log('URL salva na sessão: ', req.session.returnTo);
+  //console.log('Tipo salvo na variável: ', type);
+}
+
 // Rotas públicas
 app.get("/login", (req, res) => {
   res.render("login_page.ejs");
@@ -91,8 +103,8 @@ app.get("/login", (req, res) => {
 
 
 // Rotas protegidas
-app.get("/home", ensureAuthenticated, (req, res) => {
-  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
+app.get("/home", ensureAuthenticated, saveURL, (req, res) => {
+  const q = "SELECT * FROM avisos WHERE Tipo = 'geral' ORDER BY ID_Aviso DESC LIMIT 50 ;";
   connection.execute(q, [], (err, results) => {
     if (err) {
      console.error("Erro ao buscar avisos:", err);
@@ -104,7 +116,6 @@ app.get("/home", ensureAuthenticated, (req, res) => {
       return r;
     });
     res.render("home.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel });
-    //console.log('Mapped aviso:', avisos.Autor);
   });
 });
 
@@ -144,8 +155,8 @@ app.post("/avisos/editar", ensureAuthenticated, ensureCoordenador, (req, res) =>
 });
 
 
-app.get("/estagios", ensureAuthenticated, (req, res) => {
-  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
+app.get("/estagios", ensureAuthenticated, saveURL,(req, res) => {
+  const q = "SELECT * FROM avisos WHERE Tipo = 'estagios' ORDER BY ID_Aviso DESC LIMIT 50 ;";
   connection.execute(q, [], (err, results) => {
     if (err) {
       console.error("Erro ao buscar avisos:", err);
@@ -160,8 +171,8 @@ app.get("/estagios", ensureAuthenticated, (req, res) => {
   });
 });
 
-app.get("/cursos", ensureAuthenticated, (req, res) => {
-  const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
+app.get("/cursos", ensureAuthenticated, saveURL,(req, res) => {
+  const q = "SELECT * FROM avisos WHERE Tipo = 'cursos' ORDER BY ID_Aviso DESC LIMIT 50 ;";
   connection.execute(q, [], (err, results) => {
     if (err) {
       console.error("Erro ao buscar avisos:", err);
@@ -464,7 +475,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/upload", ensureAuthenticated, ensureCoordenador, upload.single('arquivo'), (req, res) => {
+app.post("/upload", ensureAuthenticated, ensureCoordenador, saveURL, upload.single('arquivo'), (req, res) => {
   // Permitir upload sem imagem
   let publicPath = null;
   if (req.file) {
@@ -475,11 +486,14 @@ app.post("/upload", ensureAuthenticated, ensureCoordenador, upload.single('arqui
   const text = req.body.text || null;
   const rm = req.session.user && req.session.user.rm ? req.session.user.rm : null;
 
-  // Não insere CreatedAt aqui para evitar erro se a coluna não existir; deixe o banco preencher automaticamente se precisar
-const autor = req.session.user && req.session.user.nome || 'Autor';  // Agora ele pega o nome correto do usuário
-const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa, Autor) VALUES (?, ?, ?, ?)`;
-console.log('Valor de autor: ', autor);
-connection.execute(insertQuery, [title, text, publicPath, autor], (err, result) => {
+// Corrigido: verifica se returnTo existe e é string
+let tipo = req.session.returnTo && req.session.returnTo.length > 1 ? req.session.returnTo.slice(1) : 'geral';
+console.log('Tipo para o aviso:', tipo);
+
+const autor = req.session.user && req.session.user.nome || 'Autor';
+const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa, Autor, Tipo) VALUES (?, ?, ?, ?, ?)`;
+console.log('Valor do insert: ', [title, text, publicPath, autor, tipo]);
+connection.execute(insertQuery, [title, text, publicPath, autor, tipo], (err, result) => {
   if (err) {
     console.error('Erro ao inserir aviso:', err);
     if (req.file) {
@@ -488,12 +502,7 @@ connection.execute(insertQuery, [title, text, publicPath, autor], (err, result) 
     return res.status(500).send('Erro ao salvar aviso no servidor.');
   }
 
-  if (req.headers.accept && req.headers.accept.indexOf('application/json') !== -1) {
-    return res.json({ message: 'Upload realizado e aviso salvo com sucesso!', path: publicPath, avisoId: result.insertId });
-    
-  }
   return res.redirect('/home');
-  });
 });
 
 app.get("/tables", (req, res) => {
@@ -503,6 +512,7 @@ app.get("/tables", (req, res) => {
     }
     return res.json({ success: true, tables: results });
   });
+});
 });
 
 const dbName = (connection.config && (connection.config.database || connection.config.db)) || process.env.DB_DATABASE || process.env.DB_NAME || null;
