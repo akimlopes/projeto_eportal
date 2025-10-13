@@ -269,35 +269,34 @@ app.post("/login", (req, res) => {
   // Consulta o SQL
   const query =
     "SELECT * FROM dados_pessoais WHERE (ID_Coordenadores = ? OR ID_Professores = ? OR ID_Alunos = ?) AND Senha = ?";
-  connection.execute(query, [rm, rm, rm, senha], (err, results) => {
-    if (err) {
-      console.error("Erro na query:", err);
-      return res.status(500).send("Erro no servidor");
+connection.execute(query, [rm, rm, rm, senha], (err, results) => {
+  if (err) {
+    console.error("Erro na query:", err);
+    return res.status(500).send("Erro no servidor");
+  }
+
+  if (results && results.length > 0) {
+    // Marca sessão como logada
+    const usuario = results[0];
+    req.session.user = {
+      rm,
+      nome: usuario.Nome  // Aqui você adiciona o nome à sessão
+    };
+
+    // Define o nível de usuário
+    if (usuario.ID_Coordenadores) {
+      req.session.nivel = "coordenador";
+    } else if (usuario.ID_Professores) {
+      req.session.nivel = "professor";
+    } else if (usuario.ID_Alunos) {
+      req.session.nivel = "aluno";
+    } else {
+      req.session.nivel = "desconhecido";
     }
 
-    console.log("Resultados da query:", results);
-    if (results && results.length > 0) {
-      // marca sessão como logada
-      const usuario = results[0];
-      req.session.user = { rm };
-
-      //Define o nível de usuário
-      if (usuario.ID_Coordenadores) {
-        req.session.nivel = "coordenador";
-      } else if (usuario.ID_Professores) {
-        req.session.nivel = "professor";
-      } else if (usuario.ID_Alunos) {
-        req.session.nivel = "aluno";
-      } else {
-        req.session.nivel = "desconhecido";
-      }
-
-      console.log("Usuário logado:", req.session.nivel);
-
-      return res.redirect("/home");
-    }
-    else {
-      return res.send("<script>alert('RM ou senha incorretos'); window.location.href = '/login';</script>");
+    return res.redirect("/home");
+  } else {
+    return res.send("<script>alert('RM ou senha incorretos'); window.location.href = '/login';</script>");
     }
   });
 });
@@ -481,21 +480,22 @@ app.post("/upload", ensureAuthenticated, ensureCoordenador, upload.single('arqui
   const rm = req.session.user && req.session.user.rm ? req.session.user.rm : null;
 
   // Não insere CreatedAt aqui para evitar erro se a coluna não existir; deixe o banco preencher automaticamente se precisar
-  const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa) VALUES (?, ?, ?)`;
-  connection.execute(insertQuery, [title, text, publicPath], (err, result) => {
-    if (err) {
-      console.error('Erro ao inserir aviso:', err);
-      // Só tenta remover arquivo se existir
-      if (req.file) {
-        try { fs.unlinkSync(req.file.path); } catch (e) { }
-      }
-      return res.status(500).send('Erro ao salvar aviso no servidor.');
-    }
+const autor = req.session.user && req.session.user.nome || 'Autor';  // Agora ele pega o nome correto do usuário
+const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa, Autor) VALUES (?, ?, ?, ?)`;
 
-    if (req.headers.accept && req.headers.accept.indexOf('application/json') !== -1) {
-      return res.json({ message: 'Upload realizado e aviso salvo com sucesso!', path: publicPath, avisoId: result.insertId });
+connection.execute(insertQuery, [title, text, publicPath, autor], (err, result) => {
+  if (err) {
+    console.error('Erro ao inserir aviso:', err);
+    if (req.file) {
+      try { fs.unlinkSync(req.file.path); } catch (e) { }
     }
-    return res.redirect('/home');
+    return res.status(500).send('Erro ao salvar aviso no servidor.');
+  }
+
+  if (req.headers.accept && req.headers.accept.indexOf('application/json') !== -1) {
+    return res.json({ message: 'Upload realizado e aviso salvo com sucesso!', path: publicPath, avisoId: result.insertId });
+  }
+  return res.redirect('/home');
   });
 });
 
