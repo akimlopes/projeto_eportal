@@ -39,7 +39,10 @@
 
         <div class="perfil-chips">
           <button type="button" id="chip-contato" class="chip active">Contato</button>
-          <button type="button" id="chip-curso" class="chip">Curso e Projeto</button>
+          <button type="button" id="chip-curso" class="chip">
+            <% if(user && user.ID_Alunos) {%> Curso e Projetos
+          <% } else { %>Projetos<% } %>
+          </button>
         </div>
       </div>
 
@@ -67,6 +70,7 @@
               <label>Projeto</label>
               <input type="text" class="input" value="<%= (user && (user.Projeto || user.Nome_Projeto)) || 'Nenhum' %>" disabled>
             </div>
+            <% if(user.ID_Alunos != null) { %>
             <div class="field">
               <label>Curso</label>
               <input type="text" class="input" value="<%= (turma && (turma.Curso)) || 'A definir' %>" disabled>
@@ -77,6 +81,7 @@
             <input type="text" class="input" value="<%= (turma && (turma.Serie)) %> - <%= (turma && (turma.Turno)) %> " disabled>
           </div>
         </div>
+        <% } %>
       </section>
 
       <!-- Senha (fora das expansões) -->
