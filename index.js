@@ -95,7 +95,7 @@ app.get("/home", ensureAuthenticated, (req, res) => {
   const q = "SELECT * FROM avisos ORDER BY ID_Aviso DESC LIMIT 50";
   connection.execute(q, [], (err, results) => {
     if (err) {
-      console.error("Erro ao buscar avisos:", err);
+     console.error("Erro ao buscar avisos:", err);
       return res.status(500).send("Erro no servidor");
     }
     const mapped = (results || []).map(r => {
@@ -104,6 +104,7 @@ app.get("/home", ensureAuthenticated, (req, res) => {
       return r;
     });
     res.render("home.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel });
+    //console.log('Mapped aviso:', avisos.Autor);
   });
 });
 
@@ -301,11 +302,6 @@ connection.execute(query, [rm, rm, rm, senha], (err, results) => {
   });
 });
 
-// Rota /signup real (mantê-la)
-app.get("/signup", async (req, res) => {
-  res.render("cadastro.ejs");
-});
-
 function processTableData(tableData, hasHeader = true, delimiter = ',') {
   // Detecta delimitador especial (caso venha como '\t' para tabulação)
   if (delimiter === '\\t') delimiter = '\t';
@@ -482,7 +478,7 @@ app.post("/upload", ensureAuthenticated, ensureCoordenador, upload.single('arqui
   // Não insere CreatedAt aqui para evitar erro se a coluna não existir; deixe o banco preencher automaticamente se precisar
 const autor = req.session.user && req.session.user.nome || 'Autor';  // Agora ele pega o nome correto do usuário
 const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa, Autor) VALUES (?, ?, ?, ?)`;
-
+console.log('Valor de autor: ', autor);
 connection.execute(insertQuery, [title, text, publicPath, autor], (err, result) => {
   if (err) {
     console.error('Erro ao inserir aviso:', err);
@@ -494,6 +490,7 @@ connection.execute(insertQuery, [title, text, publicPath, autor], (err, result) 
 
   if (req.headers.accept && req.headers.accept.indexOf('application/json') !== -1) {
     return res.json({ message: 'Upload realizado e aviso salvo com sucesso!', path: publicPath, avisoId: result.insertId });
+    
   }
   return res.redirect('/home');
   });
