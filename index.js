@@ -178,32 +178,46 @@ app.get("/cursos", ensureAuthenticated, (req, res) => {
 app.get("/perfil", ensureAuthenticated, (req, res) => {
   const rm = req.session.user && req.session.user.rm;
   const queryperfil = `SELECT * FROM dados_pessoais WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?`;
+  
   connection.execute(queryperfil, [rm, rm, rm], (err, results) => {
     if (err) {
       console.error("Erro na query:", err);
       return res.status(500).send("Erro no servidor");
     }
+    
     console.log("Resultados da query perfil:", results);
+    
     if (results && results.length > 0) {
-      if (results[0].ID_Alunos === null) {
-        res.render("perfil.ejs", { user: results[0], turma: null });
+      // CORREÇÃO: Formatar a data de nascimento diretamente nos resultados do perfil
+      const userData = results[0];
+      
+      // Formatar a data de nascimento
+      const rawBirthDate = userData.Data_Nasc;
+      userData.Data_Nasc_formatada = formatDateValue(rawBirthDate) || 'Data não informada';
+      
+      if (userData.ID_Alunos === null) {
+        res.render("perfil.ejs", { user: userData, turma: null });
       } else {
         const queryturma = "SELECT * FROM turmas WHERE ID_Turma = ?";
-            connection.execute(queryturma, [results[0].ID_Turmas], (err2, results2) => {
-              if (err2) {
-                console.error("Erro na query turma:", err2);
-                return res.status(500).send("Erro no servidor");
-              }
-               console.log("Resultados da query turma:", results2);
-              if (results2 && results2.length > 0) {
-                res.render("perfil.ejs", { user: results[0], turma: results2[0] });
-              } else {
-                res.render("perfil.ejs", { user: results[0], turma: null });
-               }
-                });
+        connection.execute(queryturma, [userData.ID_Turmas], (err2, results2) => {
+          if (err2) {
+            console.error("Erro na query turma:", err2);
+            return res.status(500).send("Erro no servidor");
+          }
+          console.log("Resultados da query turma:", results2);
+          
+          if (results2 && results2.length > 0) {
+            res.render("perfil.ejs", { user: userData, turma: results2[0] });
+          } else {
+            res.render("perfil.ejs", { user: userData, turma: null });
+          }
+        });
       }
+    } else {
+      // Caso não encontre o usuário
+      res.render("perfil.ejs", { user: null, turma: null });
     }
-      });
+  });
 });
 
 app.post("/perfil/atualizar", ensureAuthenticated, (req, res) => {

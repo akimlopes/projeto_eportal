@@ -26,7 +26,7 @@
               <span>
                 Nasc.:
                 <% if (user && user.Data_Nasc) { %>
-                  <%= new Date(user.Data_Nasc).toLocaleDateString('pt-BR') %>
+                  <%= user.Data_Nasc_formatada || '00/00/0000'%>
                 <% } else { %>—<% } %>
               </span>
               <span>•</span>
