@@ -30,7 +30,7 @@
                 <% } else { %>—<% } %>
               </span>
               <span>•</span>
-              <span>RM: <%= (aluno && aluno.RM_Aluno) || (user && (user.ID_Alunos || user.ID_Professores || user.ID_Coordenadores)) || '—' %></span>
+              <span>RM: <%= (user && (user.ID_Alunos || user.ID_Professores || user.ID_Coordenadores)) || '—' %></span>
               <span>•</span>
               <span><%= (user && (user.Sexo || user.sexo)) || '—' %></span>
             </div>
@@ -69,16 +69,16 @@
           <div class="grid-2">
             <div class="field">
               <label>Projeto</label>
-              <input type="text" class="input" value="<%= (aluno && (aluno.Projeto || aluno.Nome_Projeto)) || 'Nenhum' %>" disabled>
+              <input type="text" class="input" value="<%= (user && (user.Projeto || user.Nome_Projeto)) || 'Nenhum' %>" disabled>
             </div>
             <div class="field">
               <label>Curso</label>
-              <input type="text" class="input" value="<%= (turma && (turma.Curso || turma.Nome_Curso)) || 'A definir' %>" disabled>
+              <input type="text" class="input" value="<%= (turma && (turma.Curso)) || 'A definir' %>" disabled>
             </div>
           </div>
           <div class="field">
             <label>Turma</label>
-            <input type="text" class="input" value="<%= (turma && (turma.Nome || turma.Sigla || turma.Cod_Turma)) || '—' %>" disabled>
+            <input type="text" class="input" value="<%= (turma && (turma.Serie)) %> - <%= (turma && (turma.Turno)) %> " disabled>
           </div>
         </div>
       </section>

@@ -164,37 +164,23 @@ app.get("/perfil", ensureAuthenticated, (req, res) => {
     console.log("Resultados da query perfil:", results);
     if (results && results.length > 0) {
       if (results[0].ID_Alunos === null) {
-        res.render("perfil.ejs", { user: results[0], aluno: null, turma: null });
+        res.render("perfil.ejs", { user: results[0], turma: null });
       } else {
-        const queryaluno = "SELECT * FROM alunos WHERE RM_Aluno = ?";
-        connection.execute(queryaluno, [rm], (err2, results2) => {
-          if (err2) {
-            console.error("Erro na query:", err2);
-            return res.status(500).send("Erro no servidor");
-          }
-          console.log("Resultados da query aluno:", results2);
-          if (results2 && results2.length > 0) {
             const queryturma = "SELECT * FROM turmas WHERE ID_Turma = ?";
-            connection.execute(queryturma, [results2[0].ID_Turmas], (err3, results3) => {
-              if (err3) {
+            connection.execute(queryturma, [results[0].ID_Turmas], (err2, results2) => {
+              if (err2) {
                 console.error("Erro na query turma:", err3);
                 return res.status(500).send("Erro no servidor");
               }
-              console.log("Resultados da query turma:", results3);
-              if (results3 && results3.length > 0) {
-                res.render("perfil.ejs", { user: results[0], aluno: results2[0], turma: results3[0] });
+              console.log("Resultados da query turma:", results2);
+              if (results2 && results2.length > 0) {
+                res.render("perfil.ejs", { user: results[0], turma: results2[0] });
               } else {
-                res.render("perfil.ejs", { user: results[0], aluno: results2[0], turma: null });
+                res.render("perfil.ejs", { user: results[0], turma: results2[0]});
               }
             });
-          } else {
-            res.render("perfil.ejs", { user: results[0], aluno: null, turma: null });
           }
-        });
-      }
-    } else {
-      return res.send("<script>alert('Erro ao carregar perfil'); window.location.href = '/home';</script>");
-    }
+        }
   });
 });
 

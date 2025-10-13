@@ -21,7 +21,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '571a30a5-8f78-11f0-821d-3ad1a0fc3928:1-109,
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '571a30a5-8f78-11f0-821d-3ad1a0fc3928:1-186,
 a3b10948-8f62-11f0-89d9-22b709d99316:1-29,
 a6956ce3-8ea4-11f0-9092-5ef681d2cd51:1-23,
 e82dcbfa-8d73-11f0-935e-bec46436e6e5:1-27';
@@ -48,7 +48,7 @@ CREATE TABLE `alunos` (
 
 LOCK TABLES `alunos` WRITE;
 /*!40000 ALTER TABLE `alunos` DISABLE KEYS */;
-INSERT INTO `alunos` VALUES (10001,NULL),(10002,NULL),(10025,NULL),(11111,NULL),(23042,NULL),(23143,NULL),(23045,6),(23063,10);
+INSERT INTO `alunos` VALUES (23045,6);
 /*!40000 ALTER TABLE `alunos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +62,7 @@ DROP TABLE IF EXISTS `avisos`;
 CREATE TABLE `avisos` (
   `ID_Aviso` int NOT NULL AUTO_INCREMENT,
   `Titulo` varchar(255) NOT NULL,
-  `Conteudo` varchar(500) NOT NULL,
+  `Conteudo` varchar(600) NOT NULL,
   `Capa` varchar(255) DEFAULT NULL,
   `ID_Alunos` int DEFAULT NULL,
   `ID_Professores` int DEFAULT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE `avisos` (
   CONSTRAINT `avisos_ibfk_1` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`),
   CONSTRAINT `avisos_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`),
   CONSTRAINT `avisos_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -84,7 +84,7 @@ CREATE TABLE `avisos` (
 
 LOCK TABLES `avisos` WRITE;
 /*!40000 ALTER TABLE `avisos` DISABLE KEYS */;
-INSERT INTO `avisos` VALUES (5,'EXCURSÃO PARA O ZOOLÓGICO DE SÃO PAULO!','? Data da excursão: 24/10 (quinta-feira)\r\n? Prazo para pagamento: até o dia 15/10\r\n? VAGAS LIMITADAS: apenas 43!\r\n\r\n⚠ Atenção: a vaga só será reservada mediante pagamento. Não deixe para a última hora!\r\n\r\nGaranta já seu lugar nessa aventura incrível com a turma! ??\r\nPagamentos e reserva na coordenação!!','/uploads/jpgFiles/1759873035049-Imagem do WhatsApp de 2025-10-07 Ã (s) 18.28.14_94a61765.jpg',NULL,NULL,NULL,NULL),(6,'CASA ABERTA NA ETEC POÁ','Na semana do dia 16/10, na ETEC de Poá teremos o Casa Aberta, evento onde os alunos apresentam seus projetos para o público!\r\n\r\nVenham conferir a criatividade e trabalho em equipe dos alunos da 210!','/uploads/jpgFiles/1759873687324-ETEC_POA.jpg',NULL,NULL,NULL,NULL),(7,'mochileiro das galaxias','um livro muito legal sobre coisas legais','/uploads/jpgFiles/1759884577126-rpg.jpg',NULL,NULL,NULL,NULL),(8,'vaga para estagio 3ºDS','SEILA MANO ','/uploads/jpgFiles/1759924109431-vlakthar_remaster.jpg',NULL,NULL,NULL,'2025-10-08'),(9,'casa aberta','apresentações abertas ao publico 20/10','/uploads/otherFiles/1759929791039-onepiece.webp',NULL,NULL,NULL,'2025-10-08');
+INSERT INTO `avisos` VALUES (9,'casa aberta','apresentações abertas ao publico 20/10','/uploads/otherFiles/1759929791039-onepiece.webp',NULL,NULL,NULL,'2025-10-08'),(15,'adasda','dasdasda','/uploads/jpgFiles/1760102314578-download.jpeg',NULL,NULL,NULL,'2025-10-10'),(18,'one piece','One Piece conta a história de Monkey D. Luffy, um jovem com corpo de borracha, e sua tripulação, os Piratas do Chapéu de Palha, em sua jornada para encontrar o tesouro máximo, o \"One Piece\", e se tornar o Rei dos Piratas. Sua busca os leva através da perigosa Grand Line, onde enfrentam o Governo Mundial, outros piratas e criaturas marinhas, desvendando mistérios de um século perdido e lutando por liberdade em um mundo dominado pela tirania. \r\nA Trama Principal \r\nO Tesouro One Piece: O tesouro mais','/uploads/jpgFiles/1760103159267-download.jpeg',NULL,NULL,NULL,'2025-10-10'),(21,'nao sobra nada','Oiii','/uploads/pngFiles/1760186498617-berserk.png',NULL,NULL,NULL,'2025-10-11'),(24,'Teste','testeeeeeeee',NULL,NULL,NULL,NULL,'2025-10-13');
 /*!40000 ALTER TABLE `avisos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,7 +107,7 @@ CREATE TABLE `coordenadores` (
 
 LOCK TABLES `coordenadores` WRITE;
 /*!40000 ALTER TABLE `coordenadores` DISABLE KEYS */;
-INSERT INTO `coordenadores` VALUES (54321),(80800);
+INSERT INTO `coordenadores` VALUES (23040),(54321),(80800);
 /*!40000 ALTER TABLE `coordenadores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,17 +130,19 @@ CREATE TABLE `dados_pessoais` (
   `ID_Projetos` int DEFAULT NULL,
   `Data_Nasc` date DEFAULT NULL,
   `Sexo` enum('Masculino','Feminino','Prefiro não dizer') DEFAULT NULL,
+  `ID_Turmas` int DEFAULT NULL,
   PRIMARY KEY (`ID_dados_pessoais`),
   KEY `ID_Professores` (`ID_Professores`),
   KEY `ID_Coordenadores` (`ID_Coordenadores`),
   KEY `ID_Projetos` (`ID_Projetos`),
-  KEY `fk_alunos_dados_pessoais` (`ID_Alunos`),
-  CONSTRAINT `dados_pessoais_ibfk_1` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`),
+  KEY `dados_pessoais_ibfk_1` (`ID_Alunos`),
+  KEY `ID_Turmas` (`ID_Turmas`),
+  CONSTRAINT `dados_pessoais_ibfk_1` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `dados_pessoais_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`),
   CONSTRAINT `dados_pessoais_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`),
   CONSTRAINT `dados_pessoais_ibfk_4` FOREIGN KEY (`ID_Projetos`) REFERENCES `projetos` (`ID_Projeto`),
-  CONSTRAINT `fk_alunos_dados_pessoais` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `dados_pessoais_ibfk_5` FOREIGN KEY (`ID_Turmas`) REFERENCES `turmas` (`ID_Turma`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +151,7 @@ CREATE TABLE `dados_pessoais` (
 
 LOCK TABLES `dados_pessoais` WRITE;
 /*!40000 ALTER TABLE `dados_pessoais` DISABLE KEYS */;
-INSERT INTO `dados_pessoais` VALUES (1,'Joaquim Lopes','11 98765-4321','mazoxdafvl@gmail.com','123456',23045,NULL,NULL,NULL,'2007-11-04','Masculino'),(6,'Alexandre Siqueira','11 91234-5678','alexandre@gmail.com','6789',NULL,23031,NULL,NULL,'1995-06-25','Masculino'),(11,'Ana Silva','11 98765-4321','ana.silva@email.com','ana123',10001,NULL,NULL,NULL,'2010-03-15','Feminino'),(12,'João Santos','11 99876-5432','joao.santos@email.com','joao123',10002,NULL,NULL,NULL,'2009-07-22','Masculino'),(13,'Laura Mendes','11 98765-5678','laura.mendes@email.com','laura123',10025,NULL,NULL,NULL,'2010-11-11','Feminino');
+INSERT INTO `dados_pessoais` VALUES (1,'Joaquim Lopes','11 98765-4321','mazoxdafvl@gmail.com','123456',23045,NULL,NULL,NULL,'2007-11-04','Masculino',6),(6,'Alexandre Siqueira','11 91234-5678','alexandre@gmail.com','6789',NULL,23031,NULL,NULL,'1995-06-25','Masculino',NULL),(31,'Julio','11 40022-8922','admin@gmail.com','54321',NULL,NULL,23040,NULL,'2000-11-04','Masculino',NULL);
 /*!40000 ALTER TABLE `dados_pessoais` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,4 +294,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-08 12:25:11
+-- Dump completed on 2025-10-12 21:42:02
