@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
 --
--- Host: localhost    Database: Eportaldb
+-- Host: mysql-eportal210-eportal1.i.aivencloud.com    Database: Eportaldb
 -- ------------------------------------------------------
 -- Server version	8.0.35
 
@@ -14,6 +14,17 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '571a30a5-8f78-11f0-821d-3ad1a0fc3928:1-190,
+a3b10948-8f62-11f0-89d9-22b709d99316:1-29,
+a6956ce3-8ea4-11f0-9092-5ef681d2cd51:1-23,
+e82dcbfa-8d73-11f0-935e-bec46436e6e5:1-27';
 
 --
 -- Table structure for table `alunos`
@@ -77,14 +88,25 @@ LOCK TABLES `avisos` WRITE;
 INSERT INTO `avisos` VALUES (9,'casa aberta','apresentações abertas ao publico 20/10','/uploads/otherFiles/1759929791039-onepiece.webp',NULL,NULL,NULL,'2025-10-08',NULL),(15,'adasda','dasdasda','/uploads/jpgFiles/1760102314578-download.jpeg',NULL,NULL,NULL,'2025-10-10',NULL),(18,'one piece','One Piece conta a história de Monkey D. Luffy, um jovem com corpo de borracha, e sua tripulação, os Piratas do Chapéu de Palha, em sua jornada para encontrar o tesouro máximo, o \"One Piece\", e se tornar o Rei dos Piratas. Sua busca os leva através da perigosa Grand Line, onde enfrentam o Governo Mundial, outros piratas e criaturas marinhas, desvendando mistérios de um século perdido e lutando por liberdade em um mundo dominado pela tirania. \r\nA Trama Principal \r\nO Tesouro One Piece: O tesouro mais','/uploads/jpgFiles/1760103159267-download.jpeg',NULL,NULL,NULL,'2025-10-10',NULL),(21,'nao sobra nada','Oiii','/uploads/pngFiles/1760186498617-berserk.png',NULL,NULL,NULL,'2025-10-11',NULL),(25,'Sadas','Sadas',NULL,NULL,NULL,NULL,'2025-10-13',NULL);
 /*!40000 ALTER TABLE `avisos` ENABLE KEYS */;
 UNLOCK TABLES;
-
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,ONLY_FULL_GROUP_BY,ANSI,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE TRIGGER `set_data_aviso` BEFORE INSERT ON `avisos` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`avnadmin`@`%`*/ /*!50003 TRIGGER `set_data_aviso` BEFORE INSERT ON `avisos` FOR EACH ROW BEGIN
     IF NEW.Data_Aviso IS NULL THEN
         SET NEW.Data_Aviso = CURDATE();
     END IF;
-END ;;
+END */;;
 DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `coordenadores`
@@ -152,9 +174,16 @@ LOCK TABLES `dados_pessoais` WRITE;
 INSERT INTO `dados_pessoais` VALUES (1,'Joaquim Lopes','11 98765-4321','mazoxdafvl@gmail.com','123456',23045,NULL,NULL,NULL,'2007-11-04','Masculino',6),(6,'Alexandre Siqueira','11 91234-5678','alexandre@gmail.com','6789',NULL,23031,NULL,NULL,'1995-06-25','Masculino',NULL),(31,'Julio','11 40022-8922','admin@gmail.com','54321',NULL,NULL,23040,NULL,'2000-11-04','Masculino',NULL);
 /*!40000 ALTER TABLE `dados_pessoais` ENABLE KEYS */;
 UNLOCK TABLES;
-
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,ONLY_FULL_GROUP_BY,ANSI,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE TRIGGER `set_sign_aluno` BEFORE INSERT ON `dados_pessoais` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`avnadmin`@`%`*/ /*!50003 TRIGGER `set_sign_aluno` BEFORE INSERT ON `dados_pessoais` FOR EACH ROW BEGIN
     DECLARE aluno_existe INT DEFAULT 0;
     
     -- Verificar se é um registro de aluno
@@ -170,11 +199,22 @@ CREATE TRIGGER `set_sign_aluno` BEFORE INSERT ON `dados_pessoais` FOR EACH ROW B
             VALUES (NEW.ID_Alunos, NULL);
         END IF;
     END IF;
-END ;;
+END */;;
 DELIMITER ;
-
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,ONLY_FULL_GROUP_BY,ANSI,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE TRIGGER `set_sign_prof` BEFORE INSERT ON `dados_pessoais` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`avnadmin`@`%`*/ /*!50003 TRIGGER `set_sign_prof` BEFORE INSERT ON `dados_pessoais` FOR EACH ROW BEGIN
     DECLARE professor_existe INT DEFAULT 0;
     
     -- Verificar se é um registro relacionado a professor
@@ -190,8 +230,12 @@ CREATE TRIGGER `set_sign_prof` BEFORE INSERT ON `dados_pessoais` FOR EACH ROW BE
             VALUES (NEW.ID_Professores);
         END IF;
     END IF;
-END ;;
+END */;;
 DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `professores`
@@ -272,14 +316,25 @@ LOCK TABLES `projeto_participantes` WRITE;
 /*!40000 ALTER TABLE `projeto_participantes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `projeto_participantes` ENABLE KEYS */;
 UNLOCK TABLES;
-
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,ONLY_FULL_GROUP_BY,ANSI,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE TRIGGER `set_data_ingresso` BEFORE INSERT ON `projeto_participantes` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`avnadmin`@`%`*/ /*!50003 TRIGGER `set_data_ingresso` BEFORE INSERT ON `projeto_participantes` FOR EACH ROW BEGIN
     IF NEW.Data_Ingresso IS NULL THEN
         SET NEW.Data_Ingresso = CURDATE();
     END IF;
-END ;;
+END */;;
 DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `projetos`
@@ -329,7 +384,7 @@ LOCK TABLES `turmas` WRITE;
 INSERT INTO `turmas` VALUES (1,'1° Ano','Administração','Manhã'),(2,'2° Ano','Administração','Manhã'),(3,'3° Ano','Administração','Manhã'),(4,'1° Ano','Desenvolvimento de Sistemas','Manhã'),(5,'2° Ano','Desenvolvimento de Sistemas','Manhã'),(6,'3° Ano','Desenvolvimento de Sistemas','Manhã'),(7,'1° Ano','Informática para Internet','Tarde'),(8,'2° Ano','Informática para Internet','Tarde'),(9,'3° Ano','Informática para Internet','Tarde'),(10,'1° Ano','Marketing','Tarde'),(11,'2° Ano','Marketing','Tarde'),(12,'3° Ano','Marketing','Tarde'),(13,'1° Ano','Desenvolvimento de Sistemas','Noturno'),(14,'2° Ano','Desenvolvimento de Sistemas','Noturno'),(15,'1° Ano','Administração','Noturno'),(16,'2° Ano','Administração','Noturno');
 /*!40000 ALTER TABLE `turmas` ENABLE KEYS */;
 UNLOCK TABLES;
-
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -339,3 +394,5 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-10-13 12:26:20
