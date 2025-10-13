@@ -72,7 +72,14 @@
 
           <label for="imagem">Imagem:</label>
           <input type="file" id="imagem" name="arquivo" accept="image/*" class="input-modal" />
-
+          <label for="turmas">Turmas <br>
+            <select id="turmas" name="turma" required class="input-modal">
+              <option value="" disabled selected>Selecione uma turma / Todas as turmas</option>
+              <% turmas.forEach(function(turma) { %>
+              <option value="<%= turma.ID_Turma %>"><%= turma.Serie %> - <%=turma.Curso%> - <%=turma.Turno %></option>
+              <% }); %>
+            </select>
+          </label>
           <div class="modal-actions">
             <button type="submit" class="btn-modal">Postar</button>
             <button type="button" id="btn-cancelar-modal" class="btn-modal btn-cancelar">Cancelar</button>

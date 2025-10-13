@@ -171,20 +171,53 @@ app.get("/estagios", ensureAuthenticated, saveURL,(req, res) => {
   });
 });
 
-app.get("/cursos", ensureAuthenticated, saveURL,(req, res) => {
-  const q = "SELECT * FROM avisos WHERE Tipo = 'cursos' ORDER BY ID_Aviso DESC LIMIT 50 ;";
-  connection.execute(q, [], (err, results) => {
-    if (err) {
-      console.error("Erro ao buscar avisos:", err);
-      return res.status(500).send("Erro no servidor");
-    }
-    const mapped = (results || []).map(r => {
-      const raw = r.Data_Aviso || r.CreatedAt || r.created_at || r.Data || r.data || null;
-      r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
-      return r;
+app.get("/cursos", ensureAuthenticated, saveURL, (req, res) => {
+  if (req.session.nivel == 'aluno') {
+    const rm = req.session.user && req.session.user.rm;
+    const queryTurma = "SELECT ID_Turmas FROM dados_pessoais WHERE ID_Alunos = ?";
+    connection.execute(queryTurma, [rm], (err, results) => {
+      console.log("Resultados da query turma do aluno:", results);
+      if (err) {
+        console.error("Erro na query turma do aluno:", err);
+        return res.status(500).send("Erro no servidor");
+      }
+    const q = "SELECT * FROM avisos WHERE Tipo = 'cursos' AND ID_Turmas = ? ORDER BY ID_Aviso DESC LIMIT 50 ;";
+    connection.execute(q, [results[0].ID_Turmas], (err2, results2) => {
+      console.log("Resultados da query avisos do aluno:", results2);
+      if (err2) {
+        console.error("Erro ao buscar avisos:", err2);
+        return res.status(500).send("Erro no servidor");
+      }
+      const mapped = (results2 || []).map(r => {
+        const raw = r.Data_Aviso || r.CreatedAt || r.created_at || r.Data || r.data || null;
+        r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
+        return r;
+      });
+        res.render("cursos.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel, turmas: results2 || [] });
     });
-    res.render("cursos.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel });
-  });
+    });
+  } else {
+    const q = "SELECT * FROM avisos WHERE Tipo = 'cursos' ORDER BY ID_Aviso DESC LIMIT 50 ;";
+    connection.execute(q, [], (err, results) => {
+      if (err) {
+        console.error("Erro ao buscar avisos:", err);
+        return res.status(500).send("Erro no servidor");
+      }
+      const mapped = (results || []).map(r => {
+        const raw = r.Data_Aviso || r.CreatedAt || r.created_at || r.Data || r.data || null;
+        r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
+        return r;
+      });
+      const queryTurmas = "SELECT * FROM turmas ORDER BY ID_Turma ASC;";
+      connection.execute(queryTurmas, [], (err2, results2) => {
+        if (err2) {
+          console.error("Erro ao buscar turmas:", err2);
+          return res.status(500).send("Erro no servidor");
+        }
+        res.render("cursos.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel, turmas: results2 || [] });
+      });
+    });
+  }
 });
 
 app.get("/perfil", ensureAuthenticated, (req, res) => {
@@ -485,15 +518,14 @@ app.post("/upload", ensureAuthenticated, ensureCoordenador, saveURL, upload.sing
   const title = req.body.title || null;
   const text = req.body.text || null;
   const rm = req.session.user && req.session.user.rm ? req.session.user.rm : null;
-
+  const turma = req.body.turma || null;
 // Corrigido: verifica se returnTo existe e é string
 let tipo = req.session.returnTo && req.session.returnTo.length > 1 ? req.session.returnTo.slice(1) : 'geral';
 console.log('Tipo para o aviso:', tipo);
-
 const autor = req.session.user && req.session.user.nome || 'Autor';
-const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa, Autor, Tipo) VALUES (?, ?, ?, ?, ?)`;
-console.log('Valor do insert: ', [title, text, publicPath, autor, tipo]);
-connection.execute(insertQuery, [title, text, publicPath, autor, tipo], (err, result) => {
+const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa, Autor, Tipo, ID_Turmas) VALUES (?, ?, ?, ?, ?, ?)`;
+console.log('Valor do insert: ', [title, text, publicPath, autor, tipo, turma]);
+connection.execute(insertQuery, [title, text, publicPath, autor, tipo, turma], (err, result) => {
   if (err) {
     console.error('Erro ao inserir aviso:', err);
     if (req.file) {
@@ -502,7 +534,7 @@ connection.execute(insertQuery, [title, text, publicPath, autor, tipo], (err, re
     return res.status(500).send('Erro ao salvar aviso no servidor.');
   }
 
-  return res.redirect('/home');
+  return res.redirect(`/${tipo}`);
 });
 
 app.get("/tables", (req, res) => {
