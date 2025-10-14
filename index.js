@@ -265,16 +265,16 @@ app.get("/perfil", ensureAuthenticated, (req, res) => {
       userData.Data_Nasc_formatada = formatDateValue(rawBirthDate) || 'Data não informada';
 
       if (userData.ID_Alunos === null) {
-        res.render("perfil.ejs", { user: userData, turma: null });
+        res.render("perfil.ejs", { user: userData, turma: null, nivel: req.session.nivel });
       } else {
         const queryturma = "SELECT * FROM turmas WHERE ID_Turma = ?";
         connection.execute(queryturma, [userData.ID_Turmas], (err2, results2) => {
           if (err2) return res.status(500).send("Erro no servidor");
-          res.render("perfil.ejs", { user: userData, turma: results2 && results2.length > 0 ? results2[0] : null });
+          res.render("perfil.ejs", { user: userData, turma: results2 && results2.length > 0 ? results2[0] : null, nivel: req.session.nivel });
         });
       }
     } else {
-      res.render("perfil.ejs", { user: null, turma: null });
+      res.render("perfil.ejs", { user: null, turma: null, nivel: req.session.nivel });
     }
   });
 });
