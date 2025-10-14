@@ -105,7 +105,7 @@ app.get("/login", (req, res) => {
 
 // Rotas protegidas
 app.get("/home", ensureAuthenticated, saveURL, (req, res) => {
-  const q = "SELECT * FROM avisos WHERE Tipo = 'geral' ORDER BY ID_Aviso DESC LIMIT 50 ;";
+  const q = "SELECT * FROM avisos WHERE Tipo = 'home' ORDER BY ID_Aviso DESC LIMIT 50 ;";
   connection.execute(q, [], (err, results) => {
     if (err) {
      console.error("Erro ao buscar avisos:", err);
@@ -549,22 +549,26 @@ app.post("/upload", ensureAuthenticated, ensureCoordenador, saveURL, upload.sing
   const text = req.body.text || null;
   const rm = req.session.user && req.session.user.rm ? req.session.user.rm : null;
   const turma = req.body.turma || null;
-// Corrigido: verifica se returnTo existe e é string
-let tipo = req.session.returnTo && req.session.returnTo.length > 1 ? req.session.returnTo.slice(1) : 'geral';
-console.log('Tipo para o aviso:', tipo);
-const autor = req.session.user && req.session.user.nome || 'Autor';
-const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa, Autor, Tipo, ID_Turmas) VALUES (?, ?, ?, ?, ?, ?)`;
-console.log('Valor do insert: ', [title, text, publicPath, autor, tipo, turma]);
-connection.execute(insertQuery, [title, text, publicPath, autor, tipo, turma], (err, result) => {
-  if (err) {
-    console.error('Erro ao inserir aviso:', err);
-    if (req.file) {
-      try { fs.unlinkSync(req.file.path); } catch (e) { }
-    }
-    return res.status(500).send('Erro ao salvar aviso no servidor.');
-  }
+  // Corrigido: verifica se returnTo existe e é string
+  let tipo = req.session.returnTo && typeof req.session.returnTo === 'string' && req.session.returnTo.length > 1
+    ? req.session.returnTo.slice(1)
+    : 'geral';
+  console.log('Tipo para o aviso:', tipo);
+  const autor = (req.session.user && req.session.user.nome) || 'Autor';
+  const insertQuery = `INSERT INTO avisos (Titulo, Conteudo, Capa, Autor, Tipo, ID_Turmas) VALUES (?, ?, ?, ?, ?, ?)`;
+  console.log('Valor do insert: ', [title, text, publicPath, autor, tipo, turma]);
 
-  return res.redirect(`/${tipo}`);
+  connection.execute(insertQuery, [title, text, publicPath, autor, tipo, turma], (err, result) => {
+    if (err) {
+      console.error('Erro ao inserir aviso:', err);
+      if (req.file) {
+        try { fs.unlinkSync(req.file.path); } catch (e) { /* ignore */ }
+      }
+      return res.status(500).send('Erro ao salvar aviso no servidor.');
+    }
+
+    return res.redirect(`/${tipo}`);
+  });
 });
 
 app.get("/tables", (req, res) => {
@@ -575,7 +579,7 @@ app.get("/tables", (req, res) => {
     return res.json({ success: true, tables: results });
   });
 });
-});
+
 
 const dbName = (connection.config && (connection.config.database || connection.config.db)) || process.env.DB_DATABASE || process.env.DB_NAME || null;
 
