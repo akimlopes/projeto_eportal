@@ -34,7 +34,6 @@
   }
 
   .profile-icon {
-    position: fixed;
     display: flex;
     align-items: center;
   }
@@ -61,7 +60,7 @@
 
   /* Dropdown do perfil */
   .profile-menu {
-    margin-top: 60px;
+    margin-top: 10px;
     opacity: 0;
     transform: translateY(-10px);
     pointer-events: none;
