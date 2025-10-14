@@ -60,15 +60,24 @@ form {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   grid-column: 1 / 2;
   grid-row: 1 / 2;
   transition: opacity 0.02s 0.4s;
 }
 
 form.sign-up-form {
+  justify-content:space-evenly;
   opacity: 0;
   pointer-events: none;
+}
+
+.help-text {
+  background-color: #d4d0d0;
+  font-size: 0.75rem;
+  color: #606467;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 0.8rem;
 }
 
 .logo {
@@ -422,4 +431,8 @@ color: RGB(178, 0, 0);
   font-size: 1.5em;
   cursor: pointer;
   color: #e74c3c;
+}
+
+#loginForm {
+  justify-content: space-evenly;
 }

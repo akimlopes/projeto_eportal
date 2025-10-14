@@ -1,142 +1,117 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link rel="stylesheet" href="css/csslogin.css">
-  </head>
-  <body>
-    <main>
-      <div class="box">
-        <div class="inner-box">
-          <div class="forms-wrap">
-            <form action="/login" id="loginForm" method="post" autocomplete="off" class="sign-in-form">
-              <div class="logo">
-                <img src="imgs/eportal_black.png" alt="easyclass" />
-                <h4> Portal</h4>
-              </div> 
 
-              <div class="heading">
-                <h2>Bem Vindo a <span>ETEC de Poá</span></h2>
-                <h6>Não está registrado?</h6>
-                <a href="#" class="toggle">Registre-se</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="css/csslogin.css">
+</head>
+
+<body>
+  <main>
+    <div class="box">
+      <div class="inner-box">
+        <div class="forms-wrap">
+          <form action="/login" id="loginForm" method="post" autocomplete="off" class="sign-in-form">
+            <div class="logo">
+              <img src="imgs/eportal_black.png" alt="easyclass" />
+              <h4> Portal</h4>
+            </div>
+
+            <div class="heading">
+              <h2>Bem Vindo a <span>ETEC de Poá</span></h2>
+              <h6>Não está conseguindo logar?</h6>
+              <a href="#" class="toggle">Ajuda</a>
+            </div>
+
+            <!-- Formulario de Login -->
+
+            <div class="actual-form">
+              <div class="input-wrap">
+                <input type="text" maxlength="5" class="input-field" id="RM" name="rm" autocomplete="off" required />
+                <label>RM</label>
               </div>
 
-              <!-- Formulario de Login -->
-
-              <div class="actual-form">
-                <div class="input-wrap">
-                  <input type="text" maxlength="5" class="input-field" id="RM" name="rm" autocomplete="off" required />
-                  <label>RM</label>
-                </div>
-
-                <div class="input-wrap">
-                  <input  type="password" minlength="3"  class="input-field" id="senha" name="senha" autocomplete="off" required />
-                  <label>Senha</label>
-                </div>
-
-                <input type="submit" value="Logar" class="sign-btn" />
-              </div>
-            </form>
-
-            <!-- Formulario de Registro -->
-
-            <form action="/sla" autocomplete="off" class="sign-up-form" method="post">
-              <div class="logo">
-                <img src="imgs/eportal_black.png" alt="easyclass" />
-                <h4>Portal</h4>
+              <div class="input-wrap">
+                <input type="password" minlength="3" class="input-field" id="senha" name="senha" autocomplete="off"
+                  required />
+                <label>Senha</label>
               </div>
 
-              <div class="heading">
-                <h2>É rapidinho!</h2>
-                <h6>Já está registrado?</h6>
-                <a href="#" class="toggle">Conecte-se</a>
+              <input type="submit" value="Logar" class="sign-btn" />
+            </div>
+          </form>
+
+          <!-- Formulario de Registro -->
+
+          <form class="sign-up-form">
+            
+
+            <div class="heading">
+              <h3>Problemas para Logar?</h3>
+              <h6> siga as instruções para conseguir acesso </h6>
+            </div>
+            <div class="help-text">
+              <p><b>
+                Todas as contas de alunos, professores e coordenadores são criadas pela administração da escola.
+                Se você está tendo problemas para fazer login, siga estas etapas:
+                <br><br>
+                1. Verifique se você está usando o RM correto (5 dígitos).
+                <br><br>
+                2. Certifique-se de que sua senha está correta. Se você esqueceu sua senha, entre em contato com a
+                secretaria da escola para redefini-la.
+                <br><br>
+                3. Se você é um novo aluno ou professor, confirme com a administração se sua conta foi criada.
+               </b>
+                <br>
+              </p>
               </div>
+            <a href="#" class="toggle"><input type="submit" value="Voltar para o Login" class="sign-btn" /></a>    
+        </form>
+      </div>
 
-              <div class="actual-form">
-                <div class="input-wrap">
-                  <input
-                    type="text"
-                    maxlength="5"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                    name="rm"
-                  />
-                  <label>RM</label>
-                </div>
+      <div class="carousel">
+        <div class="images-wrapper">
+          <img src="imgs/imagem_tempo.png" class="image img-1 show" alt="" />
+          <img src="imgs/imagem_comunicacao.png" class="image img-2" alt="" />
+          <img src="imgs/organizacao.png" class="image img-3" alt="" />
+        </div>
 
-                <div class="input-wrap">
-                  <input
-                    type="email"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                    name="email"
-                  />
-                  <label>Email</label>
-                </div>
-
-                <div class="input-wrap">
-                  <input
-                    type="password"
-                    minlength="4"
-                    class="input-field"
-                    autocomplete="off"
-                    required
-                    name="senha"
-                  />
-                  <label>Senha</label>
-                </div>
-
-                <input type="submit" value="Registrar" class="sign-btn" />
-
-                
-              </div>
-            </form>
+        <div class="text-slider">
+          <div class="text-wrap">
+            <div class="text-group">
+              <h2>Para agilizar seu dia</h2>
+              <h2>Melhorar a comunicação</h2>
+              <h2>E Organizar sua rotina!</h2>
+            </div>
           </div>
 
-          <div class="carousel">
-            <div class="images-wrapper">
-              <img src="imgs/imagem_tempo.png" class="image img-1 show" alt="" />
-              <img src="imgs/imagem_comunicacao.png" class="image img-2" alt="" />
-              <img src="imgs/organizacao.png" class="image img-3" alt="" />
-            </div>
-
-            <div class="text-slider">
-              <div class="text-wrap">
-                <div class="text-group">
-                  <h2>Para agilizar seu dia</h2>
-                  <h2>Melhorar a comunicação</h2>
-                  <h2>E Organizar sua rotina!</h2>
-                </div>
-              </div>
-
-              <div class="bullets">
-                <span class="active" data-value="1"></span>
-                <span data-value="2"></span>
-                <span data-value="3"></span>
-              </div>
-            </div>
+          <div class="bullets">
+            <span class="active" data-value="1"></span>
+            <span data-value="2"></span>
+            <span data-value="3"></span>
           </div>
         </div>
       </div>
-    </main>
-
-
-    <% if (typeof error !== 'undefined') { %>
-  <div id="modal-error" class="modal-error">
-    <div class="modal-content">
-      <span class="close-modal" onclick="document.getElementById('modal-error').style.display='none'">&times;</span>
-      <%= error %>
     </div>
-  </div>
-<% } %>
+    </div>
+  </main>
 
-    <!-- Arquivo Javascript -->
 
-    <script src="javascript/login.js"></script>
-  </body>
+  <% if (typeof error !=='undefined' ) { %>
+    <div id="modal-error" class="modal-error">
+      <div class="modal-content">
+        <span class="close-modal" onclick="document.getElementById('modal-error').style.display='none'">&times;</span>
+        <%= error %>
+      </div>
+    </div>
+    <% } %>
+
+      <!-- Arquivo Javascript -->
+
+      <script src="javascript/login.js"></script>
+</body>
+
 </html>

@@ -105,7 +105,14 @@ app.get("/login", (req, res) => {
 
 // Rotas protegidas
 app.get("/home", ensureAuthenticated, saveURL, (req, res) => {
-  const q = "SELECT * FROM avisos WHERE Tipo = 'home' ORDER BY ID_Aviso DESC LIMIT 50 ;";
+    const q = `
+    SELECT a.*, d.Foto AS autorFoto
+    FROM avisos a
+    LEFT JOIN dados_pessoais d ON d.Nome = a.Autor
+    WHERE a.Tipo = 'home'
+    ORDER BY a.ID_Aviso DESC
+    LIMIT 50
+  `;
   connection.execute(q, [], (err, results) => {
     if (err) {
      console.error("Erro ao buscar avisos:", err);
@@ -157,7 +164,14 @@ app.post("/avisos/editar", ensureAuthenticated, ensureCoordenador, (req, res) =>
 
 
 app.get("/estagios", ensureAuthenticated, saveURL,(req, res) => {
-  const q = "SELECT * FROM avisos WHERE Tipo = 'estagios' ORDER BY ID_Aviso DESC LIMIT 50 ;";
+  const q = `
+    SELECT a.*, d.Foto AS autorFoto
+    FROM avisos a
+    LEFT JOIN dados_pessoais d ON d.Nome = a.Autor
+    WHERE a.Tipo = 'estagios'
+    ORDER BY a.ID_Aviso DESC
+    LIMIT 50
+  `;
   connection.execute(q, [], (err, results) => {
     if (err) {
       console.error("Erro ao buscar avisos:", err);
@@ -173,49 +187,66 @@ app.get("/estagios", ensureAuthenticated, saveURL,(req, res) => {
 });
 
 app.get("/cursos", ensureAuthenticated, saveURL, (req, res) => {
-  if (req.session.nivel == 'aluno') {
-    const rm = req.session.user && req.session.user.rm;
+  const rm = req.session.user?.rm;
+
+  if (req.session.nivel === 'aluno') {
     const queryTurma = "SELECT ID_Turmas FROM dados_pessoais WHERE ID_Alunos = ?";
     connection.execute(queryTurma, [rm], (err, results) => {
-      console.log("Resultados da query turma do aluno:", results);
-      if (err) {
-        console.error("Erro na query turma do aluno:", err);
-        return res.status(500).send("Erro no servidor");
-      }
-    const q = "SELECT * FROM avisos WHERE Tipo = 'cursos' AND ID_Turmas = ? ORDER BY ID_Aviso DESC LIMIT 50 ;";
-    connection.execute(q, [results[0].ID_Turmas], (err2, results2) => {
-      console.log("Resultados da query avisos do aluno:", results2);
-      if (err2) {
-        console.error("Erro ao buscar avisos:", err2);
-        return res.status(500).send("Erro no servidor");
-      }
-      const mapped = (results2 || []).map(r => {
-        const raw = r.Data_Aviso || r.CreatedAt || r.created_at || r.Data || r.data || null;
-        r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
-        return r;
+      if (err) return res.status(500).send("Erro no servidor");
+      const idTurma = results[0]?.ID_Turmas;
+      if (!idTurma) return res.render("cursos.ejs", { avisos: [], user: req.session.user, nivel: req.session.nivel, turmas: [] });
+
+      const queryAvisos = `
+        SELECT a.*, d.Foto AS autorFoto
+        FROM avisos a
+        LEFT JOIN dados_pessoais d
+          ON d.Nome = a.Autor
+        WHERE a.Tipo = 'cursos' AND a.ID_Turmas = ?
+        ORDER BY a.ID_Aviso DESC
+        LIMIT 50
+      `;
+
+      connection.execute(queryAvisos, [idTurma], (err2, avisos) => {
+        if (err2) return res.status(500).send("Erro ao buscar avisos");
+
+        const mapped = (avisos || []).map(aviso => {
+          const raw = aviso.Data_Aviso || aviso.CreatedAt || aviso.created_at || aviso.Data || aviso.data || null;
+          aviso.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
+          return aviso;
+        });
+
+        const queryTurmas = "SELECT * FROM turmas ORDER BY ID_Turma ASC;";
+        connection.execute(queryTurmas, [], (err3, turmas) => {
+          if (err3) return res.status(500).send("Erro ao buscar turmas");
+          res.render("cursos.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel, turmas: turmas || [] });
+        });
       });
-        res.render("cursos.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel, turmas: results2 || [] });
-    });
     });
   } else {
-    const q = "SELECT * FROM avisos WHERE Tipo = 'cursos' ORDER BY ID_Aviso DESC LIMIT 50 ;";
-    connection.execute(q, [], (err, results) => {
-      if (err) {
-        console.error("Erro ao buscar avisos:", err);
-        return res.status(500).send("Erro no servidor");
-      }
-      const mapped = (results || []).map(r => {
-        const raw = r.Data_Aviso || r.CreatedAt || r.created_at || r.Data || r.data || null;
-        r.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
-        return r;
+    // Para coordenador/professor
+    const queryAvisos = `
+      SELECT a.*, d.Foto AS autorFoto
+      FROM avisos a
+      LEFT JOIN dados_pessoais d
+        ON d.Nome = a.Autor
+      WHERE a.Tipo = 'cursos'
+      ORDER BY a.ID_Aviso DESC
+      LIMIT 50
+    `;
+
+    connection.execute(queryAvisos, [], (err, avisos) => {
+      if (err) return res.status(500).send("Erro ao buscar avisos");
+
+      const mapped = (avisos || []).map(aviso => {
+        const raw = aviso.Data_Aviso || aviso.CreatedAt || aviso.created_at || aviso.Data || aviso.data || null;
+        aviso.Data_Aviso_formatada = formatDateValue(raw) || '00/00/0000';
+        return aviso;
       });
+
       const queryTurmas = "SELECT * FROM turmas ORDER BY ID_Turma ASC;";
-      connection.execute(queryTurmas, [], (err2, results2) => {
-        if (err2) {
-          console.error("Erro ao buscar turmas:", err2);
-          return res.status(500).send("Erro no servidor");
-        }
-        res.render("cursos.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel, turmas: results2 || [] });
+      connection.execute(queryTurmas, [], (err2, turmas) => {
+        if (err2) return res.status(500).send("Erro ao buscar turmas");
+        res.render("cursos.ejs", { avisos: mapped, user: req.session.user, nivel: req.session.nivel, turmas: turmas || [] });
       });
     });
   }
