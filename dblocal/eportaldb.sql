@@ -21,7 +21,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '571a30a5-8f78-11f0-821d-3ad1a0fc3928:1-190,
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '571a30a5-8f78-11f0-821d-3ad1a0fc3928:1-270,
 a3b10948-8f62-11f0-89d9-22b709d99316:1-29,
 a6956ce3-8ea4-11f0-9092-5ef681d2cd51:1-23,
 e82dcbfa-8d73-11f0-935e-bec46436e6e5:1-27';
@@ -48,7 +48,7 @@ CREATE TABLE `alunos` (
 
 LOCK TABLES `alunos` WRITE;
 /*!40000 ALTER TABLE `alunos` DISABLE KEYS */;
-INSERT INTO `alunos` VALUES (23045,6);
+INSERT INTO `alunos` VALUES (10001,NULL),(23045,6);
 /*!40000 ALTER TABLE `alunos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,14 +69,18 @@ CREATE TABLE `avisos` (
   `ID_Coordenadores` int DEFAULT NULL,
   `Data_Aviso` date DEFAULT NULL,
   `Autor` varchar(150) DEFAULT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
+  `ID_Turmas` int DEFAULT NULL,
   PRIMARY KEY (`ID_Aviso`),
   KEY `ID_Alunos` (`ID_Alunos`),
   KEY `ID_Professores` (`ID_Professores`),
   KEY `ID_Coordenadores` (`ID_Coordenadores`),
+  KEY `avisos_ibfk_4_idx` (`ID_Turmas`),
   CONSTRAINT `avisos_ibfk_1` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`),
   CONSTRAINT `avisos_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`),
-  CONSTRAINT `avisos_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `avisos_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`),
+  CONSTRAINT `avisos_ibfk_4` FOREIGN KEY (`ID_Turmas`) REFERENCES `turmas` (`ID_Turma`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,7 +89,7 @@ CREATE TABLE `avisos` (
 
 LOCK TABLES `avisos` WRITE;
 /*!40000 ALTER TABLE `avisos` DISABLE KEYS */;
-INSERT INTO `avisos` VALUES (9,'casa aberta','apresentações abertas ao publico 20/10','/uploads/otherFiles/1759929791039-onepiece.webp',NULL,NULL,NULL,'2025-10-08',NULL),(15,'adasda','dasdasda','/uploads/jpgFiles/1760102314578-download.jpeg',NULL,NULL,NULL,'2025-10-10',NULL),(18,'one piece','One Piece conta a história de Monkey D. Luffy, um jovem com corpo de borracha, e sua tripulação, os Piratas do Chapéu de Palha, em sua jornada para encontrar o tesouro máximo, o \"One Piece\", e se tornar o Rei dos Piratas. Sua busca os leva através da perigosa Grand Line, onde enfrentam o Governo Mundial, outros piratas e criaturas marinhas, desvendando mistérios de um século perdido e lutando por liberdade em um mundo dominado pela tirania. \r\nA Trama Principal \r\nO Tesouro One Piece: O tesouro mais','/uploads/jpgFiles/1760103159267-download.jpeg',NULL,NULL,NULL,'2025-10-10',NULL),(21,'nao sobra nada','Oiii','/uploads/pngFiles/1760186498617-berserk.png',NULL,NULL,NULL,'2025-10-11',NULL),(25,'Sadas','Sadas',NULL,NULL,NULL,NULL,'2025-10-13',NULL);
+INSERT INTO `avisos` VALUES (39,'vaer5ghsert','bsertsedf',NULL,NULL,NULL,NULL,'2025-10-13','Cleybson Leandro','cursos',NULL),(40,'KAIROS - TCC','RECEBAAA','/uploads/jpgFiles/1760391762490-cine.jpeg',NULL,NULL,NULL,'2025-10-13','Cleybson Leandro','cursos',6),(46,'testando!!','oiii',NULL,NULL,NULL,NULL,'2025-10-13','Julio','home',NULL),(47,'adasd','asdsad',NULL,NULL,NULL,NULL,'2025-10-13','Julio','home',NULL),(48,'ytfrytyt7','ytuugkuy',NULL,NULL,NULL,NULL,'2025-10-13','Julio','home',NULL),(49,'u9uh','iygih',NULL,NULL,NULL,NULL,'2025-10-13','Julio','cursos',NULL),(51,'asdasda','adsasda',NULL,NULL,NULL,NULL,'2025-10-13','Cleybson Leandro','home',NULL),(52,'adasdsd','asdasd',NULL,NULL,NULL,NULL,'2025-10-13','Cleybson Leandro','home',NULL),(53,'AAAA','AAA',NULL,NULL,NULL,NULL,'2025-10-13','Cleybson Leandro','home',NULL),(54,'ggg','ggg',NULL,NULL,NULL,NULL,'2025-10-13','Julio','home',NULL),(55,'adasd','asdad',NULL,NULL,NULL,NULL,'2025-10-14','Cleybson Leandro','home',NULL),(56,'dhgdfgdf','sdgsdgsd',NULL,NULL,NULL,NULL,'2025-10-14','Cleybson Leandro','home',NULL),(57,'TESTE ','SÓPAVÊ',NULL,NULL,NULL,NULL,'2025-10-14','Cleybson Leandro','home',NULL),(58,'TESTEEEE','SÓPAVÊ',NULL,NULL,NULL,NULL,'2025-10-14','Cleybson Leandro','cursos',4),(59,'oppaaaa','aaaa',NULL,NULL,NULL,NULL,'2025-10-14','Cleybson Leandro','home',NULL),(60,'aa','aaa','/uploads/jpgFiles/1760401856614-ETEC_POA.jpg',NULL,NULL,NULL,'2025-10-14','Cleybson Leandro','estagios',NULL);
 /*!40000 ALTER TABLE `avisos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -127,7 +131,7 @@ CREATE TABLE `coordenadores` (
 
 LOCK TABLES `coordenadores` WRITE;
 /*!40000 ALTER TABLE `coordenadores` DISABLE KEYS */;
-INSERT INTO `coordenadores` VALUES (23040),(54321),(80800);
+INSERT INTO `coordenadores` VALUES (23040),(23088);
 /*!40000 ALTER TABLE `coordenadores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,6 +146,7 @@ CREATE TABLE `dados_pessoais` (
   `ID_dados_pessoais` int NOT NULL AUTO_INCREMENT,
   `Nome` varchar(255) DEFAULT NULL,
   `Telefone` varchar(13) DEFAULT NULL,
+  `Foto` varchar(255) DEFAULT NULL,
   `Email` varchar(255) NOT NULL,
   `Senha` varchar(255) NOT NULL,
   `ID_Alunos` int DEFAULT NULL,
@@ -152,17 +157,17 @@ CREATE TABLE `dados_pessoais` (
   `Sexo` enum('Masculino','Feminino','Prefiro não dizer') DEFAULT NULL,
   `ID_Turmas` int DEFAULT NULL,
   PRIMARY KEY (`ID_dados_pessoais`),
-  KEY `ID_Professores` (`ID_Professores`),
-  KEY `ID_Coordenadores` (`ID_Coordenadores`),
   KEY `ID_Projetos` (`ID_Projetos`),
   KEY `dados_pessoais_ibfk_1` (`ID_Alunos`),
   KEY `ID_Turmas` (`ID_Turmas`),
+  KEY `dados_pessoais_ibfk_2` (`ID_Professores`),
+  KEY `dados_pessoais_ibfk_3` (`ID_Coordenadores`),
   CONSTRAINT `dados_pessoais_ibfk_1` FOREIGN KEY (`ID_Alunos`) REFERENCES `alunos` (`RM_Aluno`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `dados_pessoais_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`),
-  CONSTRAINT `dados_pessoais_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`),
+  CONSTRAINT `dados_pessoais_ibfk_2` FOREIGN KEY (`ID_Professores`) REFERENCES `professores` (`RM_Professor`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `dados_pessoais_ibfk_3` FOREIGN KEY (`ID_Coordenadores`) REFERENCES `coordenadores` (`RM_Coordenador`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `dados_pessoais_ibfk_4` FOREIGN KEY (`ID_Projetos`) REFERENCES `projetos` (`ID_Projeto`),
   CONSTRAINT `dados_pessoais_ibfk_5` FOREIGN KEY (`ID_Turmas`) REFERENCES `turmas` (`ID_Turma`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,7 +176,7 @@ CREATE TABLE `dados_pessoais` (
 
 LOCK TABLES `dados_pessoais` WRITE;
 /*!40000 ALTER TABLE `dados_pessoais` DISABLE KEYS */;
-INSERT INTO `dados_pessoais` VALUES (1,'Joaquim Lopes','11 98765-4321','mazoxdafvl@gmail.com','123456',23045,NULL,NULL,NULL,'2007-11-04','Masculino',6),(6,'Alexandre Siqueira','11 91234-5678','alexandre@gmail.com','6789',NULL,23031,NULL,NULL,'1995-06-25','Masculino',NULL),(31,'Julio','11 40022-8922','admin@gmail.com','54321',NULL,NULL,23040,NULL,'2000-11-04','Masculino',NULL);
+INSERT INTO `dados_pessoais` VALUES (1,'Joaquim Lopes','11 98765-4321','/uploads/fotos_perfil/23045.png','mazoxdafvl@gmail.com','123456',23045,NULL,NULL,NULL,'2007-11-04','Masculino',6),(6,'Alexandre Siqueira','11 91234-5678',NULL,'alexandre@gmail.com','6789',NULL,23031,NULL,NULL,'1995-06-25','Masculino',NULL),(31,'Julio','11 40022-8922','/uploads/fotos_perfil/23040.jpg','admin@gmail.com','54321',NULL,NULL,23040,NULL,'2000-11-04','Masculino',NULL),(37,'Cleybson Leandro','11 97182-1988','/uploads/fotos_perfil/23088.png','cleybson@gmail.com','9876',NULL,NULL,23088,NULL,'1984-09-25','Masculino',NULL),(38,'Ana Silva','11 98765-4321',NULL,'ana.silva@email.com','ana123',10001,NULL,NULL,NULL,'2010-03-15','Feminino',2);
 /*!40000 ALTER TABLE `dados_pessoais` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -256,7 +261,7 @@ CREATE TABLE `professores` (
 
 LOCK TABLES `professores` WRITE;
 /*!40000 ALTER TABLE `professores` DISABLE KEYS */;
-INSERT INTO `professores` VALUES (12345),(23031);
+INSERT INTO `professores` VALUES (23031);
 /*!40000 ALTER TABLE `professores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,4 +400,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-13 12:26:20
+-- Dump completed on 2025-10-14  8:05:28
