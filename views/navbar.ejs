@@ -59,13 +59,15 @@
                     <a href="#" role="menuitem">vagas</a>
                 </div>
             </li>
-              <!--Avisos Gerais-->
+              <% if (nivel === 'coordenador') { %>
+            <!--Cadastro de Usuários (apenas para coordenadores)-->
             <li class="nav-item has-sub ">
                 <a class="nav-link" href="/cadastro">
                     <span class="icon"><img class="cadastro"src="imgs/nav_icons/cadastro.png" alt="">  </span>
-                    <span class="label">Cadastro</span>
+                    <span class="label">Cadastro de Usuários</span>
                 </a>
             </li>
+            <% } %>
         </ul>
     </nav>
     <div class="sb-footer">ETEC de Poá</div>
