@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 14/10/2025 às 21:02
+-- Tempo de geração: 14/10/2025 às 21:31
 -- Versão do servidor: 9.1.0
 -- Versão do PHP: 8.3.14
 
@@ -67,7 +67,21 @@ CREATE TABLE IF NOT EXISTS `avisos` (
   KEY `ID_Professores` (`ID_Professores`),
   KEY `ID_Coordenadores` (`ID_Coordenadores`),
   KEY `avisos_ibfk_4_idx` (`ID_Turmas`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `avisos`
+--
+
+INSERT INTO `avisos` (`ID_Aviso`, `Titulo`, `Conteudo`, `Capa`, `ID_Alunos`, `ID_Professores`, `ID_Coordenadores`, `Data_Aviso`, `Autor`, `tipo`, `ID_Turmas`) VALUES
+(62, 'ESCURSÃO PARA O ZOOLÓGICO', 'EXCURSÃO PARA O ZOOLÓGICO DE SÃO PAULO!🐒🦁🦓\r\n\r\n📅 Data da excursão: 24/10 (quinta-feira)\r\n💰 Prazo para pagamento: até o dia 15/10\r\n🚍 VAGAS LIMITADAS: apenas 43!\r\n\r\n⚠ Atenção: a vaga só será reservada mediante pagamento. Não deixe para a última hora!\r\n\r\nGaranta já seu lugar nessa aventura incrível com a turma! 🌳🐾\r\nPagamentos e reserva na coordenação!!', '/uploads/jpgFiles/1760477021020-zoologico].jpg', NULL, NULL, NULL, '2025-10-14', 'Alexandre Siqueira', 'home', NULL),
+(63, 'CALENDÁRIO ', 'CALENDÁRIO RETA FINAL DO ANO', '/uploads/jpgFiles/1760477074653-calendario.jpg', NULL, NULL, NULL, '2025-10-14', 'Alexandre Siqueira', 'home', NULL),
+(64, 'SIMULADO FUVEST', 'INFORMAÇOES SOBRE O SIMULADO PARA FUVEST', '/uploads/jpgFiles/1760477113193-simulado fuvest.jpg', NULL, NULL, NULL, '2025-10-14', 'Alexandre Siqueira', 'home', NULL),
+(65, 'CASA ABERTA', 'DATA DO CASA ABERTA ', '/uploads/jpgFiles/1760477148803-casaaberta.jpg', NULL, NULL, NULL, '2025-10-14', 'Alexandre Siqueira', 'home', NULL),
+(66, 'VAGA TMKT', 'Vaga para JOVEM APRENDIZ na tmkt', '/uploads/jpgFiles/1760477239984-tmkt jovem.jpg', NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'estagios', NULL),
+(67, 'VAGA TMKT', 'vaga para GESTOR DE NEGÓCIOS na tmkt', '/uploads/jpgFiles/1760477268273-tmkt negocios.jpg', NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'estagios', NULL),
+(68, 'ATENÇÃO', 'O 3ºDS entrará asa 8:50 horas na data de 21/10/25', '/uploads/jpgFiles/1760477361891-etec.jpeg', NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'cursos', 6),
+(69, 'ATENÇÃO', 'O 3ºMKT NÃO terá AULA NO DIA 21/10/25', '/uploads/jpgFiles/1760477427013-etec.jpeg', NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'cursos', 12);
 
 --
 -- Acionadores `avisos`
