@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 14/10/2025 às 13:55
--- Versão do servidor: 8.0.42
+-- Tempo de geração: 14/10/2025 às 21:02
+-- Versão do servidor: 9.1.0
 -- Versão do PHP: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -70,28 +70,6 @@ CREATE TABLE IF NOT EXISTS `avisos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Despejando dados para a tabela `avisos`
---
-
-INSERT INTO `avisos` (`ID_Aviso`, `Titulo`, `Conteudo`, `Capa`, `ID_Alunos`, `ID_Professores`, `ID_Coordenadores`, `Data_Aviso`, `Autor`, `tipo`, `ID_Turmas`) VALUES
-(39, 'vaer5ghsert', 'bsertsedf', NULL, NULL, NULL, NULL, '2025-10-13', 'Cleybson Leandro', 'cursos', NULL),
-(40, 'KAIROS - TCC', 'RECEBAAA', '/uploads/jpgFiles/1760391762490-cine.jpeg', NULL, NULL, NULL, '2025-10-13', 'Cleybson Leandro', 'cursos', 6),
-(46, 'testando!!', 'oiii', NULL, NULL, NULL, NULL, '2025-10-13', 'Julio', 'home', NULL),
-(47, 'adasd', 'asdsad', NULL, NULL, NULL, NULL, '2025-10-13', 'Julio', 'home', NULL),
-(48, 'ytfrytyt7', 'ytuugkuy', NULL, NULL, NULL, NULL, '2025-10-13', 'Julio', 'home', NULL),
-(49, 'u9uh', 'iygih', NULL, NULL, NULL, NULL, '2025-10-13', 'Julio', 'cursos', NULL),
-(51, 'asdasda', 'adsasda', NULL, NULL, NULL, NULL, '2025-10-13', 'Cleybson Leandro', 'home', NULL),
-(52, 'adasdsd', 'asdasd', NULL, NULL, NULL, NULL, '2025-10-13', 'Cleybson Leandro', 'home', NULL),
-(53, 'AAAA', 'AAA', NULL, NULL, NULL, NULL, '2025-10-13', 'Cleybson Leandro', 'home', NULL),
-(54, 'ggg', 'ggg', NULL, NULL, NULL, NULL, '2025-10-13', 'Julio', 'home', NULL),
-(55, 'adasd', 'asdad', NULL, NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'home', NULL),
-(56, 'dhgdfgdf', 'sdgsdgsd', NULL, NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'home', NULL),
-(57, 'TESTE ', 'SÓPAVÊ', NULL, NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'home', NULL),
-(58, 'TESTEEEE', 'SÓPAVÊ', NULL, NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'cursos', 4),
-(59, 'oppaaaa', 'aaaa', NULL, NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'home', NULL),
-(60, 'aa', 'aaa', '/uploads/jpgFiles/1760401856614-ETEC_POA.jpg', NULL, NULL, NULL, '2025-10-14', 'Cleybson Leandro', 'estagios', NULL);
-
---
 -- Acionadores `avisos`
 --
 DROP TRIGGER IF EXISTS `set_data_aviso`;
@@ -152,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `dados_pessoais` (
   KEY `ID_Turmas` (`ID_Turmas`),
   KEY `dados_pessoais_ibfk_2` (`ID_Professores`),
   KEY `dados_pessoais_ibfk_3` (`ID_Coordenadores`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Despejando dados para a tabela `dados_pessoais`
@@ -162,7 +140,8 @@ INSERT INTO `dados_pessoais` (`ID_dados_pessoais`, `Nome`, `Telefone`, `Foto`, `
 (1, 'Joaquim Lopes', '11 98765-4321', '/uploads/fotos_perfil/23045.png', 'mazoxdafvl@gmail.com', '123456', 23045, NULL, NULL, NULL, '2007-11-04', 'Masculino', 6),
 (31, 'Julio', '11 40022-8922', '/uploads/fotos_perfil/23040.jpg', 'admin@gmail.com', '54321', NULL, NULL, 23040, NULL, '2000-11-04', 'Masculino', NULL),
 (37, 'Cleybson Leandro', '11 97182-1988', '/uploads/fotos_perfil/23088.png', 'cleybson@gmail.com', '9876', NULL, NULL, 23088, NULL, '1984-09-25', 'Masculino', NULL),
-(38, 'Ana Silva', '11 98765-4321', NULL, 'ana.silva@email.com', 'ana123', 10001, NULL, NULL, NULL, '2010-03-15', 'Feminino', 2);
+(38, 'Ana Silva', '11 98765-4321', NULL, 'ana.silva@email.com', 'ana123', 10001, NULL, NULL, NULL, '2010-03-15', 'Feminino', 2),
+(39, 'Alexandre Siqueira', NULL, '/uploads/fotos_perfil/23031.png', 'alexandre123@gmail.com', '6789', NULL, NULL, 23031, NULL, '1994-07-21', 'Masculino', NULL);
 
 --
 -- Acionadores `dados_pessoais`
