@@ -22,7 +22,8 @@
         <% avisos.forEach(function(aviso) { %>
         <div class="aviso-card" aviso-id="<%= aviso.ID_Aviso %>">
           <div class="aviso-header">
-            <div class="aviso-avatar"></div>
+            <img class="aviso-autor-foto" src="<%= aviso.autorFoto || '/imgs/profile_icons/usuario.png' %>" 
+            style="width:40px; height:40px; object-fit:cover; border-radius:50%;" class="icone-autor">
             <span class="aviso-nome"><%= aviso.Autor || aviso.ID_Coordenadores || 'Autor' %></span>
             <span class="aviso-data"><%= aviso.Data_Aviso_formatada || '00/00/0000' %></span>
           

@@ -10,16 +10,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnEditar = document.getElementById('btn-editar');
     const btnSalvar = document.getElementById('btn-salvar');
     const btnCancelar = document.getElementById('btn-cancelar');
-    // btnTrocarSenha removido - não existe no HTML
     
-    // Seletor correto para capturar TODOS os inputs editáveis
     const inputs = document.querySelectorAll('#sec-contato .input');
     const trocaSenhaArea = document.getElementById('troca-senha-area');
-    const senha = document.querySelector('.senha-wrapper .input'); // Campo de senha principal
+    const senha = document.querySelector('.senha-wrapper .input');
     const senhaAtual = document.getElementById('senha-atual-input');
     const novaSenha = document.getElementById('nova-senha');
     const confirmaSenha = document.getElementById('confirma-senha');
     const senhaErro = document.getElementById('senha-erro');
+    const fotoIcone = document.getElementById('foto-icone'); // ícone de câmera ou botão
+    const inputArquivo = document.getElementById('input-foto'); // input file escondido
+    const imgPerfil = document.getElementById('img-perfil'); // imagem atual do perfil
 
     // Salva valores originais dos inputs
     const valoresOriginais = Array.from(inputs).map(i => i.value);
@@ -33,77 +34,54 @@ document.addEventListener('DOMContentLoaded', function () {
         chipCurso?.classList.toggle('active', !contato);
     }
 
-    // Event listeners para chips de navegação
     chipContato?.addEventListener('click', () => openSection('contato'));
     chipCurso?.addEventListener('click', () => openSection('curso'));
-    openSection('contato'); // seção inicial
+    openSection('contato');
 
-    // Função para entrar no modo de edição
     function enterEditMode() {
-        // Força abertura da seção contato ao entrar no modo de edição
         openSection('contato');
-        
-        // Habilita TODOS os inputs EXCETO o campo de senha
         inputs.forEach(i => {
             if (i.id !== 'senha-input') {
                 i.disabled = false;
             }
         });
-        
         btnEditar.style.display = 'none';
         btnSalvar.style.display = 'inline-block';
         btnCancelar.style.display = 'inline-block';
-        
-        // Mantém o campo de senha desabilitado mas visível
+
         if (senha) {
             senha.disabled = true;
             senha.style.display = 'block';
         }
-        
-        // Mostra a área de troca de senha
         if (trocaSenhaArea) {
             trocaSenhaArea.style.display = 'block';
         }
-        
-        // Habilita campos de senha
         if (senhaAtual) senhaAtual.disabled = false;
         if (novaSenha) novaSenha.disabled = false;
         if (confirmaSenha) confirmaSenha.disabled = false;
     }
 
-    // Função para sair do modo de edição
     function leaveEditMode() {
-        // Restaura valores originais e desabilita TODOS os inputs
         inputs.forEach((i, idx) => {
             i.value = valoresOriginais[idx];
             i.disabled = true;
         });
-        
         btnEditar.style.display = 'inline-block';
         btnSalvar.style.display = 'none';
         btnCancelar.style.display = 'none';
-        
-        // Esconde a área de troca de senha
-        if (trocaSenhaArea) {
-            trocaSenhaArea.style.display = 'none';
-        }
-        
-        // Desabilita o campo de senha
+
+        if (trocaSenhaArea) trocaSenhaArea.style.display = 'none';
         if (senha) {
             senha.disabled = true;
             senha.style.display = 'block';
         }
-        
         if (senhaErro) {
             senhaErro.textContent = '';
             senhaErro.style.display = 'none';
         }
-        
-        // Limpa campos de senha
         [senhaAtual, novaSenha, confirmaSenha].forEach(i => i && (i.value = ''));
     }
 
-    // Função para validar troca de senha
     function validatePasswordChange() {
         const atual = senhaAtual?.value || '';
         const nova = novaSenha?.value || '';
@@ -129,27 +107,55 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
-    // Event listeners para botões
     btnEditar?.addEventListener('click', enterEditMode);
     btnCancelar?.addEventListener('click', leaveEditMode);
 
     btnSalvar?.addEventListener('click', function(e) {
-        // Se a área de troca de senha estiver visível, valida a senha
         if (trocaSenhaArea && trocaSenhaArea.style.display === 'block') {
             if (!validatePasswordChange()) {
                 e.preventDefault();
                 return false;
             }
-            
-            // Aqui você pode integrar com o backend
-            // fetch('/perfil/senha', { 
-            //     method: 'POST', 
-            //     headers: { 'Content-Type': 'application/json' }, 
-            //     body: JSON.stringify({ atual: senhaAtual.value, nova: novaSenha.value }) 
-            // }).then(r => r.ok ? leaveEditMode() : alert('Erro ao atualizar senha'));
-            
             alert('Senha validada com sucesso! Integre com o backend para salvar.');
             leaveEditMode();
         }
     });
+
+    //Upload de imagem de perfil
+    if (fotoIcone && inputArquivo) {
+
+        // Quando o usuário clicar no ícone, abre o seletor de arquivos
+        fotoIcone.addEventListener('click', () => {
+            inputArquivo.click();
+        });
+
+        // Quando selecionar uma imagem
+        inputArquivo.addEventListener('change', async (e) => {
+            const arquivo = e.target.files[0];
+            if (!arquivo) return;
+
+            const formData = new FormData();
+            formData.append('foto', arquivo);
+
+            try {
+                const res = await fetch('/perfil/upload-foto', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    // Atualiza imagem exibida no perfil
+                    imgPerfil.src = data.url;
+                    alert('Foto atualizada com sucesso!');
+                } else {
+                    const msg = await res.text();
+                    alert(`Erro ao enviar imagem: ${msg}`);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Erro ao enviar imagem.');
+            }
+        });
+    }
 });

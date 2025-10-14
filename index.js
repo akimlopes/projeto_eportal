@@ -40,6 +40,7 @@ function formatDateValue(raw) {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(session({
   secret: "chave_etecpoa123@#",
@@ -220,46 +221,28 @@ app.get("/cursos", ensureAuthenticated, saveURL, (req, res) => {
   }
 });
 
+// GET /perfil
 app.get("/perfil", ensureAuthenticated, (req, res) => {
   const rm = req.session.user && req.session.user.rm;
   const queryperfil = `SELECT * FROM dados_pessoais WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?`;
   
   connection.execute(queryperfil, [rm, rm, rm], (err, results) => {
-    if (err) {
-      console.error("Erro na query:", err);
-      return res.status(500).send("Erro no servidor");
-    }
-    
-    console.log("Resultados da query perfil:", results);
-    
+    if (err) return res.status(500).send("Erro no servidor");
     if (results && results.length > 0) {
-      // CORREÇÃO: Formatar a data de nascimento diretamente nos resultados do perfil
       const userData = results[0];
-      
-      // Formatar a data de nascimento
       const rawBirthDate = userData.Data_Nasc;
       userData.Data_Nasc_formatada = formatDateValue(rawBirthDate) || 'Data não informada';
-      
+
       if (userData.ID_Alunos === null) {
         res.render("perfil.ejs", { user: userData, turma: null });
       } else {
         const queryturma = "SELECT * FROM turmas WHERE ID_Turma = ?";
         connection.execute(queryturma, [userData.ID_Turmas], (err2, results2) => {
-          if (err2) {
-            console.error("Erro na query turma:", err2);
-            return res.status(500).send("Erro no servidor");
-          }
-          console.log("Resultados da query turma:", results2);
-          
-          if (results2 && results2.length > 0) {
-            res.render("perfil.ejs", { user: userData, turma: results2[0] });
-          } else {
-            res.render("perfil.ejs", { user: userData, turma: null });
-          }
+          if (err2) return res.status(500).send("Erro no servidor");
+          res.render("perfil.ejs", { user: userData, turma: results2 && results2.length > 0 ? results2[0] : null });
         });
       }
     } else {
-      // Caso não encontre o usuário
       res.render("perfil.ejs", { user: null, turma: null });
     }
   });
@@ -325,7 +308,8 @@ connection.execute(query, [rm, rm, rm, senha], (err, results) => {
     const usuario = results[0];
     req.session.user = {
       rm,
-      nome: usuario.Nome  // Aqui você adiciona o nome à sessão
+      nome: usuario.Nome,  // Aqui você adiciona o nome à sessão
+      Foto: usuario.Foto
     };
 
     // Define o nível de usuário
@@ -506,7 +490,53 @@ const storage = multer.diskStorage({
   }
 });
 
+const storageFoto = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, 'public', 'uploads', 'fotos_perfil');
+    fs.mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const user = req.session.user;
+    const ext = path.extname(file.originalname);
+    const userId = user?.rm; // 🟢 Usa RM do usuário para nome do arquivo
+    cb(null, `${userId}${ext}`);
+  }
+});
+
+
 const upload = multer({ storage });
+
+// Configuração do multer para upload de fotos de perfil
+const uploadFoto = multer({ storage: storageFoto });
+
+app.post('/upload-foto', ensureAuthenticated, uploadFoto.single('foto'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).send('Nenhuma imagem enviada.');
+    const user = req.session.user;
+    const fotoPath = `/uploads/fotos_perfil/${req.file.filename}`;
+
+    const query = `
+      UPDATE dados_pessoais
+      SET Foto = ?
+      WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?
+    `;
+
+    await connection.promise().execute(query, [
+      fotoPath,
+      user.rm,
+      user.rm,
+      user.rm
+    ]);
+
+    req.session.user.Foto = fotoPath; // 🟢 Atualiza a sessão com a nova foto
+    res.redirect('/perfil');
+  } catch (err) {
+    console.error('Erro ao enviar foto de perfil:', err);
+    res.status(500).send('Erro ao salvar imagem de perfil.');
+  }
+});
+
 
 app.post("/upload", ensureAuthenticated, ensureCoordenador, saveURL, upload.single('arquivo'), (req, res) => {
   // Permitir upload sem imagem

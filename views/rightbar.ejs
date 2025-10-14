@@ -4,11 +4,11 @@
       <div class="profile" id="profile">
       <div class="profile-icon" id="profile-btn">
       <span class="profile-name" id="profile-name">  <%= user.nome %> </span>
-        <img id="profileExpand" class="profileExpand" src="imgs/profile_icons/rickelme.jfif" alt="">
+        <img id="profileExpand" class="profileExpand" src="<%= user.Foto || '/imgs/profile_icons/usuario.png' %>" alt="">
       </div>
       
       <div class="profile-menu" id="profile-menu">
-        <a href="/perfil"> <img src="imgs/profile_icons/usuario.png" alt="" class="profile_icons"> Meu Perfil </a>
+        <a href="/perfil"> <img src="<%= user.Foto || '/imgs/profile_icons/usuario.png' %>" alt="" class="profile_icons"> Meu Perfil </a>
         <a href="/logout"><img src="imgs/profile_icons/logout.png" class="profile_icons" alt=""> Sair </a>
       </div>
       </div>
