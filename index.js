@@ -299,6 +299,50 @@ app.post("/perfil/atualizar", ensureAuthenticated, (req, res) => {
   });
 });
 
+// Alteração da senha
+app.post('/perfil/alterar-senha', ensureAuthenticated, (req, res) => {
+  const rm = req.session.user && req.session.user.rm;
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Preencha todos os campos.' });
+  }
+  if (newPassword !== confirmPassword) {
+    return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'A nova senha e a confirmação não coincidem.' });
+  }
+  if (newPassword.length < 8) {
+    return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'A senha deve ter pelo menos 8 caracteres.' });
+  }
+
+  // Busca a senha atual no banco
+  const query = `SELECT Senha FROM dados_pessoais WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?`;
+  connection.execute(query, [rm, rm, rm], (err, results) => {
+    if (err || !results || results.length === 0) {
+      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Usuário não encontrado.' });
+    }
+    const senhaAtualBanco = results[0].Senha;
+    if (currentPassword !== senhaAtualBanco) {
+      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Senha atual incorreta.' });
+    }
+
+    // Atualiza a senha no banco
+    const updateQuery = `UPDATE dados_pessoais SET Senha = ? WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?`;
+    connection.execute(updateQuery, [newPassword, rm, rm, rm], (err2) => {
+      if (err2) {
+        return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Erro ao atualizar senha.' });
+      }
+      // Atualiza a sessão
+      req.session.user.senha = newPassword;
+      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, success: 'Senha alterada com sucesso.' });
+    });
+  });
+});
+
+app.listen(8080, () => {
+  console.log("Server está rodando na porta 8080");
+});
+
+
 app.get("/projetos", ensureAuthenticated, (req, res) => {
   res.render("projetos.ejs", { user: req.session.user, nivel: req.session.nivel });
 });
@@ -630,6 +674,4 @@ function checkTableExists(tableName) {
 }
 
 // Inicia o servidor
-app.listen(8080, () => {
-  console.log("Server está rodando na porta 8080");
-});
+
