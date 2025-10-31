@@ -123,19 +123,19 @@
           </div>
 
           <div id="troca-senha-area" class="troca-senha" style="display:none;">
-            <form action="/perfil/alterar-senha" method="post">
+            <form id="senhaForm" action="/perfil/alterar-senha" method="post">
               <div class="grid-3">
                 <div class="field">
                   <label>Senha atual</label>
-                  <input type="password" name="currentPassword" class="input" autocomplete="current-password" required>
+                  <input type="password" name="currentPassword" id="senha-atual-input" class="input" autocomplete="current-password" required>
                 </div>
                 <div class="field">
                   <label>Nova senha</label>
-                  <input type="password" name="newPassword" class="input" autocomplete="new-password" required>
+                  <input type="password" name="newPassword" id="nova-senha" class="input" autocomplete="new-password" required>
                 </div>
                 <div class="field">
                   <label>Confirmar nova senha</label>
-                  <input type="password" name="confirmPassword" class="input" autocomplete="new-password" required>
+                  <input type="password" name="confirmPassword" id="confirma-senha" class="input" autocomplete="new-password" required>
                 </div>
               </div>
               <button type="submit" class="btn">Alterar senha</button>

@@ -116,8 +116,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 e.preventDefault();
                 return false;
             }
-            alert('Senha validada com sucesso! Integre com o backend para salvar.');
-            leaveEditMode();
+            // submete o formulário interno para postar para /perfil/alterar-senha
+            const senhaForm = document.getElementById('senhaForm');
+            if (senhaForm) {
+                senhaForm.submit();
+            } else {
+                alert('Formulário de alteração de senha não encontrado.');
+                leaveEditMode();
+            }
         }
     });
 

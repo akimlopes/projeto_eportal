@@ -300,42 +300,58 @@ app.post("/perfil/atualizar", ensureAuthenticated, (req, res) => {
 });
 
 // Alteração da senha
-app.post('/perfil/alterar-senha', ensureAuthenticated, (req, res) => {
-  const rm = req.session.user && req.session.user.rm;
-  const { currentPassword, newPassword, confirmPassword } = req.body;
+app.post('/perfil/alterar-senha', ensureAuthenticated, async (req, res) => {
+  try {
+    const rm = req.session.user && req.session.user.rm;
+    const { currentPassword, newPassword, confirmPassword } = req.body;
 
-  if (!currentPassword || !newPassword || !confirmPassword) {
-    return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Preencha todos os campos.' });
-  }
-  if (newPassword !== confirmPassword) {
-    return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'A nova senha e a confirmação não coincidem.' });
-  }
-  if (newPassword.length < 8) {
-    return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'A senha deve ter pelo menos 8 caracteres.' });
-  }
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Preencha todos os campos.' });
+    }
+    if (newPassword !== confirmPassword) {
+      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'A nova senha e a confirmação não coincidem.' });
+    }
+    if (newPassword.length < 4) {
+      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'A senha deve ter pelo menos 8 caracteres.' });
+    }
 
-  // Busca a senha atual no banco
-  const query = `SELECT Senha FROM dados_pessoais WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?`;
-  connection.execute(query, [rm, rm, rm], (err, results) => {
-    if (err || !results || results.length === 0) {
+    // Busca a senha atual no banco
+    const [rows] = await connection.promise().execute(
+      'SELECT Senha FROM dados_pessoais WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?',
+      [rm, rm, rm]
+    );
+
+    if (!rows || rows.length === 0) {
+      console.warn('[alterar-senha] usuário não encontrado para rm=', rm);
       return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Usuário não encontrado.' });
     }
-    const senhaAtualBanco = results[0].Senha;
+
+    const senhaAtualBanco = rows[0].Senha;
+    console.log('[alterar-senha] rm=', rm, 'senhaAtualBanco=', senhaAtualBanco);
+
     if (currentPassword !== senhaAtualBanco) {
       return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Senha atual incorreta.' });
     }
 
     // Atualiza a senha no banco
-    const updateQuery = `UPDATE dados_pessoais SET Senha = ? WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?`;
-    connection.execute(updateQuery, [newPassword, rm, rm, rm], (err2) => {
-      if (err2) {
-        return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Erro ao atualizar senha.' });
-      }
-      // Atualiza a sessão
-      req.session.user.senha = newPassword;
-      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, success: 'Senha alterada com sucesso.' });
-    });
-  });
+    const [updateResult] = await connection.promise().execute(
+      'UPDATE dados_pessoais SET Senha = ? WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?',
+      [newPassword, rm, rm, rm]
+    );
+
+    console.log('[alterar-senha] updateResult:', updateResult);
+
+    if (updateResult.affectedRows === 0) {
+      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Nenhuma linha foi alterada.' });
+    }
+
+    // Redireciona para /perfil para recarregar os dados do banco
+    return res.redirect('/perfil');
+
+  } catch (err) {
+    console.error('Erro ao alterar senha:', err);
+    return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Erro ao atualizar senha.' });
+  }
 });
 
 app.listen(8080, () => {
