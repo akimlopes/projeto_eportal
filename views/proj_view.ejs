@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>Projeto Exemplo — Visualizar</title>
+    <link rel="stylesheet" href="/css/proj_view.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/rightbar.css">
+</head>
+<body>
+    <%- include('navbar') %>
+
+    <div class="proj-container">
+        <section class="proj-left">
+            <div class="proj-left-header">
+                <h1>Projeto Exemplo</h1>
+                <div class="proj-tags">
+                    <span class="tag">Engenharia</span>
+                    <span class="tag">Pesquisa</span>
+                </div>
+            </div>
+
+            <div class="proj-left-card">
+                <h2>Descrição</h2>
+                <p class="proj-desc">
+                    Este é um projeto de exemplo criado apenas para demonstrar o layout da página de visualização.
+                    Aqui ficam os objetivos, atividades previstas e contexto do projeto. Substitua este texto pelos dados reais quando integrar com o backend.
+                </p>
+
+                <div class="proj-info-grid">
+                    <div class="info-item">
+                        <h3>Coordenador</h3>
+                        <p>Prof. João Silva</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Horários</h3>
+                        <p>Seg — Sex, 14:00 — 17:00</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Local</h3>
+                        <p>Laboratório A</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Vagas</h3>
+                        <p>10</p>
+                    </div>
+                </div>
+
+                <div class="proj-files">
+                    <h3>Arquivos / Links</h3>
+                    <ul>
+                        <li><a href="#">Apresentação do projeto.pdf</a></li>
+                        <li><a href="#">Cronograma.xlsx</a></li>
+                        <li><a href="#">Repositório Git</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <aside class="proj-right">
+            <div class="proj-right-header">
+                <div class="header-left">
+                    <h2>Integrantes</h2>
+                    <p class="sub">Total: 4</p>
+                </div>
+
+                <div class="header-right">
+                    <!-- botão visível aqui para demonstração; controle de visibilidade para administradores será feito quando integrar -->
+                    <button id="toggle-requests" class="btn-outline">Solicitações</button>
+                </div>
+            </div>
+
+            <div id="members-list" class="members-list">
+                <div class="member-row">
+                    <img class="avatar" src="/imgs/profile_icons/rickelme.jfif" alt="avatar">
+                    <div class="member-info">
+                        <div class="member-name">Ana Pereira</div>
+                        <div class="member-role">Integrante</div>
+                    </div>
+                    <div class="member-meta">
+                        <span class="since">Desde: 2024</span>
+                    </div>
+                </div>
+
+                <div class="member-row">
+                    <img class="avatar" src="/uploads/fotos_perfil/23031.jfif" alt="avatar">
+                    <div class="member-info">
+                        <div class="member-name">Carlos Souza</div>
+                        <div class="member-role">Pesquisador</div>
+                    </div>
+                    <div class="member-meta">
+                        <span class="since">Desde: 2023</span>
+                    </div>
+                </div>
+
+                <div class="member-row">
+                    <img class="avatar" src="/imgs/profile_icons/rickelme.jfif" alt="avatar">
+                    <div class="member-info">
+                        <div class="member-name">Beatriz Lima</div>
+                        <div class="member-role">Integrante</div>
+                    </div>
+                    <div class="member-meta">
+                        <span class="since">Desde: 2024</span>
+                    </div>
+                </div>
+
+                <div class="member-row">
+                    <img class="avatar" src="/uploads/otherFiles/1760452454217-zoologico.jfif" alt="avatar">
+                    <div class="member-info">
+                        <div class="member-name">Diego Martins</div>
+                        <div class="member-role">Auxiliar</div>
+                    </div>
+                    <div class="member-meta">
+                        <span class="since">Desde: 2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- painel de solicitações (visível ao alternar) -->
+            <div id="requests-panel" class="requests-panel hidden">
+                <h3>Solicitações para participar</h3>
+
+                <div class="request-row">
+                    <img class="avatar" src="/imgs/profile_icons/rickelme.jfif" alt="avatar">
+                    <div class="request-info">
+                        <div class="request-name">Mariana Costa</div>
+                        <div class="request-msg">Gostaria de participar do projeto — tenho interesse em modelagem.</div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="btn-accept">Aceitar</button>
+                        <button class="btn-reject">Recusar</button>
+                    </div>
+                </div>
+
+                <div class="request-row">
+                    <img class="avatar" src="/uploads/fotos_perfil/23031.jfif" alt="avatar">
+                    <div class="request-info">
+                        <div class="request-name">Lucas Ribeiro</div>
+                        <div class="request-msg">Tenho disponibilidade às tardes e experiência em JS.</div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="btn-accept">Aceitar</button>
+                        <button class="btn-reject">Recusar</button>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+    </div>
+
+    <%- include('rightbar') %>
+    
+    <script src="/javascript/proj_view.js"></script>
+    <script src="/javascript/sidebar.js"></script>
+    <script src="/javascript/rightbar.js"></script>
+</body>
+</html>

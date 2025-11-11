@@ -363,6 +363,10 @@ app.get("/projetos", ensureAuthenticated, (req, res) => {
   res.render("projetos.ejs", { user: req.session.user, nivel: req.session.nivel });
 });
 
+app.get("/proj_view", ensureAuthenticated, (req, res) => {
+  res.render("proj_view.ejs", { user: req.session.user, nivel: req.session.nivel });
+});
+
 app.get("/cadastro", ensureAuthenticated, (req, res) => {
   res.render("cadastro.ejs", { user: req.session.user, nivel: req.session.nivel });
 });

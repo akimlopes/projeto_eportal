@@ -10,6 +10,12 @@
   --radius: 14px;
   --shadow: 0 10px 30px rgba(24, 23, 31, 0.35);
 }
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
 .sidebar {
 
       margin: 0;
