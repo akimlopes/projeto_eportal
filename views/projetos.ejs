@@ -124,13 +124,13 @@
         </div>
         <form id="form-post" autocomplete="off" enctype="multipart/form-data" action="/upload" method="post">
           <label for="titulo">Nome do Projeto:</label>
-          <input type="text" id="titulo" name="title" required class="input-modal" />
+          <input type="text" id="titulo" name="title" required class="input-modal" maxlength="25" />
 
           <label for="resumo">Resumo do Projeto:</label>
-          <textarea id="resumo" name="resumo" required class="input-modal"></textarea>
+          <textarea id="resumo" name="resumo" required class="input-modal" maxlength="100"></textarea>
 
           <label for="conteudo">Descrição do Projeto:</label>
-          <textarea id="conteudo" name="text" required class="input-modal"></textarea>
+          <textarea id="conteudo" name="text" required class="input-modal" maxlength="500"></textarea>
 
           <label for="imagem">Imagem:</label>
           <input type="file" id="imagem" name="arquivo" accept="image/*" class="input-modal" />

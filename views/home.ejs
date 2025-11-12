@@ -65,7 +65,7 @@
         </div>
         <form id="form-post" autocomplete="off" enctype="multipart/form-data" action="/upload" method="post">
           <label for="titulo">Título:</label>
-          <input type="text" id="titulo" name="title" required class="input-modal" />
+          <input type="text" id="titulo" name="title" required class="input-modal" maxlength="25"/>
 
           <label for="conteudo">Conteúdo:</label>
           <textarea id="conteudo" name="text" maxlength="500" required class="input-modal"></textarea>
@@ -92,9 +92,9 @@
           <form id="form-editar-aviso" method="POST" action="/avisos/editar">
             <input type="hidden" name="id" id="edit-id">
             <label for="edit-titulo">Título</label>
-            <input type="text" id="edit-titulo" name="titulo" class="input-modal" required>
+            <input type="text" id="edit-titulo" name="titulo" class="input-modal" required maxlength="25">
             <label for="edit-conteudo">Conteúdo</label>
-            <textarea id="edit-conteudo" name="conteudo" class="input-modal" rows="5" required></textarea>
+            <textarea id="edit-conteudo" name="conteudo" class="input-modal" rows="5" maxlength="500" required></textarea>
             <div class="modal-edit-actions">
               <button type="submit" class="btn-modal">Salvar</button>
               <button type="button" id="btn-cancelar-edicao" class="btn-modal btn-cancelar">Cancelar</button>
