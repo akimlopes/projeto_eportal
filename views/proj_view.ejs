@@ -3,18 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <title>Projeto Exemplo — Visualizar</title>
-    <link rel="stylesheet" href="/css/proj_view.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/rightbar.css">
+    <link rel="stylesheet" href="/css/proj_view.css">
 </head>
 <body class="sidebar-collapsed">
     <%- include('navbar') %>
 
     <div class="proj-container">
         <section class="proj-left">
-            <div class="proj-left-header" style="background-image: url(imgs/projetos/rpg.jpg);">
-                <h1>Projeto - RPG</h1>
-            </div>
+            <div class="proj-left-header">
+    <img class="proj-header-img" src="/imgs/projetos/rpg.jpg" alt="Capa do projeto">
+    <h1>Projeto - RPG</h1>
+</div>
 
             <div class="proj-left-card">
                 
@@ -22,7 +23,7 @@
                      <div class="proj-info-grid">
                     <div class="info-item">
                         <h3>Coordenador</h3>
-                        <p>Prof. João Silva</p>
+                        <p>Prof. Ana Pereira</p>
                     </div>
                     <div class="info-item">
                         <h3>Horários</h3>
@@ -52,8 +53,9 @@
                 </div>
 
                 <div class="header-right">
-                    <!-- botão visível aqui para demonstração; controle de visibilidade para administradores será feito quando integrar -->
+                    <% if (nivel === 'coordenador') { %>
                     <button id="toggle-requests" class="btn-outline">Solicitações</button>
+                    <% } %>
                 </div>
             </div>
 
@@ -62,10 +64,10 @@
                     <img class="avatar" src="/imgs/profile_icons/rickelme.jfif" alt="avatar">
                     <div class="member-info">
                         <div class="member-name">Ana Pereira</div>
-                        <div class="member-role">Integrante</div>
+                        <div class="member-role">3º Desenvolvimento de Sistemas</div>
                     </div>
                     <div class="member-meta">
-                        <span class="since">Desde: 2024</span>
+                        <span class="since">Coordenador de Projeto</span>
                     </div>
                 </div>
 
@@ -73,10 +75,10 @@
                     <img class="avatar" src="/uploads/fotos_perfil/23031.jfif" alt="avatar">
                     <div class="member-info">
                         <div class="member-name">Carlos Souza</div>
-                        <div class="member-role">Pesquisador</div>
+                        <div class="member-role"> 3º Administração</div>
                     </div>
                     <div class="member-meta">
-                        <span class="since">Desde: 2023</span>
+                        <span class="since">Membro</span>
                     </div>
                 </div>
 
@@ -84,10 +86,10 @@
                     <img class="avatar" src="/imgs/profile_icons/rickelme.jfif" alt="avatar">
                     <div class="member-info">
                         <div class="member-name">Beatriz Lima</div>
-                        <div class="member-role">Integrante</div>
+                        <div class="member-role">1º Desenvolvimento de Sistemas</div>
                     </div>
                     <div class="member-meta">
-                        <span class="since">Desde: 2024</span>
+                        <span class="since">Membro</span>
                     </div>
                 </div>
 
@@ -95,10 +97,10 @@
                     <img class="avatar" src="/uploads/otherFiles/1760452454217-zoologico.jfif" alt="avatar">
                     <div class="member-info">
                         <div class="member-name">Diego Martins</div>
-                        <div class="member-role">Auxiliar</div>
+                        <div class="member-role">2º Administração</div>
                     </div>
                     <div class="member-meta">
-                        <span class="since">Desde: 2025</span>
+                        <span class="since">Membro</span>
                     </div>
                 </div>
             </div>
