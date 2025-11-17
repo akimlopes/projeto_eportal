@@ -403,7 +403,7 @@ connection.execute(query, [rm, rm, rm, senha], (err, results) => {
     const usuario = results[0];
     req.session.user = {
       rm,
-      nome: usuario.Nome,  // Aqui você adiciona o nome à sessão
+      nome: usuario.Nome,
       Foto: usuario.Foto
     };
 
