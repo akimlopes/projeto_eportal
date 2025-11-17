@@ -30,29 +30,4 @@ document.addEventListener('DOMContentLoaded', function() {
   const btnConfirmar = document.getElementById('btn-confirmar-ingresso');
   const btnCancelar = document.getElementById('btn-cancelar-ingresso');
   let projetoSelecionado = null;
-
-  // Ao clicar no botão de ingressar
-  document.querySelectorAll('.btn-ingressar').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      projetoSelecionado = this.closest('.card'); // ou salve algum id/data do projeto
-      modal.classList.add('active');
-    });
-  });
-
-  // Cancelar modal
-  btnCancelar.addEventListener('click', function() {
-    modal.classList.remove('active');
-    projetoSelecionado = null;
-  });
-
-  // Confirmar ingresso
-  btnConfirmar.addEventListener('click', function() {
-    modal.classList.remove('active');
-    // Aqui você pode enviar uma requisição para o backend para ingressar no projeto
-    // Exemplo: alert('Ingresso confirmado!');
-    // projetoSelecionado pode ser usado para identificar o projeto
-    alert('Ingresso confirmado!');
-    projetoSelecionado = null;
-  });
 });
