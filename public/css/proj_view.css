@@ -21,6 +21,7 @@
     margin-right: auto;
     box-shadow: rgba(0, 0, 0, 0.2) 0 0 10px;
     border: 1px solid #cfcfcf;
+    border-radius: 20px;
     width: 44%;
     background: transparent;
 }
@@ -30,7 +31,7 @@
     height: 300px;
     color: #fff;
     padding: 18px 22px;
-    border-radius: 4px 4px 0 0;
+    border-radius: 20px 20px 0 0;
     overflow: hidden;
 }
 
@@ -47,7 +48,7 @@
 .cabeçalho {
     font-weight: bold;
     color: #fff;
-    padding: 5px 5px 10px 5px;
+    padding: 0px;
     background-color: #b30000;
 }
 
@@ -70,8 +71,9 @@
 
 /* Card de conteúdo */
 .proj-left-card {
+    border-radius: 20px;
     background: #fff;
-    min-height: 350px;
+    min-height: 380px;
 }
 
 .proj-left-card h2 {
@@ -80,6 +82,7 @@
 }
 
 .proj-desc {
+    border-radius: 20px;
     padding: 10px 20px 20px 20px;
 }
 .proj-desc p{
@@ -87,24 +90,41 @@
     line-height: 1.5;
 }
 
+/* Layout da área vermelha: grid 2x2 */
 .proj-info-grid {
-    justify-content: space-around;
-    display: flex;
-    margin-top: 4px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px 24px;
+    padding: 12px 18px;
+    align-items: start;
+    color: #fff;
 }
 
-/* mantém estilos existentes dos títulos e parágrafos */
-.info-item h3 {
+/* cada item ocupa uma célula do grid */
+.proj-info-grid .info-item {
+    padding: 0;
+}
+
+/* títulos e textos dentro do painel vermelho */
+.cabeçalho .info-item h3 {
+    margin: 0 0 6px 0;
+    font-size: 13px;
+    color: rgba(255,255,255,0.95);
+    font-weight: 600;
+}
+.cabeçalho .info-item p {
     margin: 0;
-    font-size: 14px;
-    color: #eee;
+    color: rgba(255,255,255,0.92);
+    font-weight: 700;
 }
 
-.info-item p {
-    font-size: 14px;
-    margin: 6px 0 0;
-    color: #ddd;
-
+/* responsivo: empilha em 1 coluna em telas pequenas */
+@media (max-width: 700px) {
+    .proj-info-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, auto);
+    }
 }
 
 .fab {
