@@ -345,7 +345,7 @@ app.post('/perfil/alterar-senha', ensureAuthenticated, async (req, res) => {
       return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'Nenhuma linha foi alterada.' });
     }
 
-    // Redireciona para /perfil para recarregar os dados do banco
+    // Redireciona para perfil para recarregar os dados do banco
     return res.redirect('/perfil');
 
   } catch (err) {
