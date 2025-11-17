@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="utf-8" />
     <title>Projeto Exemplo — Visualizar</title>
@@ -7,52 +8,58 @@
     <link rel="stylesheet" href="/css/rightbar.css">
     <link rel="stylesheet" href="/css/proj_view.css">
 </head>
+
 <body class="sidebar-collapsed">
     <%- include('navbar') %>
 
-    <div class="proj-container">
-        <section class="proj-left">
-            <div class="proj-left-header">
-    <img class="proj-header-img" src="/imgs/projetos/atletica.jpg" alt="Capa do projeto">
-    <h1>Atletica ETEC Poá</h1>
-</div>
-
-            <div class="proj-left-card">
-                
-                <div class="cabeçalho">
-                     <div class="proj-info-grid">
-                        <div class="info-item">
-                        <h3>Local</h3>
-                        <p>Quadra</p>
-                    </div>
-                    <div class="info-item">
-                        <h3>Horários</h3>
-                        <p>Seg — Sex, 15:30 — 18:00</p>
-                    </div>
-                    <div class="info-item">
-                        <h3>Coordenador</h3>
-                        <p>Prof. Felipe</p>
-                    </div>
-                    <div class="info-item">
-                        <h3>Contato</h3>
-                        <p>Felipeatletica@gmail.com</p>
-                    </div>
+        <div class="proj-container">
+            <section class="proj-left">
+                <div class="proj-left-header">
+                    <img class="proj-header-img" src="/imgs/projetos/atletica.jpg" alt="Capa do projeto">
+                    <h1>Atlética ETEC</h1>
                 </div>
+
+                <div class="proj-left-card">
+
+                    <div class="cabeçalho">
+                        <div class="proj-info-grid">
+                            <div class="info-item">
+                                <h3>Local</h3>
+                                <p>Quadra Poliesportiva</p>
+                            </div>
+                            <div class="info-item">
+                                <h3>Horários</h3>
+                                <p>Seg — Sex, 14:00 — 21:00</p>
+                            </div>
+                            <div class="info-item">
+                                <h3>Coordenador</h3>
+                                <p>Prof. Felipe</p>
+                            </div>
+                            <div class="info-item">
+                                <h3>Contato</h3>
+                                <p>felipeesporte@gmail.com</p>
+                            </div>
+                        </div>
                     </div>
                     <div class="proj-desc">
-                <h2>Descrição</h2>
-                <p>
-                    A Atlética organiza treinos e amistosos de vôlei, futsal e atletismo, além de eventos internos. Foque em condicionamento físico e espírito de equipe. Aberto a todos os cursos e séries.
-                </p>
+                        <h2>Descrição</h2>
+                        <p>
+                            A Atlética ETEC promove atividades esportivas e eventos para integrar os alunos
+                            através do esporte. Oferecemos treinos regulares de vôlei, futsal e atletismo,
+                            além de organizar campeonatos internos e amistosos com outras escolas.
+                            Nosso objetivo é incentivar a prática esportiva, o trabalho em equipe e o
+                            espírito competitivo saudável entre os estudantes de todos os cursos.
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-    </div>
-    <%- include('rightbar') %>
-    
-    <script src="/javascript/proj_view.js"></script>
-    <script src="/javascript/sidebar.js"></script>
-    <script src="/javascript/rightbar.js"></script>
+        </div>
+        <%- include('rightbar') %>
+
+            <script src="/javascript/proj_view.js"></script>
+            <script src="/javascript/sidebar.js"></script>
+            <script src="/javascript/rightbar.js"></script>
 </body>
+
 </html>
