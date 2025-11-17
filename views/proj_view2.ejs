@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>Projeto Exemplo — Visualizar</title>
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/rightbar.css">
+    <link rel="stylesheet" href="/css/proj_view.css">
+</head>
+<body class="sidebar-collapsed">
+    <%- include('navbar') %>
+
+    <div class="proj-container">
+        <section class="proj-left">
+            <div class="proj-left-header">
+    <img class="proj-header-img" src="/imgs/projetos/rpg.jpg" alt="Capa do projeto">
+    <h1>Projeto - RPG</h1>
+</div>
+
+            <div class="proj-left-card">
+                
+                <div class="cabeçalho">
+                     <div class="proj-info-grid">
+                        <div class="info-item">
+                        <h3>Local</h3>
+                        <p>Biblioteca</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Horários</h3>
+                        <p>Seg — Sex, 14:00 — 17:00</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Coordenador</h3>
+                        <p>Prof. Thiago</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>Contato</h3>
+                        <p>thiagorpg@gmail.com</p>
+                    </div>
+                </div>
+                    </div>
+                    <div class="proj-desc">
+                <h2>Descrição</h2>
+                <p>
+                    Este é um projeto de exemplo criado apenas para demonstrar o layout da página de visualização.
+                    Aqui ficam os objetivos, atividades previstas e contexto do projeto. Substitua este texto pelos dados reais quando integrar com o backend.
+                </p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <%- include('rightbar') %>
+    
+    <script src="/javascript/proj_view.js"></script>
+    <script src="/javascript/sidebar.js"></script>
+    <script src="/javascript/rightbar.js"></script>
+</body>
+</html>

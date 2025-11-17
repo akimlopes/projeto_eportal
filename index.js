@@ -363,8 +363,24 @@ app.get("/projetos", ensureAuthenticated, (req, res) => {
   res.render("projetos.ejs", { user: req.session.user, nivel: req.session.nivel });
 });
 
-app.get("/proj_view", ensureAuthenticated, (req, res) => {
-  res.render("proj_view.ejs", { user: req.session.user, nivel: req.session.nivel });
+app.get("/proj_view1", ensureAuthenticated, (req, res) => {
+  res.render("proj_view1.ejs", { user: req.session.user, nivel: req.session.nivel });
+});
+
+app.get("/proj_view1", ensureAuthenticated, (req, res) => {
+  res.render("proj_view1.ejs", { user: req.session.user, nivel: req.session.nivel });
+});
+
+app.get("/proj_view2", ensureAuthenticated, (req, res) => {
+  res.render("proj_view2.ejs", { user: req.session.user, nivel: req.session.nivel });
+});
+
+app.get("/proj_view3", ensureAuthenticated, (req, res) => {
+  res.render("proj_view3.ejs", { user: req.session.user, nivel: req.session.nivel });
+});
+
+app.get("/proj_view4", ensureAuthenticated, (req, res) => {
+  res.render("proj_view4.ejs", { user: req.session.user, nivel: req.session.nivel });
 });
 
 app.get("/cadastro", ensureAuthenticated, (req, res) => {

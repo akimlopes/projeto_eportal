@@ -34,6 +34,7 @@
 }
 
 .card {
+  height: 180px;
   position: relative;
   background: #fff;
   border-radius: 10px;
@@ -71,51 +72,8 @@
   margin-bottom: 15px;
 }
 
-.btn_vermais {
-  display: inline-block;
-  width: fit-content;
-  padding: 10px 15px;
-  border-radius: 25px;
-  background: #b30000;
-  color: #fff;
-  text-decoration: none;
-  font-size: 14px;
-  transition: background 0.3s;
-  cursor: pointer;
-}
-
 .btn_vermais:hover {
   background: #800000;
-}
-
-/* ====== ESTILO QUANDO EXPANDE ====== */
-.card.expanded {
-  flex-direction: column;
-  align-items: center;
-}
-
-.card.expanded img {
-  width: 100%;
-  height: 300px;
-}
-
-.card.expanded .card-content {
-  text-align: left;
-  align-items: flex-start;
-}
-
-.card.expanded .extra-content {
-  max-height: 1000px;
-  opacity: 1;
-  padding: 20px;
-}
-
-/* Conteúdo extra escondido */
-.extra-content {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all 0.4s ease;
 }
 
 .btn-ingressar {
@@ -150,84 +108,6 @@
   margin-bottom: 4px;
 }
 
-/* Modal de confirmação de ingresso */
-
-.modal-ingressar {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-ingressar.active {
-  display: flex;
-}
-
-.modal-ingressar-content {
-  background: #fff;
-  border-radius: 16px;
-  min-width: 340px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.modal-ingressar-header {
-  background: #a80000;
-  color: #fff;
-  padding: 20px 0 12px 0;
-  text-align: center;
-}
-
-.modal-ingressar-header h2 {
-  margin: 0;
-  font-size: 1.6rem;
-  font-weight: bold;
-}
-
-.modal-ingressar-body {
-  padding: 24px 24px 0 24px;
-  text-align: center;
-  font-size: 1.1rem;
-}
-
-.modal-ingressar-actions {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin: 24px 0 20px 0;
-}
-
-.btn-modal {
-  padding: 8px 24px;
-  border-radius: 6px;
-  border: none;
-  background: #a80000;
-  color: #fff;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.2s;
-}
-
-.btn-modal:hover {
-  background: #800000;
-}
-
-.btn-cancelar {
-  background: #888;
-}
-
-.btn-cancelar:hover {
-  background: #555;
-}
 
 /* Responsivo */
 @media (max-width: 768px) {
@@ -239,4 +119,8 @@
     width: 100%;
     height: 200px;
   }
+}
+
+.fab {
+  display: none;
 }
