@@ -46,4 +46,4 @@ setInterval(() => {
   currentIndex++;
   if (currentIndex > maxIndex) currentIndex = 1;
   moveSlider(currentIndex);
-}, 2500); // Troca a cada 4 segundos
+}, 2500); // Troca a cada 2,5 segundos

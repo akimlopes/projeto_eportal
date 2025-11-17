@@ -8,7 +8,7 @@ const app = express();
 const { parse, format } = require('date-fns');
 const { type } = require("os");
 
-// formata YYYY-MM-DD (ou YYYY-MM-DD HH:MM:SS) sem causar shift de fuso
+// formatar YYYY-MM-DD (ou YYYY-MM-DD HH:MM:SS) sem causar shift de fuso
 function formatDateValue(raw) {
   if (!raw) return null;
   const s = String(raw).trim();
@@ -276,26 +276,6 @@ app.get("/perfil", ensureAuthenticated, (req, res) => {
     } else {
       res.render("perfil.ejs", { user: null, turma: null, nivel: req.session.nivel });
     }
-  });
-});
-
-app.post("/perfil/atualizar", ensureAuthenticated, (req, res) => {
-  const rm = req.session.user && req.session.user.rm;
-  const { email, telefone } = req.body;
-  if (!rm) return res.status(400).send("RM não encontrado.");
-
-  const query = `
-    UPDATE dados_pessoais
-    SET Email = ?, Telefone = ?
-    WHERE ID_Alunos = ? OR ID_Professores = ? OR ID_Coordenadores = ?
-  `;
-  connection.execute(query, [email, telefone, rm, rm, rm], (err, result) => {
-    if (err) {
-      console.error("Erro ao atualizar perfil:", err);
-      return res.status(500).send("Erro no servidor");
-    }
-    console.log("Perfil atualizado com sucesso:", result);
-    res.redirect("/perfil");
   });
 });
 

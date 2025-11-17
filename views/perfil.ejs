@@ -20,7 +20,7 @@
       <div class="perfil-header">
         <div class="perfil-user">
 
-          <!-- ================= ALTERAÇÃO: container para avatar + ícone de edição ================= -->
+          
           <div class="perfil-avatar-container" style="position: relative; display: inline-block;">
             <img class="perfil-avatar" src="<%= user.Foto || '/imgs/profile_icons/usuario.png' %>" alt="Avatar do usuário" style="width:120px; height:120px; border-radius:50%; object-fit:cover;">
 
@@ -43,7 +43,7 @@
               <input type="file" id="fotoInput" name="foto" accept="image/*" style="display:none;">
             </form>
           </div>
-          <!-- ================= FIM ALTERAÇÃO ================= -->
+          
 
           <div class="perfil-id">
             <h2 class="perfil-nome"><%= (user && (user.Nome || user.nome)) || 'Usuário' %></h2>
@@ -148,7 +148,7 @@
   <script src="javascript/perfil.js"></script>
   <script src="javascript/sidebar.js"></script>
 
-  <!-- ================= ALTERAÇÃO: JS de upload de foto ================= -->
+  
   <script>
     const fotoInput = document.getElementById('fotoInput');
     const form = document.getElementById('uploadForm');
@@ -160,7 +160,7 @@
       }
     });
   </script>
-  <!-- ================= FIM ALTERAÇÃO ================= -->
+  
 
 </body>
 </html>
