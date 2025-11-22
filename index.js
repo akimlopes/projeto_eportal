@@ -1,3 +1,4 @@
+//Configuração das bibliotecas
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
@@ -8,26 +9,25 @@ const app = express();
 const { parse, format } = require('date-fns');
 const { type } = require("os");
 
-// formatar YYYY-MM-DD (ou YYYY-MM-DD HH:MM:SS) sem causar shift de fuso
+//Formata data das postagens
 function formatDateValue(raw) {
   if (!raw) return null;
   const s = String(raw).trim();
 
-  // se já vier no formato YYYY-MM-DD
+
   const isoDateOnly = /^(\d{4})-(\d{2})-(\d{2})$/;
   const isoWithTime = /^(\d{4})-(\d{2})-(\d{2})[T\s]/;
 
   try {
     if (isoDateOnly.test(s)) {
-      // parse usando formato local (evita interpretação UTC)
+    
       const d = parse(s, 'yyyy-MM-dd', new Date());
       return format(d, 'dd/MM/yyyy');
     }
     if (isoWithTime.test(s)) {
       const d = parse(s.substring(0, 10), 'yyyy-MM-dd', new Date());
       return format(d, 'dd/MM/yyyy');
-    }
-    // fallback: tentar Date normal
+    }l
     const parsed = new Date(s);
     if (!isNaN(parsed)) return format(parsed, 'dd/MM/yyyy');
   } catch (e) {
@@ -42,6 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Configuração da sessão
 app.use(session({
   secret: "chave_etecpoa123@#",
   resave: false,
@@ -80,7 +81,7 @@ function ensureCoordenador(req, res, next) {
   }
 }
 
-// Middleware de proteção
+//Verifica se está logado
 function ensureAuthenticated(req, res, next) {
   if (req.session && req.session.user) return next();
   return res.send("<script>alert('Você precisa estar logado!'); window.location.href = '/login';</script>");
@@ -90,11 +91,9 @@ function saveURL(req, res, next){
   // Salva a URL atual antes de processar a requisição
    if (req.originalUrl != '/upload') {
     req.session.returnTo = req.originalUrl;
-    //type = req.session.returnTo.slice(1);
   }
   next();
   console.log('URL salva na sessão: ', req.session.returnTo);
-  //console.log('Tipo salvo na variável: ', type);
 }
 
 // Rotas públicas
@@ -334,15 +333,12 @@ app.post('/perfil/alterar-senha', ensureAuthenticated, async (req, res) => {
   }
 });
 
-app.listen(8080, () => {
-  console.log("Server está rodando na porta 8080");
-});
-
 
 app.get("/projetos", ensureAuthenticated, (req, res) => {
   res.render("projetos.ejs", { user: req.session.user, nivel: req.session.nivel });
 });
 
+//Rotas dos projetos
 app.get("/proj_view1", ensureAuthenticated, (req, res) => {
   res.render("proj_view1.ejs", { user: req.session.user, nivel: req.session.nivel });
 });
@@ -367,10 +363,10 @@ app.get("/cadastro", ensureAuthenticated, (req, res) => {
   res.render("cadastro.ejs", { user: req.session.user, nivel: req.session.nivel });
 });
 
-// Logout
+//Logout
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
-    // limpa cookie da sessão no cliente
+    // limpa cookies da sessão
     res.clearCookie('connect.sid');
     return res.send("<script>alert('Desconectado com sucesso'); window.location.href = '/login';</script>");
   });
@@ -385,7 +381,6 @@ app.post("/login", (req, res) => {
     console.warn("Campos ausentes ou vazios:", req.body);
     return res.status(400).send("RM e senha são obrigatórios");
   }
-  // Consulta o SQL
   const query =
     "SELECT * FROM dados_pessoais WHERE (ID_Coordenadores = ? OR ID_Professores = ? OR ID_Alunos = ?) AND Senha = ?";
 connection.execute(query, [rm, rm, rm, senha], (err, results) => {
@@ -422,7 +417,7 @@ connection.execute(query, [rm, rm, rm, senha], (err, results) => {
 });
 
 function processTableData(tableData, hasHeader = true, delimiter = ',') {
-  // Detecta delimitador especial (caso venha como '\t' para tabulação)
+  // Detecta delimitador
   if (delimiter === '\\t') delimiter = '\t';
 
   const lines = tableData.split('\n').map(l => l.trim()).filter(l => l.length > 0);
@@ -435,7 +430,7 @@ function processTableData(tableData, hasHeader = true, delimiter = ',') {
     headers = lines[0].split(delimiter).map(h => h.trim());
     startIdx = 1;
   } else {
-    // Se não tem cabeçalho, cria nomes genéricos
+    //Se não tem cabeçalho, cria nomes genéricos
     headers = lines[0].split(delimiter).map((_, i) => `col${i + 1}`);
   }
 
@@ -465,10 +460,9 @@ app.post("/signup", async (req, res) => {
   }
 
   try {
-    // Aqui você precisa implementar ou importar a função processTableData
     const data = processTableData(tableData, hasHeader, delimiter);
 
-    // Verificar se a tabela existe
+    //Verifica se a tabela existe
     try {
       const exists = await checkTableExists(tableName);
       if (!exists) {
@@ -482,7 +476,7 @@ app.post("/signup", async (req, res) => {
         const firstRow = data[0];
         const headers = Object.keys(firstRow);
 
-        // Inserir dados em lote
+        // Inserir dados em grupo
         const columns = headers.map(h => `\`${h}\``).join(', ');
         const placeholders = headers.map(() => '?').join(', ');
         const insertSQL = `INSERT INTO \`${tableName}\` (${columns}) VALUES (${placeholders})`;
@@ -556,7 +550,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// Configuração do multer para upload de arquivos (corrigida)
+//Configuração do multer para upload de arquivos
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const baseDir = path.join(__dirname, 'public', 'uploads');
@@ -571,7 +565,7 @@ const storage = multer.diskStorage({
     const uploadDir = path.join(baseDir, subFolder);
     fs.mkdirSync(uploadDir, { recursive: true });
 
-    req.uploadDir = uploadDir; // Salva o diretório na requisição para uso posterior
+    req.uploadDir = uploadDir;
     cb(null, uploadDir);
   },
 
@@ -590,7 +584,7 @@ const storageFoto = multer.diskStorage({
   filename: (req, file, cb) => {
     const user = req.session.user;
     const ext = path.extname(file.originalname);
-    const userId = user?.rm; // 🟢 Usa RM do usuário para nome do arquivo
+    const userId = user?.rm;
     cb(null, `${userId}${ext}`);
   }
 });
@@ -598,7 +592,7 @@ const storageFoto = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Configuração do multer para upload de fotos de perfil
+//Configuração do multer para upload de fotos de perfil
 const uploadFoto = multer({ storage: storageFoto });
 
 app.post('/upload-foto', ensureAuthenticated, uploadFoto.single('foto'), async (req, res) => {
@@ -620,7 +614,7 @@ app.post('/upload-foto', ensureAuthenticated, uploadFoto.single('foto'), async (
       user.rm
     ]);
 
-    req.session.user.Foto = fotoPath; // 🟢 Atualiza a sessão com a nova foto
+    req.session.user.Foto = fotoPath; //Atualiza a sessão com a nova foto
     res.redirect('/perfil');
   } catch (err) {
     console.error('Erro ao enviar foto de perfil:', err);
@@ -630,7 +624,7 @@ app.post('/upload-foto', ensureAuthenticated, uploadFoto.single('foto'), async (
 
 
 app.post("/upload", ensureAuthenticated, ensureCoordenador, saveURL, upload.single('arquivo'), (req, res) => {
-  // Permitir upload sem imagem
+  //Permite upload sem imagem
   let publicPath = null;
   if (req.file) {
     publicPath = '/' + path.relative(path.join(__dirname, 'public'), req.file.path).replace(/\\/g, '/');
@@ -640,7 +634,7 @@ app.post("/upload", ensureAuthenticated, ensureCoordenador, saveURL, upload.sing
   const text = req.body.text || null;
   const rm = req.session.user && req.session.user.rm ? req.session.user.rm : null;
   const turma = req.body.turma || null;
-  // Corrigido: verifica se returnTo existe e é string
+  //Verifica se returnTo existe e é string
   let tipo = req.session.returnTo && typeof req.session.returnTo === 'string' && req.session.returnTo.length > 1
     ? req.session.returnTo.slice(1)
     : 'geral';
@@ -690,4 +684,6 @@ function checkTableExists(tableName) {
 }
 
 // Inicia o servidor
-
+app.listen(8080, () => {
+  console.log("Server está rodando na porta 8080");
+});
