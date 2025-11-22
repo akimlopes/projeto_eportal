@@ -7,7 +7,7 @@
                 const statusDiv = document.getElementById('dbStatus');
                 if (data.success) {
                     statusDiv.className = 'status connected';
-                    statusDiv.innerHTML = '✅ Conectado ao Banco de Dados - Pronto para importar';
+                    statusDiv.innerHTML = '✅ Conectado ao Banco de Dados';
                 } else {
                     throw new Error(data.error);
                 }
