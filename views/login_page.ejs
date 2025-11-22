@@ -99,18 +99,40 @@
     </div>
   </main>
 
+  <!-- Modal de Termos de Uso -->
+  <div id="terms-modal" class="modal-terms" aria-hidden="true">
+    <div class="modal-terms-content" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+      <h2 id="terms-title">Termos de Uso</h2>
+      <div class="terms-body">
+        <p><strong>Leia atentamente:</strong></p>
+        <p>Bem-vindo ao Portal ETEC. Ao acessar este sistema você concorda em utilizar a plataforma conforme as políticas da instituição, não divulgar credenciais, e respeitar regras de conduta e propriedade intelectual. O uso indevido pode acarretar medidas administrativas.</p>
+        <p>Estes termos são apenas um texto exemplo — substitua pelo texto final da sua instituição quando disponível.</p>
+        <p><strong>Leia atentamente:</strong></p>
+        <p>Bem-vindo ao Portal ETEC. Ao acessar este sistema você concorda em utilizar a plataforma conforme as políticas da instituição, não divulgar credenciais, e respeitar regras de conduta e propriedade intelectual. O uso indevido pode acarretar medidas administrativas.</p>
+        <p>Estes termos são apenas um texto exemplo — substitua pelo texto final da sua instituição quando disponível.</p>
+        <p><strong>Leia atentamente:</strong></p>
+        <p>Bem-vindo ao Portal ETEC. Ao acessar este sistema você concorda em utilizar a plataforma conforme as políticas da instituição, não divulgar credenciais, e respeitar regras de conduta e propriedade intelectual. O uso indevido pode acarretar medidas administrativas.</p>
+        <p>Estes termos são apenas um texto exemplo — substitua pelo texto final da sua instituição quando disponível.</p>
+        <p><strong>Leia atentamente:</strong></p>
+        <p>Bem-vindo ao Portal ETEC. Ao acessar este sistema você concorda em utilizar a plataforma conforme as políticas da instituição, não divulgar credenciais, e respeitar regras de conduta e propriedade intelectual. O uso indevido pode acarretar medidas administrativas.</p>
+        <p>Estes termos são apenas um texto exemplo — substitua pelo texto final da sua instituição quando disponível.</p>
+      </div>
 
-  <% if (typeof error !=='undefined' ) { %>
-    <div id="modal-error" class="modal-error">
-      <div class="modal-content">
-        <span class="close-modal" onclick="document.getElementById('modal-error').style.display='none'">&times;</span>
-        <%= error %>
+      <div class="terms-actions">
+        <label class="terms-checkbox">
+          <input id="terms-checkbox" type="checkbox">
+          Aceito os Termos de Uso
+        </label>
+        <div id="terms-warning" class="terms-warning" aria-live="polite"></div>
+        <div class="terms-buttons">
+          <button id="decline-terms" type="button" class="btn-decline">Recusar</button>
+          <button id="accept-terms" type="button" class="btn-accept">Aceitar e Entrar</button>
+        </div>
       </div>
     </div>
-    <% } %>
+  </div>
 
       <!-- Arquivo Javascript -->
-
       <script src="javascript/login.js"></script>
 </body>
 
