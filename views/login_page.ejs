@@ -1,139 +1,251 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/csslogin.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login</title>
-  <link rel="stylesheet" href="css/csslogin.css">
-</head>
-
-<body>
-  <main>
-    <div class="box">
-      <div class="inner-box">
-        <div class="forms-wrap">
-          <form action="/login" id="loginForm" method="post" autocomplete="off" class="sign-in-form">
-            <div class="logo">
-              <img src="imgs/eportal_black.png" alt="easyclass" />
-              <h4> Portal</h4>
-            </div>
-
-            <div class="heading">
-              <h2>Bem Vindo a <span>ETEC de Poá</span></h2>
-              <h6>Não está conseguindo logar?</h6>
-              <a href="#" class="toggle">Ajuda</a>
-            </div>
-
-            <!-- Formulario de Login -->
-
-            <div class="actual-form">
-              <div class="input-wrap">
-                <input type="text" maxlength="5" class="input-field" id="RM" name="rm" autocomplete="off" required />
-                <label>RM</label>
+  <body>
+    <main>
+      <div class="box">
+        <div class="inner-box">
+          <div class="forms-wrap">
+            <form
+              action="/login"
+              id="loginForm"
+              method="post"
+              autocomplete="off"
+              class="sign-in-form"
+            >
+              <div class="logo">
+                <img src="imgs/eportal_black.png" alt="easyclass" />
+                <h4>Portal</h4>
               </div>
 
-              <div class="input-wrap">
-                <input type="password" minlength="3" class="input-field" id="senha" name="senha" autocomplete="off"
-                  required />
-                <label>Senha</label>
+              <div class="heading">
+                <h2>Bem Vindo a <span>ETEC de Poá</span></h2>
+                <h6>Não está conseguindo logar?</h6>
+                <a href="#" class="toggle">Ajuda</a>
               </div>
 
-              <input type="submit" value="Logar" class="sign-btn" />
-            </div>
-          </form>
+              <!-- Formulario de Login -->
 
-          <!-- Formulario de Registro -->
+              <div class="actual-form">
+                <div class="input-wrap">
+                  <input
+                    type="text"
+                    maxlength="5"
+                    class="input-field"
+                    id="RM"
+                    name="rm"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>RM</label>
+                </div>
 
-          <form class="sign-up-form">
-            
+                <div class="input-wrap">
+                  <input
+                    type="password"
+                    minlength="3"
+                    class="input-field"
+                    id="senha"
+                    name="senha"
+                    autocomplete="off"
+                    required
+                  />
+                  <label>Senha</label>
+                </div>
 
-            <div class="heading">
-              <h3>Problemas para Logar?</h3>
-              <h6> siga as instruções para conseguir acesso </h6>
-            </div>
-            <div class="help-text">
-              <p><b>
-                Todas as contas de alunos, professores e coordenadores são criadas pela administração da escola.
-                Se você está tendo problemas para fazer login, siga estas etapas:
-                <br><br>
-                1. Verifique se você está usando o RM correto (5 dígitos).
-                <br><br>
-                2. Certifique-se de que sua senha está correta. Se você esqueceu sua senha, entre em contato com a
-                secretaria da escola para redefini-la.
-                <br><br>
-                3. Se você é um novo aluno ou professor, confirme com a administração se sua conta foi criada.
-               </b>
-                <br>
-              </p>
+                <input type="submit" value="Logar" class="sign-btn" />
               </div>
-            <a href="#" class="toggle"><input type="submit" value="Voltar para o Login" class="sign-btn" /></a>    
-        </form>
-      </div>
+            </form>
 
-      <div class="carousel">
-        <div class="images-wrapper">
-          <img src="imgs/imagem_tempo.png" class="image img-1 show" alt="" />
-          <img src="imgs/imagem_comunicacao.png" class="image img-2" alt="" />
-          <img src="imgs/organizacao.png" class="image img-3" alt="" />
-        </div>
+            <!-- Formulario de Registro -->
 
-        <div class="text-slider">
-          <div class="text-wrap">
-            <div class="text-group">
-              <h2>Para agilizar seu dia</h2>
-              <h2>Melhorar a comunicação</h2>
-              <h2>E Organizar sua rotina!</h2>
-            </div>
+            <form class="sign-up-form">
+              <div class="heading">
+                <h3>Problemas para Logar?</h3>
+                <h6>siga as instruções para conseguir acesso</h6>
+              </div>
+              <div class="help-text">
+                <p>
+                  <b>
+                    Todas as contas de alunos, professores e coordenadores são
+                    criadas pela administração da escola. Se você está tendo
+                    problemas para fazer login, siga estas etapas:
+                    <br /><br />
+                    1. Verifique se você está usando o RM correto (5 dígitos).
+                    <br /><br />
+                    2. Certifique-se de que sua senha está correta. Se você
+                    esqueceu sua senha, entre em contato com a secretaria da
+                    escola para redefini-la.
+                    <br /><br />
+                    3. Se você é um novo aluno ou professor, confirme com a
+                    administração se sua conta foi criada.
+                  </b>
+                  <br />
+                </p>
+              </div>
+              <a href="#" class="toggle"
+                ><input
+                  type="submit"
+                  value="Voltar para o Login"
+                  class="sign-btn"
+              /></a>
+            </form>
           </div>
 
-          <div class="bullets">
-            <span class="active" data-value="1"></span>
-            <span data-value="2"></span>
-            <span data-value="3"></span>
+          <div class="carousel">
+            <div class="images-wrapper">
+              <img
+                src="imgs/imagem_tempo.png"
+                class="image img-1 show"
+                alt=""
+              />
+              <img
+                src="imgs/imagem_comunicacao.png"
+                class="image img-2"
+                alt=""
+              />
+              <img src="imgs/organizacao.png" class="image img-3" alt="" />
+            </div>
+
+            <div class="text-slider">
+              <div class="text-wrap">
+                <div class="text-group">
+                  <h2>Para agilizar seu dia</h2>
+                  <h2>Melhorar a comunicação</h2>
+                  <h2>E Organizar sua rotina!</h2>
+                </div>
+              </div>
+
+              <div class="bullets">
+                <span class="active" data-value="1"></span>
+                <span data-value="2"></span>
+                <span data-value="3"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal de Termos de Uso -->
+    <div id="terms-modal" class="modal-terms" aria-hidden="true">
+      <div
+        class="modal-terms-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="terms-title"
+      >
+        <h2 id="terms-title">Termos de Uso</h2>
+        <div class="terms-body">
+          <p><strong>1. ACEITAÇÃO DOS TERMOS</strong></p>
+          <p>
+            Ao acessar e utilizar o E-Portal, o usuário concorda
+            em cumprir e se submeter aos presentes Termos de Uso e à Política de
+            Privacidade da Instituição. Estes Termos aplicam-se a todos os
+            usuários, incluindo alunos, docentes e demais membros da comunidade
+            escolar.
+          </p>
+
+          <p><strong>2. FINALIDADE DO SISTEMA</strong></p>
+          <p>
+            O E-Portal é uma plataforma online projetada para centralizar e
+            otimizar a comunicação interna e a gestão de informações dentro da
+            ETEC de Poá. O objetivo principal é facilitar a troca de informações
+            entre docentes e discentes, bem como a interação com projetos
+            extracurriculares.
+          </p>
+
+          <p><strong>3. ACESSO E CONTAS DE USUÁRIO</strong></p>
+          <p>
+            3.1. Necessidade de Cadastro: O acesso às funcionalidades do Sistema
+            requer um cadastro prévio e a realização de login.
+            <br />
+            3.2. Nível de Permissão: O Sistema opera com diferentes níveis de
+            permissão (como Docente ou Discente). O acesso às ferramentas de
+            gerenciamento, como criação e edição de notícias, é restrito aos
+            usuários autorizados (Coordenação).
+            <br />
+            3.3. Responsabilidade: O usuário é o único responsável pela
+            segurança e uso de sua conta, devendo manter seus dados de acesso
+            confidenciais.
+          </p>
+
+          <p><strong>4. USO DA PLATAFORMA DE NOTÍCIAS</strong></p>
+          <p>
+            4.1. Conteúdo: O campo de notícias e avisos é administrado e
+            filtrado pela coordenação da escola, que tem a permissão para criar,
+            alterar e deletar as notícias. O objetivo é publicar informações,
+            eventos, vagas e comunicados internos de forma estruturada e
+            organizada.
+            <br />
+            4.2. Interação: Os usuários podem visualizar as postagens
+            publicadas na plataforma.
+          </p>
+
+          <p><strong>5. PROJETOS EXTRACURRICULARES</strong></p>
+          <p>
+            5.1. Funcionalidade: O E-Portal oferece uma visualização dos
+            projetos extracurriculares.
+            <br />
+            5.2. Informações: O usuário poderá visualizar a quantidade de
+            membros inscritos e o nome do coordenador do projeto, e terá acesso
+            a informações relevantes sobre os projetos.
+          </p>
+
+          <p><strong>6. OBRIGAÇÕES DO USUÁRIO</strong></p>
+          <p>
+            6.1. Segurança e Privacidade: O usuário deve respeitar a segurança e
+            a privacidade do Sistema, garantindo que as informações estejam
+            seguras. É estritamente proibido tentar violar, contornar ou
+            comprometer os recursos de segurança do portal.
+            <br />
+            6.2. Uso Ético: O usuário se compromete a utilizar o Sistema de
+            forma ética, não publicando ou compartilhando conteúdo ilegal,
+            ofensivo ou inadequado.
+          </p>
+
+          <p><strong>7. DISPOSIÇÕES GERAIS</strong></p>
+          <p>
+            7.1. Manutenção: A plataforma requer manutenção e atualizações
+            constantes para atender às demandas dos usuários e garantir sua
+            viabilidade.
+            <br />
+            7.2. Natureza Acadêmica: O E-Portal é uma aplicação em
+            desenvolvimento e pode estar sujeito a alterações e melhorias
+            contínuas.
+          </p>
+        </div>
+
+        <div class="terms-actions">
+          <label class="terms-checkbox">
+            <input id="terms-checkbox" type="checkbox" />
+            Aceito os Termos de Uso
+          </label>
+          <div
+            id="terms-warning"
+            class="terms-warning"
+            aria-live="polite"
+          ></div>
+          <div class="terms-buttons">
+            <button id="decline-terms" type="button" class="btn-decline">
+              Recusar
+            </button>
+            <button id="accept-terms" type="button" class="btn-accept">
+              Aceitar e Entrar
+            </button>
           </div>
         </div>
       </div>
     </div>
-    </div>
-  </main>
 
-  <!-- Modal de Termos de Uso -->
-  <div id="terms-modal" class="modal-terms" aria-hidden="true">
-    <div class="modal-terms-content" role="dialog" aria-modal="true" aria-labelledby="terms-title">
-      <h2 id="terms-title">Termos de Uso</h2>
-      <div class="terms-body">
-        <p><strong>Leia atentamente:</strong></p>
-        <p>Bem-vindo ao Portal ETEC. Ao acessar este sistema você concorda em utilizar a plataforma conforme as políticas da instituição, não divulgar credenciais, e respeitar regras de conduta e propriedade intelectual. O uso indevido pode acarretar medidas administrativas.</p>
-        <p>Estes termos são apenas um texto exemplo — substitua pelo texto final da sua instituição quando disponível.</p>
-        <p><strong>Leia atentamente:</strong></p>
-        <p>Bem-vindo ao Portal ETEC. Ao acessar este sistema você concorda em utilizar a plataforma conforme as políticas da instituição, não divulgar credenciais, e respeitar regras de conduta e propriedade intelectual. O uso indevido pode acarretar medidas administrativas.</p>
-        <p>Estes termos são apenas um texto exemplo — substitua pelo texto final da sua instituição quando disponível.</p>
-        <p><strong>Leia atentamente:</strong></p>
-        <p>Bem-vindo ao Portal ETEC. Ao acessar este sistema você concorda em utilizar a plataforma conforme as políticas da instituição, não divulgar credenciais, e respeitar regras de conduta e propriedade intelectual. O uso indevido pode acarretar medidas administrativas.</p>
-        <p>Estes termos são apenas um texto exemplo — substitua pelo texto final da sua instituição quando disponível.</p>
-        <p><strong>Leia atentamente:</strong></p>
-        <p>Bem-vindo ao Portal ETEC. Ao acessar este sistema você concorda em utilizar a plataforma conforme as políticas da instituição, não divulgar credenciais, e respeitar regras de conduta e propriedade intelectual. O uso indevido pode acarretar medidas administrativas.</p>
-        <p>Estes termos são apenas um texto exemplo — substitua pelo texto final da sua instituição quando disponível.</p>
-      </div>
-
-      <div class="terms-actions">
-        <label class="terms-checkbox">
-          <input id="terms-checkbox" type="checkbox">
-          Aceito os Termos de Uso
-        </label>
-        <div id="terms-warning" class="terms-warning" aria-live="polite"></div>
-        <div class="terms-buttons">
-          <button id="decline-terms" type="button" class="btn-decline">Recusar</button>
-          <button id="accept-terms" type="button" class="btn-accept">Aceitar e Entrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-      <!-- Arquivo Javascript -->
-      <script src="javascript/login.js"></script>
-</body>
-
+    <!-- Arquivo Javascript -->
+    <script src="javascript/login.js"></script>
+  </body>
 </html>
