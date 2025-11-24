@@ -291,7 +291,7 @@ app.post('/perfil/alterar-senha', ensureAuthenticated, async (req, res) => {
       return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'A nova senha e a confirmação não coincidem.' });
     }
     if (newPassword.length < 4) {
-      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'A senha deve ter pelo menos 8 caracteres.' });
+      return res.render('perfil.ejs', { user: req.session.user, turma: null, nivel: req.session.nivel, error: 'A senha deve ter pelo menos 4 caracteres.' });
     }
 
     // Busca a senha atual no banco
